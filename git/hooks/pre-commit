@@ -1,0 +1,19 @@
+#!/bin/bash
+
+BRANCH=`git rev-parse --abbrev-ref HEAD`
+
+if [[ "$BRANCH" == "master" ]]; then
+	echo "You are on $BRANCH. Are you sure you want to commit to this branch?"
+	echo "If so, commit with -n to bypass this pre-commit hook."
+	exit 1
+fi
+
+if [[ -f ".git/hooks/pre-commit" ]]; then
+	type realpath >/dev/null 2>&1 || { echo >&2 "Note: the realpath binary is required to chain to the repo-specific pre-commit hook. Ignoring."; exit 0; }
+	if [[ "${BASH_SOURCE[0]}" != "$(realpath ".git/hooks/pre-commit")" ]]; then
+		.git/hooks/pre-commit
+		exit $?
+	fi
+fi
+
+exit 0
