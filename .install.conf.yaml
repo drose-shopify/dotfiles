@@ -9,16 +9,24 @@
     ~/.dotfiles: ''
     ~/.gitignore:
     ~/.gitconfig:
+    ~/.git:
     ~/.shell:
     ~/.vim:
     ~/.vimrc:
-    ~/.oh-my-zsh:
+    ~/.oh-my-zsh/custom:
+        path: oh-my-zsh/custom
+    ~/.oh-my-zsh/plugins/:
+        glob: true
+        path: oh-my-zsh/plugins/*
+    ~/.oh-my-zsh/:
+        glob: true
+        path: oh-my-zsh/*.zsh
     ~/.zshrc:
 
 - shell:
     - git update-submodules
     -
-      command: [~/fonts/install.sh, Install fonts]
+      command: [./fonts/install.sh, Install fonts]
       stdin: true
       stdout: true
       stderr: true
