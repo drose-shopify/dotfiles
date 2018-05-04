@@ -7,5 +7,13 @@
 
 - link:
     ~/.dotfiles: ''
+    ~/.gitignore:
+    ~/.gitconfig:
+    ~/.shell:
     ~/.vim:
-    
+    ~/.vimrc:
+    ~/.oh-my-zsh:
+    ~/.zshrc:
+
+- shell:
+    git update-submodules
