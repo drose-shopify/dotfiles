@@ -4,3 +4,9 @@
 [submodule "fonts/FiraCode"]
 	path = fonts/FiraCode
 	url = https://github.com/tonsky/FiraCode.git
+[submodule "oh-my-zsh/plugins/zsh-completions"]
+	path = oh-my-zsh/plugins/zsh-completions
+	url = https://github.com/zsh-users/zsh-completions.git
+[submodule "oh-my-zsh/plugins/zsh-syntax-highlighting"]
+	path = oh-my-zsh/plugins/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
