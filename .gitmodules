@@ -4,3 +4,6 @@
 [submodule "dotbot"]
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot/
+[submodule "vim-colorschemes"]
+	path = vim-colorschemes
+	url = https://github.com/flazz/vim-colorschemes.git
