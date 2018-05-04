@@ -30,6 +30,8 @@ plugins=(
   zsh-completions
 )
 
+autoload -U compinit && compinit
+
 source $ZSH/oh-my-zsh.sh
 source $ZSH/plugins_after.zsh
 
