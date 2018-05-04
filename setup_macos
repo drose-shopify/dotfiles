@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Setup Brew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew tap caskroom/cask
+
+brew update
+
+# Install softwares
+
+## Install ZSH && Oh-My-Zsh
+brew install zsh zsh-completions
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+## Other Installs
+brew cask install sequel-pro
+brew cask install visual-studio-code
+
+## Install Python and Python Libs
+brew install python
+
+pip3 install -U spacy
+sudo python3 -m spacy download en
+sudo python3 -m spacy download en_core_web_lg
+pip3 install pandas
