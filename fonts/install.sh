@@ -16,7 +16,7 @@ else
 fi
 
 echo "Copying fonts.."
-eval "$find_command" | xargs -0 -I % cp "%" "$font_dir/"
+eval "$find_command" | xargs -0 -I % rsync -ic "%" "$font_dir/"
 
 #Reset font cache on linux
 if command -v fc-cache @>/dev/null ; then
