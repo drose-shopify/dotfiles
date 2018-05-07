@@ -15,6 +15,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 ## Other Installs
 brew cask install sequel-pro
 brew cask install visual-studio-code
+brew install httpie
 
 ## Install Python and Python Libs
 brew install python
