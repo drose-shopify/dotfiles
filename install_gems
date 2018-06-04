@@ -1,0 +1,33 @@
+#!/usr/bin/ruby
+
+def install_or_update(gem_exec,gem)
+    if is_installed(gem_exec,gem)
+        p "Updating #{gem} using: `#{gem_exec} update -f #{gem}`"
+        `#{gem_exec} update -f #{gem}`
+    else
+         p "Installing #{gem} using: `#{gem_exec} install -f #{gem}`"
+        `#{gem_exec} install -f #{gem}`
+    end
+end
+
+def is_installed(gem_exec, gem)
+    gem_installed = `#{gem_exec} list -i '^#{gem}$'`.strip
+    return true if gem_installed == 'true'
+    false
+end
+
+gems = %w(
+    solargraph
+    rubocop
+)
+
+rubies_dir = '/opt/rubies'
+ruby_version_dirs = Dir.entries(rubies_dir)
+
+ruby_version_dirs.each do |dir|
+    next if dir == "." || dir == ".."
+    gem_exec = File.join(rubies_dir, dir, "bin", "gem")
+    gems.each do |gem|
+        install_or_update(gem_exec, gem)
+    end
+end
