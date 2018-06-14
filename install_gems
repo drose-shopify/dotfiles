@@ -19,14 +19,17 @@ end
 gems = %w(
     solargraph
     rubocop
+    reek
 )
 
 rubies_dir = '/opt/rubies'
-ruby_version_dirs = Dir.entries(rubies_dir)
+gem_executables = Dir.entries(rubies_dir)
+    .reject{ |d| d == '.' || d == '..' }
+    .map{ |d| File.join(rubies_dir, d, 'bin', 'gem') }
 
-ruby_version_dirs.each do |dir|
-    next if dir == "." || dir == ".."
-    gem_exec = File.join(rubies_dir, dir, "bin", "gem")
+gem_executables << '/usr/bin/gem'
+
+gem_executables.each do |gem_exec|
     gems.each do |gem|
         install_or_update(gem_exec, gem)
     end
