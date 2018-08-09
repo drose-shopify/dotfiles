@@ -1,0 +1,12 @@
+#!/bin/zsh
+[ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
+for ruby_version in $(chruby)
+do
+  if [[ ! $ruby_version =~ ^([0-9]+\.)*[0-9]+$ ]]; then
+    continue
+  fi
+  chruby $ruby_version
+  echo $(ruby --version)
+  ruby install_gems
+  ruby install-debase
+done
