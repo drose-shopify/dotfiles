@@ -7,6 +7,7 @@ brew tap caskroom/cask
 brew update
 
 # Install softwares
+brew install coreutils
 
 ## Install ZSH && Oh-My-Zsh
 brew install zsh zsh-completions

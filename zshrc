@@ -38,3 +38,4 @@ source $ZSH/plugins_after.zsh
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
 
 export GOPATH=$HOME/go
+export PATH="/usr/local/share:$PATH"
