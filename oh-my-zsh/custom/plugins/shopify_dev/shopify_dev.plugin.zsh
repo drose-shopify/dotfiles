@@ -14,3 +14,10 @@ alias ds='dev up && dev sv start'
 alias dsr='dev sv stop && dev up && dev sv start'
 alias dupdate='git pull && dev up'
 alias pr='dev open pr'
+
+# rake tasks for shopify
+
+alias gql_dump='bin/rails graphql:schema:dump'
+alias gql_lint='bin/rails graphql:schema:lint'
+alias gql_dump_admin='BREAK_CHANGE=admin bin/rails graphql:schema:dump'
+alias gql_dump_sf='BREAK_CHANGE=storefront bin/rails graphql:schema:dump'
