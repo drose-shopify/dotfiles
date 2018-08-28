@@ -19,5 +19,5 @@ alias pr='dev open pr'
 
 alias gql_dump='bin/rails graphql:schema:dump'
 alias gql_lint='bin/rails graphql:schema:lint'
-alias gql_dump_admin='BREAK_CHANGE=admin bin/rails graphql:schema:dump'
-alias gql_dump_sf='BREAK_CHANGE=storefront bin/rails graphql:schema:dump'
+alias gql_dump_admin='BREAK_SCHEMA=admin bin/rails graphql:schema:dump'
+alias gql_dump_sf='BREAK_SCHEMA=storefront bin/rails graphql:schema:dump'
