@@ -13,6 +13,7 @@
     ~/.shell:
     ~/.vim:
     ~/.vimrc:
+    ~/.pryrc:
     ~/.oh-my-zsh/custom:
         path: oh-my-zsh/custom
     ~/.oh-my-zsh/plugins/:

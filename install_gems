@@ -23,6 +23,8 @@ gems = %w(
     rubocop
     reek
     archive-tar-minitar
+    hirb-unicode
+    awesome_print
 )
 
 gems.each do |gem|
