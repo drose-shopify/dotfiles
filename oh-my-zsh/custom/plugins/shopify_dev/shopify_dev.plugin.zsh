@@ -24,4 +24,5 @@ alias gql_dump_sf='BREAK_SCHEMA=storefront bin/rails graphql:schema:dump'
 
 # misc ruby aliases
 
-alias pry_rails='pry -r ./config/environment.rb'
+# alias pry_rails='pry -r ./config/environment.rb'
+alias pry_rails='bin/rails console'

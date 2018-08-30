@@ -7,6 +7,6 @@ do
   fi
   chruby $ruby_version
   echo $(ruby --version)
-  ruby install_gems
+  ruby install_gems_chruby
 #  ruby install-debase
 done
