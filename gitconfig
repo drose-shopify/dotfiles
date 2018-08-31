@@ -21,6 +21,11 @@
     prune = fetch origin --prune
     amend = commit --amend --no-edit
     fwl = push --force-with-lease
+    modified-files = ls-files -m
+    timeline = log --graph --branches --pretty=oneline --decorate
+    unstage = reset HEAD
+    untracked-files = ls-files -o --exclude-standard
+    unmerged = branch --sort=committerdate --no-merged
 [core]
 	excludesfile = ~/.gitignore
 	hooksPath = ~/.git/hooks
