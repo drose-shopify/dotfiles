@@ -28,12 +28,13 @@ plugins=(
   golang
   shopify_dev
   zsh-completions
+  zsh-syntax-highlighting
 )
 
 autoload -U compinit && compinit
 
 source $ZSH/oh-my-zsh.sh
-source $ZSH/plugins_after.zsh
+#source $ZSH/plugins_after.zsh
 
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
 

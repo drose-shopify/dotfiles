@@ -21,7 +21,7 @@ alias gql_dump='bin/rails graphql:schema:dump'
 alias gql_lint='bin/rails graphql:schema:lint'
 alias gql_dump_admin='BREAK_SCHEMA=admin bin/rails graphql:schema:dump'
 alias gql_dump_sf='BREAK_SCHEMA=storefront bin/rails graphql:schema:dump'
-
+alias es_restart='bundle exec rake elasticsearch:drop && bundle exec rake elasticsearch:reindex'
 # misc ruby aliases
 
 # alias pry_rails='pry -r ./config/environment.rb'
