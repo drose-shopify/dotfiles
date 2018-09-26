@@ -9,7 +9,7 @@ export ZSH=~/.oh-my-zsh
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
-source $ZSH/plugins_before.zsh
+#source $ZSH/plugins_before.zsh
 
 #source $ZSH/settings.zsh
 
