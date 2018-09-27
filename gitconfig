@@ -26,7 +26,7 @@
     unstage = reset HEAD
     untracked-files = ls-files -o --exclude-standard
     unmerged = branch --sort=committerdate --no-merged
-    ap = "!git commit --amend --no-edit && git push --force-with-lease"
+    afwl = "!git commit --amend --no-edit && git push --force-with-lease"
 [core]
 	excludesfile = ~/.gitignore
 	hooksPath = ~/.git/hooks
