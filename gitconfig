@@ -27,6 +27,7 @@
     untracked-files = ls-files -o --exclude-standard
     unmerged = branch --sort=committerdate --no-merged
     afwl = "!git commit --amend --no-edit && git push --force-with-lease"
+    clean-branches = "!git branch | egrep -v \"(master$|\\*)\" | xargs git branch -D"
 [core]
 	excludesfile = ~/.gitignore
 	hooksPath = ~/.git/hooks
