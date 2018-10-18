@@ -1,6 +1,7 @@
 [include]
     path = ~/.gitconfig.local
 [alias]
+    branch-name = "!git rev-parse --abbrev-ref HEAD"
     update-submodules = submodule update --init --recursive
     upgrade-submodules = submodule update --init --remote
     root = rev-parse --show-toplevel
@@ -27,7 +28,16 @@
     untracked-files = ls-files -o --exclude-standard
     unmerged = branch --sort=committerdate --no-merged
     afwl = "!git commit --amend --no-edit && git push --force-with-lease"
-    clean-branches = "!git branch | egrep -v \"(master$|\\*)\" | xargs git branch -D"
+    clean-branches = "!git checkout master && git pull && git branch | egrep -v \"(master$|\\*)\" | xargs git branch -D && git fetch --prune"
+    squash = commit --amend --no-edit
+    sq = commit --amend --no-edit
+    diff-files = "!f() { git diff --name-only HEAD~$1; }; f"
+    df = "!f() { git diff --name-only HEAD~$1; }; f"
+    retro = log --since '8 day ago' --no-merges --branches --decorate --oneline --author 'Dave Rose'
+    pr = "!open \"http://github.com/$(git remote -v|sed -e '/^origin/!d' -e '/(push)$/!d' -e 's|^.*github\\.com[:/]\\([^. ]*\\).*$|\\1|')/pull/new/master...$(git rev-parse --abbrev-ref HEAD)\""
+    gh = "!open \"http://github.com/$(git remote -v|sed -e '/^origin/!d' -e '/(push)$/!d' -e 's|^.*github\\.com[:/]\\([^. ]*\\).*$|\\1|')/tree/$(git rev-parse --abbrev-ref HEAD)\""
+    ghc = "!open \"http://github.com/$(git remote -v|sed -e '/^origin/!d' -e '/(push)$/!d' -e 's|^.*github\\.com[:/]\\([^. ]*\\).*$|\\1|')/commit/$(git rev-parse HEAD)\""
+    reset-hard = "!git reset --hard origin/$(git branch-name)"
 [core]
 	excludesfile = ~/.gitignore
 	hooksPath = ~/.git/hooks
