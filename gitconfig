@@ -32,6 +32,8 @@
 	excludesfile = ~/.gitignore
 	hooksPath = ~/.git/hooks
 	editor = vim
+    dmb = "!git co master && git pull && git branch --merged | grep -Ev '(\\*|master)' | xargs -n 1 git branch -d && git fetch --prune"
+    standup = log --since '28 hour ago' --no-merges --branches --decorate --oneline --author 'Dave Rose'
 [merge]
     tool = vimdiff
 [push]
