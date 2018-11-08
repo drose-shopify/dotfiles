@@ -29,6 +29,7 @@ gems = %w(
     pry-rails
     pry-nav
     pry-byebug
+    faker
 )
 
 gems.each do |gem|
