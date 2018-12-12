@@ -3,10 +3,10 @@ class PryUtils
   def self.hash_differences(a:, b:, name: nil)
     a.each_pair do |key, value|
       key_name = if name.nil?
-          key
-        else
-          "#{name}.#{key}"
-        end
+        key
+      else
+        "#{name}.#{key}"
+      end
       unless b.key?(key)
         p "#{key_name} does not exist in second hash"
         next
@@ -16,10 +16,10 @@ class PryUtils
         next
       end
       if value.is_a?(Hash)
-        PryUtil.hash_differences(a: value, b: b[key], name: key_name)
+        PryUtils.hash_differences(a: value, b: b[key], name: key_name)
         next
       elsif value.is_a?(Array)
-        PryUtil.array_differences(a: value, b: b[key], name: key_name)
+        PryUtils.array_differences(a: value, b: b[key], name: key_name)
         next
       end
       unless value == b[key]
@@ -45,10 +45,10 @@ class PryUtils
         next
       end
       if a_element.is_a?(Hash)
-        PryUtil.hash_differences(a: a_element, b: b_element, name: element_name)
+        PryUtils.hash_differences(a: a_element, b: b_element, name: element_name)
         next
       elsif a_element.is_a?(Array)
-        PryUtil.array_differences(a: a_element, b: b_element, name: element_name)
+        PryUtils.array_differences(a: a_element, b: b_element, name: element_name)
         next
       end
       unless a_element == b_element

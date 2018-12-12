@@ -29,6 +29,7 @@ plugins=(
   shopify_dev
   zsh-completions
   zsh-syntax-highlighting
+  misc
 )
 
 autoload -U compinit && compinit
