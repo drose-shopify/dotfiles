@@ -30,6 +30,8 @@ gems = %w(
     pry-nav
     pry-byebug
     faker
+    rerun
+    strscan
 )
 
 rubies_dir = '/opt/rubies'

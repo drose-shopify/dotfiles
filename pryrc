@@ -41,6 +41,10 @@ default_command_set = Pry::CommandSet.new do
       output.puts [file, line, method]
     end
   end
+
+  command "verify_rate_file" do |file_path|
+    TaxUtils.verify_rates(file_path)
+  end
 end
 
 Pry.config.commands.import default_command_set
@@ -50,6 +54,7 @@ Pry.config.commands.import default_command_set
 #load '~/dotfiles/pry_modules/pry_utils.rb'
 #load '~/dotfiles/pry_modules/array.rb'
 #load '~/dotfiles/pry_modules/hash.rb'
+
 Dir[File.expand_path('~/dotfiles/pry_modules/*.rb')].each do |file| 
   require file 
 end
@@ -59,7 +64,7 @@ end
 # MIT License
 # Copyright (c) Conrad Irwin <conrad.irwin@gmail.com>
 # Copyright (c) Jan Lelis <mail@janlelis.de>
-
+=begin
 module Debundle
   VERSION = '1.1.0'
 
@@ -132,3 +137,4 @@ end
 #rescue LoadError
 #  puts 'gem install faker'
 #end
+=end
