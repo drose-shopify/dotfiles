@@ -17,21 +17,13 @@ def is_installed(gem_exec, gem)
 end
 
 gems = %w(
-    bundler
-    rake
     solargraph
     rubocop
-    reek
-    archive-tar-minitar
-    hirb-unicode
     awesome_print
     pry
     pry-rails
     pry-nav
     pry-byebug
-    faker
-    rerun
-    strscan
 )
 
 rubies_dir = '/opt/rubies'

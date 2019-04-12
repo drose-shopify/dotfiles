@@ -12,6 +12,8 @@ Pry.config.ls.public_method_color = :green
 Pry.config.ls.protected_method_color = :yellow
 Pry.config.ls.private_method_color = :bright_black
 
+
+
 # === Custom Commands ===
 default_command_set = Pry::CommandSet.new do
   command "copy", "Copy argument to the clip-board" do |str|
@@ -42,7 +44,7 @@ default_command_set = Pry::CommandSet.new do
     end
   end
 
-  command "verify_rate_file" do |file_path|
+  command "verify_tax_rates" do |file_path|
     TaxUtils.verify_rates(file_path)
   end
 end
@@ -55,35 +57,10 @@ Pry.config.commands.import default_command_set
 #load '~/dotfiles/pry_modules/array.rb'
 #load '~/dotfiles/pry_modules/hash.rb'
 
+#load '~/dotfiles/pry-debundle.rb'
+
 Dir[File.expand_path('~/dotfiles/pry_modules/*.rb')].each do |file| 
   require file 
-end
-
-### START debundle.rb ###
-
-# MIT License
-# Copyright (c) Conrad Irwin <conrad.irwin@gmail.com>
-# Copyright (c) Jan Lelis <mail@janlelis.de>
-=begin
-module Debundle
-  VERSION = '1.1.0'
-
-  def self.debundle!
-    return unless defined?(Bundler)
-    return unless Gem.post_reset_hooks.reject!{ |hook|
-      hook.source_location.first =~ %r{/bundler/}
-    }
-    if defined? Bundler::EnvironmentPreserver
-      ENV.replace(Bundler::EnvironmentPreserver.new(ENV, %w(GEM_PATH)).backup)
-    end
-    Gem.clear_paths
-
-    load 'rubygems/core_ext/kernel_require.rb'
-    load 'rubygems/core_ext/kernel_gem.rb'
-  rescue
-    warn "DEBUNDLE.RB FAILED"
-    raise
-  end
 end
 
 Debundle.debundle!
@@ -91,8 +68,9 @@ Debundle.debundle!
 ### END debundle.rb ###
 
 # == PLUGINS ==
-
+=begin
 require 'pry-rails' if defined? Rails
+=end
 
 # awesome_print gem: great syntax colorized printing
 # look at ~/.aprc for more settings
@@ -108,7 +86,7 @@ rescue LoadError => err
   puts "gem install awesome_print  # <-- highly recommended"
 end
 
-
+=begin
 begin
     require 'hirb'
 rescue LoadError
