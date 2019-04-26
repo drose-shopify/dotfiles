@@ -19,6 +19,7 @@
         glob: true
         path: oh-my-zsh/custom/*
     ~/.zshrc:
+    ~/.rake: rake_global
 
 - shell:
     - git update-submodules
