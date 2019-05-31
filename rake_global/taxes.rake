@@ -43,7 +43,7 @@ module TaxesTasks
         }, {
           feature: 'tax_overrides_api',
           state: :enable,
-        },
+        }
       ]
 
       shop_betas = [
@@ -59,7 +59,10 @@ module TaxesTasks
         }, {
           feature: 'use_active_tax_engine',
           state: :enable,
-        },
+        }, {
+          feature: 'customer_tax_exemptions',
+          state: :enable,
+        }
       ]
       
       configure_betas(obj: shop_web, features: api_betas)
@@ -85,16 +88,6 @@ module TaxesTasks
       ]
 
       configure_betas(obj: shop_from_env, features: shop_betas)
-    end
-
-    desc "Setup Avalara Sandbox"
-    task enable_avalara: [:environment] do
-      avalara_plan_feature = { avalara: {avalara_avatax: true} }
-      plan = ENV['PLAN'] || 'shopify_plus'
-      shop = shop_from_env
-
-      puts "Changing shop plan to #{plan}"
-      shop.change_subscription(PlanSpec.new(plan, avalara_plan_feature))
     end
 
     desc "Verifies a rate file with the usa_tax_rate table"
