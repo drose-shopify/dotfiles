@@ -7,6 +7,7 @@ Plugin 'VundleVim/Vundle.vim'
 
 "Install plugins
 Plugin 'tpope/vim-fugitive'
+Plugin 'vim-ruby/vim-ruby'
 Plugin 'tpope/vim-rails'
 
 call vundle#end()
