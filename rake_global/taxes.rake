@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 require_relative 'shopify_tasks'
+require 'yaml'
+require 'csv'
+require 'bigdecimal'
 
 module TaxesTasks
   extend self
@@ -28,10 +31,42 @@ module TaxesTasks
     end
   end
 
+def rate_row_equal?(old_row, new_row) 
+  return false unless BigDecimal(old_row.state_sales_tax, 8) == BigDecimal(new_row.state_sales_tax, 8)
+  return false unless BigDecimal(old_row.county_sales_tax, 8) == BigDecimal(new_row.county_sales_tax, 8)
+  return false unless BigDecimal(old_row.city_sales_tax, 8) == BigDecimal(new_row.city_sales_tax, 8)
+  return true
+end
+
+def create_row(tax_rate)
+  tax_rate.total_sales_tax = tax_rate.state_sales_tax + tax_rate.county_sales_tax + tax_rate.city_sales_tax
+  [
+    tax_rate.zip_code,
+    tax_rate.state_abbrev.upcase,
+    tax_rate.county_name.upcase,
+    tax_rate.city_name.upcase,
+    tax_rate.state_sales_tax,
+    tax_rate.county_sales_tax,
+    tax_rate.city_sales_tax,
+    tax_rate.total_sales_tax,
+    if tax_rate.tax_shipping_alone 
+      'Y' 
+    else 
+      'N' 
+    end,
+    if tax_rate.tax_shipping_and_handling_together 
+      'Y' 
+    else 
+      'N' 
+    end
+  ]
+end
+
   namespace :taxes do
     desc "Enables all tax betas" 
     task enable_edge: [:environment] do
-      shop_web = ApiClient.find_by(handle: 'shopify-web')
+      app_handle = ENV['APP_HANDLE'] || 'shopify-web'
+      app_client = ApiClient.find_by(handle: app_handle)
 
       api_betas = [
         {
@@ -65,7 +100,7 @@ module TaxesTasks
         }
       ]
       
-      configure_betas(obj: shop_web, features: api_betas)
+      configure_betas(obj: app_client, features: api_betas)
       configure_betas(obj: shop_from_env, features: shop_betas)
     end
 
@@ -107,7 +142,7 @@ module TaxesTasks
 
         new_rate[:tax_shipping_alone] = TaxUtils::string_to_bool(new_rate[:tax_shipping_alone])
         new_rate[:tax_shipping_and_handling_together] = TaxUtils::string_to_bool(new_rate[:tax_shipping_and_handling_together])
-
+        
         errors = []
         new_rate.headers.each do |column|
           next if column == :zip_code
@@ -132,6 +167,50 @@ module TaxesTasks
           errors.each {|error| puts "\t#{error}"}
           puts "\n"
         end
+      end
+    end
+
+    desc "Generates a tax rate delta from yaml file"
+    task generate_rate_update: [:environment] do
+      rate_file = ENV['TAX_RATE_FILE'] || '/Users/davidrose/dotfiles/rake_global/tax_rates_july.yml'
+      output_file = ENV['OUTPUT_FILE'] || 'delta_tax_rate.csv'
+
+      rates = YAML.load_file(rate_file)
+      rates = rates.with_indifferent_access
+
+      revert_csv = CSV.open(File.join(File.dirname(output_file), "revert_#{File.basename(output_file)}"), 'w')
+      delta_csv = CSV.open(output_file, 'w')
+      begin
+        revert_csv << ['zip_code','state_abbrev','county_name','city_name','state_sales_tax','county_sales_tax','city_sales_tax','total_sales_tax','tax_shipping_alone','tax_shipping_and_handling_together']
+        delta_csv << ['zip_code','state_abbrev','county_name','city_name','state_sales_tax','county_sales_tax','city_sales_tax','total_sales_tax','tax_shipping_alone','tax_shipping_and_handling_together']
+        rates.each do |state, state_info|
+          state_data = ::USATaxRate.where(state_abbrev: state.upcase)
+          state_data.each do |old_rate|
+            new_rate = old_rate.dup
+
+            county_info = state_info.dig(:counties, old_rate.county_name.upcase)
+            city_info = state_info.dig(:counties, old_rate.county_name.upcase, :cities, old_rate.city_name.upcase)
+
+            new_rate.state_sales_tax = BigDecimal(state_info[:rate], 7) / 100.0 if state_info.key?(:rate)
+            
+            if county_info.present?
+              new_rate.county_sales_tax = BigDecimal(county_info[:rate], 7) / 100.0 if county_info.key?(:rate)
+            end
+
+            if city_info.present?
+              new_rate.city_sales_tax = BigDecimal(city_info[:rate], 7) / 100.0 if city_info.key?(:rate)
+              new_rate.county_sales_tax = BigDecimal(city_info[:county_rate], 7) / 100.0 if city_info.key?(:county_rate)
+            end
+
+            next if rate_row_equal?(old_rate, new_rate)
+            
+            delta_csv << create_row(new_rate)
+            revert_csv << create_row(old_rate)
+          end
+        end
+      ensure
+        revert_csv.close
+        delta_csv.close
       end
     end
   end
