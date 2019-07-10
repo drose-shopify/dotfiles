@@ -1,3 +1,18 @@
+" Plugin Management setup
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+
+"Install plugins
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-rails'
+
+call vundle#end()
+filetype plugin indent on
+"Plugin Management end
+
 " Colors {{{
 syntax enable
 colorscheme molokai
