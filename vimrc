@@ -14,6 +14,7 @@ Plugin 'stephpy/vim-yaml'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'rust-lang/rust.vim'
+Plugin 'kien/ctrlp.vim'
 
 call vundle#end()
 "Plugin Management end
@@ -57,4 +58,12 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 "}}}
 
 "Keymaps
-nnoremap <C-p> :Files<Cr>
+"nnoremap <C-p> :Files<Cr>
+
+"Plugin Overrides
+if executable('rg')
+    let g:ctrlp_user_command = 'rg %s --files --no-ignore-vcs --hidden --color=never'
+    let g:ctrlp_use_caching = 0
+else
+    let g:ctrlp_clear_cache_on_exit = 0
+endif
