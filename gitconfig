@@ -43,6 +43,12 @@
     standup = log --since '28 hour ago' --no-merges --branches --decorate     --oneline --author 'Dave Rose'
     rebase-master = "!git checkout master && git pull && git checkout - && git rebase master"
     ub = "!git rebase-master"
+
+# fuzzy add using fzf
+    fza = "!git ls-files -m -o --exclude-standard | fzf --print0 -m --preview 'git diff {}' --preview-window=top:10:wrap | xargs -0 -t -o git add --all"
+
+# fuzzy rebase interactive choose existing commit to start from
+	frebase = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git rebase -i `echo ${HASH} | awk '{ print $1 }'`^
 [core]
 	excludesfile = ~/.gitignore
 	hooksPath = ~/.git/hooks

@@ -20,6 +20,9 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 brew cask install sequel-pro
 brew cask install visual-studio-code
 brew install httpie
+brew install fzf
+$(brew --prefix)/opt/fzf/install
+brew install ripgrep
 
 ## Install Python and Python Libs
 brew install python

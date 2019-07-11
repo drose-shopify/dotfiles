@@ -41,3 +41,7 @@ source $ZSH/oh-my-zsh.sh
 
 export GOPATH=$HOME/go
 export PATH="/usr/local/share:$PATH"
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+unalias rg

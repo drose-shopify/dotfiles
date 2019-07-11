@@ -9,3 +9,14 @@ mov2gif() {
     ffmpeg -i $1 -i palette.png -filter_complex "fps=15,scale=1080:-1:flags=lanczos[x];[x] [1:v]paletteuse" ${output}
     rm palette.png
 }
+
+kp() {
+    local pid
+    pid=$(ps -ef | sed 1d | fzf -m --exact | awk '{print $2}
+    ')
+
+    if [ "x$pid" != "x" ]
+    then
+        echo $pid | xargs kill -${1:-9}
+    fi
+}

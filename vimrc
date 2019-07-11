@@ -6,12 +6,16 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 "Install plugins
+Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-fugitive'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'tpope/vim-rails'
+Plugin 'stephpy/vim-yaml'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+Plugin 'rust-lang/rust.vim'
 
 call vundle#end()
-filetype plugin indent on
 "Plugin Management end
 
 " Colors {{{
@@ -51,3 +55,6 @@ set lazyredraw
 " Yaml Specific {{{
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 "}}}
+
+"Keymaps
+nnoremap <C-p> :Files<Cr>
