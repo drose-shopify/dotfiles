@@ -1,0 +1,20 @@
+---
+include:
+- "components/**/*.rb"
+- "eagerlib/**/*.rb"
+- "lib/**/*.rb"
+exclude:
+- spec/**/*
+- "**/test/**/*"
+- test/**/*
+- vendor/**/*
+- ".bundle/**/*"
+require:
+  - rails
+domains: []
+reporters:
+- rubocop
+- require_not_found
+plugins: []
+require_paths: []
+max_files: 0

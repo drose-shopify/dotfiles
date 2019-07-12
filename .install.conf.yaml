@@ -20,6 +20,10 @@
         path: oh-my-zsh/custom/*
     ~/.zshrc:
     ~/.rake: rake_global
+    ~/.tmux.conf:
+    ~/.tmuxline:
+    ~/.ctags.d/default.ctags: 'ctags'
+    ~/.config/nvim/init.vim: 'init.vim'
 
 - shell:
     - git update-submodules

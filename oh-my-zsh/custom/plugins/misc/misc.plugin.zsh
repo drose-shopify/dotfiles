@@ -1,3 +1,5 @@
+alias gtags='ctags -R --exclude=node_modules'
+
 mov2gif() {
     output=${1}
     if [ -z "$2" ]; then

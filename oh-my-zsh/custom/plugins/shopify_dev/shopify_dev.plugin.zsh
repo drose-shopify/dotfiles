@@ -14,6 +14,7 @@ alias ds='dev up && dev sv start'
 alias dsr='dev sv stop && dev up && dev sv start'
 alias dupdate='git pull && dev up'
 alias pr='dev open pr'
+alias duc='dev up && ctags -R --exclude=node_modules'
 
 # rake tasks for shopify
 
