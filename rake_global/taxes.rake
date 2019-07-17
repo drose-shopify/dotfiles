@@ -73,9 +73,6 @@ end
           feature: 'tax_exemptions_for_customer',
           state: :enable,
         }, {
-          feature: 'taxes_graphql_api',
-          state: :enable,
-        }, {
           feature: 'tax_overrides_api',
           state: :enable,
         }

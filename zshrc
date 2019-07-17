@@ -19,7 +19,7 @@ source ~/.shell/bootstrap.sh
 
 plugins=(
   git
-  rails
+  git-prompt
   ruby
   brew
   bundler
@@ -29,7 +29,9 @@ plugins=(
   shopify_dev
   zsh-completions
   zsh-syntax-highlighting
+  zsh_reload
   misc
+  vi-mode
 )
 
 autoload -U compinit && compinit
@@ -42,6 +44,6 @@ source $ZSH/oh-my-zsh.sh
 export GOPATH=$HOME/go
 export PATH="/usr/local/share:$PATH"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+export KEYTIMEOUT=1
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-unalias rg

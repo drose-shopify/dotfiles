@@ -9,8 +9,14 @@ BASEDIR="$(cd "$(dirname "$BASH_SOURCE[0]}")" && pwd)"
 
 cd "${BASEDIR}"
 git submodule update --init --recursive "${DOTBOT_DIR}"
-git submodule update --init --recursive "fonts/FiraCode"
-
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
 
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+# Update Vim and Nvim
+[[ -d ~/.vim/bundle/Vundle.vim ]] || git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+[[ -d ~/.config/nvim/bundle/Vundle.vim ]] || git clone https://github.com/VundleVim/Vundle.vim.git ~/.config/nvim/bundle/Vundle.vim
+vim +PluginInstall +qall
+vim +PluginUpdate +qall
+nvim +PluginInstall +qall
+nvim +PluginUpdate +qall
+~/.config/nvim/bundle/LanguageClient-neovim/install.sh
+

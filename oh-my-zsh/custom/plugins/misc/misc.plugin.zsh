@@ -1,4 +1,5 @@
 alias gtags='ctags -R --exclude=node_modules'
+alias e='nvim'
 
 mov2gif() {
     output=${1}

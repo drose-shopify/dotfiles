@@ -27,8 +27,8 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'ludovicchabant/vim-gutentags'
 
 if has('nvim')
-  Plugin 'autozimu/LanguageClient-neovim'
   Plugin 'Shougo/deoplete.nvim'
+  Plugin 'autozimu/LanguageClient-neovim'
 endif
 
 call vundle#end()
