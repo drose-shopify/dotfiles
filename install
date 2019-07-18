@@ -12,11 +12,18 @@ git submodule update --init --recursive "${DOTBOT_DIR}"
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
 
 # Update Vim and Nvim
-[[ -d ~/.vim/bundle/Vundle.vim ]] || git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-[[ -d ~/.config/nvim/bundle/Vundle.vim ]] || git clone https://github.com/VundleVim/Vundle.vim.git ~/.config/nvim/bundle/Vundle.vim
-vim +PluginInstall +qall
-vim +PluginUpdate +qall
-nvim +PluginInstall +qall
-nvim +PluginUpdate +qall
-~/.config/nvim/bundle/LanguageClient-neovim/install.sh
+[[ -d ~/.vim/autoload/plug.vim ]] || curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+[[ -d ~/.local/share/nvim/site/autoload/plug.vim ]] || curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+vim +PlugInstall +qall
+vim +PlugUpdate +qall
+nvim +PlugInstall +qall
+nvim +PlugUpdate +qall
+
+vim -c 'CocInstall -sync coc-solargraph coc-json coc-rls coc-tsserver coc-yaml coc-highlight|q'
+nvim -c 'CocInstall -sync coc-solargraph coc-json coc-rls coc-tsserver coc-yaml coc-highlight|q'
+vim -c 'CocUpdateSync|q'
+nvim -c 'CocUpdateSync|q'
+#~/.config/nvim/bundle/LanguageClient-neovim/install.sh
 

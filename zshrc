@@ -9,10 +9,6 @@ export ZSH=~/.oh-my-zsh
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
-#source $ZSH/plugins_before.zsh
-
-#source $ZSH/settings.zsh
-
 source ~/.shell/bootstrap.sh
 #source ~/.shell/external.sh
 #source ~/.shell/aliases.sh
@@ -37,7 +33,6 @@ plugins=(
 autoload -U compinit && compinit
 
 source $ZSH/oh-my-zsh.sh
-#source $ZSH/plugins_after.zsh
 
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
 

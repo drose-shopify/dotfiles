@@ -5,7 +5,8 @@ PROMPT='
 ${_return_status}$(_user_host)${_current_dir}
 %{$fg[$CARETCOLOR]%}$(_prompt_caret)%{$reset_color%} '
 
-PROMPT2='%{$fg[$CARETCOLOR]%}<%{$reset_color%} '
+PROMPT2=''
+# PROMPT2='%{$fg[$CARETCOLOR]%}<%{$reset_color%} '
 
 RPROMPT='%{$(echotc UP 1)%}$(git_super_status)%{$(echotc DO 1)%}'
 
@@ -39,10 +40,12 @@ else
   CARETCOLOR="white"
 fi
 
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
+function _git_status() {
+    if [[ -n "$(git_super_status)" ]]; then
+        echo " ~ $(git_super_status)"
+    fi
+}
+
 
 function _prompt_caret() {
     if [[ -z "$(vi_mode_prompt_info)" ]]; then

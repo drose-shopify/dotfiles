@@ -1,38 +1,35 @@
 " Plugin Management setup
 set nocompatible
-filetype off
 if has('nvim')
-  set rtp+=~/.config/nvim/bundle/Vundle.vim
-  call vundle#begin('~/.config/nvim/bundle')
+  call plug#begin('~/.local/share/nvim/plugged')
 else
-  set rtp+=~/.vim/bundle/Vundle.vim
-  call vundle#begin()
+  call plug#begin('~/.vim/plugged')
 endif
-
-Plugin 'VundleVim/Vundle.vim'
 
 "Install plugins
-Plugin 'tpope/vim-sensible'
-Plugin 'tpope/vim-fugitive'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-rake'
-Plugin 'tpope/vim-projectionist'
-Plugin 'stephpy/vim-yaml'
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
-Plugin 'rust-lang/rust.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'ludovicchabant/vim-gutentags'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-rake'
+Plug 'tpope/vim-projectionist'
+Plug 'stephpy/vim-yaml'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'rust-lang/rust.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-if has('nvim')
-  Plugin 'Shougo/deoplete.nvim'
-  Plugin 'autozimu/LanguageClient-neovim'
-endif
-
-call vundle#end()
+call plug#end()
 "Plugin Management end
+
+"Language Server Settings
+set nobackup
+set nowritebackup
+set cmdheight=2
+
 
 " Colors {{{
 syntax enable
@@ -74,6 +71,13 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 "Keymaps
 nnoremap <C-p> :Files<Cr>
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
 
 "Plugin Overrides
 if executable('rg')
@@ -88,31 +92,4 @@ set statusline+=%{gutentags#statusline()}
 "NERD Tree
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-map <C-n> :NERDTreeToggle<CR>
-
-
-"Language Server
-if has('nvim')
-  let g:deoplete#enable_at_startup = 1
-  let g:LanguageClient_serverCommands = {
-      \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-      \ 'javascript': ['tsserver'],
-      \ 'typescript': ['tsserver'],
-      \ 'ruby': ['solargraph', 'stdio'],
-      \ 'eruby': ['solargraph', 'stdio'],
-      \ 'go': [
-      \   'bingo',
-      \   '--mode',
-      \   'stdio',
-      \   '--logfile',
-      \   '/tmp/lspserver.log',
-      \   '--trace',
-      \   '--pprof', ':6060'
-      \   ],
-      \ }
-
-  let g:LanguageClient_autoStop = 0
-  autocmd FileType ruby setlocal omnifunc=LanguageClient#complete
-
-  nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-endif
+gap <C-n> :NERDTreeToggle<CR>
