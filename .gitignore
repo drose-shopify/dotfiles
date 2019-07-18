@@ -2,3 +2,5 @@
 .DS_STORE
 
 vim/bundle/*
+vim/plugged/*
+vim/autoload/*
