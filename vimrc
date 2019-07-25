@@ -19,8 +19,11 @@ endif
     Plug 'rust-lang/rust.vim'
     Plug 'scrooloose/nerdtree'
     Plug 'christoomey/vim-tmux-navigator'
-    Plug 'ludovicchabant/vim-gutentags'
+    " Plug 'ludovicchabant/vim-gutentags'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'tpope/vim-surround'
+    Plug 'peitalin/vim-jsx-typescript'
+    Plug 'HerringtonDarkholme/yats.vim'
 
 call plug#end()
 "Plugin Management end
@@ -65,23 +68,16 @@ call plug#end()
 
 "Keymaps
     nnoremap <C-p> :Files<Cr>
-    " Remap keys for gotos
-    nmap <silent> gd <Plug>(coc-definition)
-    nmap <silent> gy <Plug>(coc-type-definition)
-    nmap <silent> gi <Plug>(coc-implementation)
-    nmap <silent> gr <Plug>(coc-references)
-    " Remap for rename current word
-    nmap <leader>rn <Plug>(coc-rename)
 
 "Plugin Overrides
     if executable('rg')
-        let g:ctrlp_user_command = 'rg %s --files --no-ignore-vcs --hidden --color=never'
+        let g:ctrlp_user_command = 'rg %s --files --hidden --color=never'
         let g:ctrlp_use_caching = 0
     else
         let g:ctrlp_clear_cache_on_exit = 0
     endif
 
-set statusline+=%{gutentags#statusline()}
+" set statusline+=%{gutentags#statusline()}
 
 "NERD Tree
     autocmd StdinReadPre * let s:std_in=1
@@ -93,6 +89,16 @@ set statusline+=%{gutentags#statusline()}
     set nobackup
     set nowritebackup
     set cmdheight=2
+    set signcolumn=yes
+    set updatetime=500
+
+    " Remap keys for gotos
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+    " Remap for rename current word
+    nmap <leader>rn <Plug>(coc-rename)
 
     " Use tab for trigger completion with characters ahead and navigate.
     " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -101,14 +107,15 @@ set statusline+=%{gutentags#statusline()}
           \ <SID>check_back_space() ? "\<TAB>" :
           \ coc#refresh()
     inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+    inoremap <silent><expr> <c-space> coc#refresh()
+
+    " Use K to show documentation in preview window
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
 
     function! s:check_back_space() abort
       let col = col('.') - 1
       return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
-
-    " Use K to show documentation in preview window
-    nnoremap <silent> K :call <SID>show_documentation()<CR>
 
     function! s:show_documentation()
       if (index(['vim','help'], &filetype) >= 0)
