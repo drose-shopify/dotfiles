@@ -16,7 +16,6 @@ source ~/.shell/bootstrap.sh
 
 plugins=(
   git
-  git-prompt
   ruby
   brew
   bundler
@@ -43,6 +42,4 @@ export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs --hidden'
 export KEYTIMEOUT=1
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
