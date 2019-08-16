@@ -24,6 +24,8 @@
     ~/.tmuxline:
     ~/.ctags.d/default.ctags: 'ctags'
     ~/.config/nvim/init.vim: 'init.vim'
+    ~/.config/solargraph/config.yml: 'solargraph.yml'
+    ~/.rgignore:
 
 - shell:
     - git update-submodules

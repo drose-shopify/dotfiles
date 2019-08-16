@@ -43,6 +43,16 @@ AVALARA_CUSTOMERS = [{
     zip: 'V6R2G2',
     country: 'CA',
   },
+}, { 
+    first_name: 'Texas',
+    last_name: 'MultiSPDRates',
+    address: {
+      address1: '219 Shady Lane Drive',
+      city: 'Fort Worth',
+      province: 'TX',
+      zip: '76112',
+      country: 'US',
+    }
 }]
 
 module AvalaraTasks
