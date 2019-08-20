@@ -1,7 +1,9 @@
 # local ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 # PROMPT='${ret_status} %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt_info)'
 
-PROMPT='${_return_status}$(_user_host)${_current_dir}%{$fg[$CARETCOLOR]%}$(_prompt_caret)%{$reset_color%} '
+PROMPT='
+${_return_status}$(_user_host)${_current_dir}
+%{$fg[$CARETCOLOR]%}$(_prompt_caret)%{$reset_color%} '
 
 PROMPT2=''
 # PROMPT2='%{$fg[$CARETCOLOR]%}<%{$reset_color%} '

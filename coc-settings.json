@@ -1,0 +1,20 @@
+{
+    "languageserver": {
+        "golang": {
+            "command": "gopls",
+            "args": [],
+            "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+            "filetypes": ["go"]
+        }
+    }, 
+    "solargraph.commandPath": "/Users/davidrose/.gem/ruby/2.6.2/bin/solargraph",
+    "solargraph.useBundler": false,
+    "solargraph.checkGemVersion": false,
+    "solargraph.completion": true,
+    "solargraph.hover": true,
+    "solargraph.formatting": true,
+    "solargraph.symbols": true,
+    "solargraph.definitions": true,
+    "solargraph.rename": true,
+    "solargraph.references": true
+}

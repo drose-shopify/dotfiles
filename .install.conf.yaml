@@ -24,6 +24,7 @@
     ~/.tmuxline:
     ~/.ctags.d/default.ctags: 'ctags'
     ~/.config/nvim/init.vim: 'init.vim'
+    ~/.config/nvim/coc-settings.json: 'coc-settings.json'
     ~/.config/solargraph/config.yml: 'solargraph.yml'
     ~/.rgignore:
 
