@@ -4,7 +4,7 @@ require 'yaml'
 require 'csv'
 require 'bigdecimal'
 
-module TaxesTasks
+module TaxUtils
   extend self
   extend Rake::DSL
   extend RakeTaskWithPodSelection
@@ -13,7 +13,7 @@ module TaxesTasks
   def self.string_to_bool(data)
     return data if !!data == data
     return true if data.casecmp('y').zero? || data.casecmp('true').zero?
-    
+
     false
   end
 
@@ -31,7 +31,7 @@ module TaxesTasks
     end
   end
 
-def rate_row_equal?(old_row, new_row) 
+def rate_row_equal?(old_row, new_row)
   return false unless BigDecimal(old_row.state_sales_tax, 8) == BigDecimal(new_row.state_sales_tax, 8)
   return false unless BigDecimal(old_row.county_sales_tax, 8) == BigDecimal(new_row.county_sales_tax, 8)
   return false unless BigDecimal(old_row.city_sales_tax, 8) == BigDecimal(new_row.city_sales_tax, 8)
@@ -49,21 +49,21 @@ def create_row(tax_rate)
     tax_rate.county_sales_tax,
     tax_rate.city_sales_tax,
     tax_rate.total_sales_tax,
-    if tax_rate.tax_shipping_alone 
-      'Y' 
-    else 
-      'N' 
+    if tax_rate.tax_shipping_alone
+      'Y'
+    else
+      'N'
     end,
-    if tax_rate.tax_shipping_and_handling_together 
-      'Y' 
-    else 
-      'N' 
+    if tax_rate.tax_shipping_and_handling_together
+      'Y'
+    else
+      'N'
     end
   ]
 end
 
   namespace :taxes do
-    desc "Enables all tax betas" 
+    desc "Enables all tax betas"
     task enable_edge: [:environment] do
       app_handle = ENV['APP_HANDLE'] || 'shopify-web'
       app_client = ApiClient.find_by(handle: app_handle)
@@ -80,15 +80,6 @@ end
 
       shop_betas = [
         {
-          feature: 'new-admin-taxes-routes',
-          state: :enable,
-        }, {
-          feature: 'tax_enable_migration_flow',
-          state: :disable,
-        }, {
-          feature: 'tax_migration_exclusion',
-          state: :disable,
-        }, {
           feature: 'use_active_tax_engine',
           state: :enable,
         }, {
@@ -96,7 +87,7 @@ end
           state: :enable,
         }
       ]
-      
+
       configure_betas(obj: app_client, features: api_betas)
       configure_betas(obj: shop_from_env, features: shop_betas)
     end
@@ -124,7 +115,7 @@ end
 
     desc "Verifies a rate file with the usa_tax_rate table"
     task verify_rates: [:environment] do
-      file_path = ENV['RATE_FILE']
+      file_path = ENV['TAX_RATE_FILE']
       raise "File path to the tax rate file is required" unless file_path
 
       tax_rates = CSV.table(file_path)
@@ -139,7 +130,7 @@ end
 
         new_rate[:tax_shipping_alone] = TaxUtils::string_to_bool(new_rate[:tax_shipping_alone])
         new_rate[:tax_shipping_and_handling_together] = TaxUtils::string_to_bool(new_rate[:tax_shipping_and_handling_together])
-        
+
         errors = []
         new_rate.headers.each do |column|
           next if column == :zip_code
@@ -189,7 +180,7 @@ end
             city_info = state_info.dig(:counties, old_rate.county_name.upcase, :cities, old_rate.city_name.upcase)
 
             new_rate.state_sales_tax = BigDecimal(state_info[:rate], 7) / 100.0 if state_info.key?(:rate)
-            
+
             if county_info.present?
               new_rate.county_sales_tax = BigDecimal(county_info[:rate], 7) / 100.0 if county_info.key?(:rate)
             end
@@ -200,7 +191,7 @@ end
             end
 
             next if rate_row_equal?(old_rate, new_rate)
-            
+
             delta_csv << create_row(new_rate)
             revert_csv << create_row(old_rate)
           end
@@ -209,6 +200,35 @@ end
         revert_csv.close
         delta_csv.close
       end
+    end
+  end
+
+  desc "updates the usa_tax_rate db from onesource db"
+  task update_tax_rates: [:environment] do
+    rate_db = '/Users/davidrose/Downloads/AS_zip4/zip5.csv'
+    error_file = '/Users/davidrose/Downloads/AS_zip4/mismatch.txt'
+    file = File.open(error_file, 'w')
+    CSV.foreach(rate_db, headers: true) do |row|
+      shopify_rate = ::USATaxRate.find_by(zip_code: row['ZIP_CODE'].to_s)
+      if shopify_rate.blank?
+        puts "No entry for #{row['ZIP_CODE']}\n"
+        next
+      end
+
+      errors = []
+      if shopify_rate.state_abbrev != row['STATE_ABBREV']
+        errors << "STATE: #{shopify_rate.state_abbrev} != #{row['STATE_ABBREV']}"
+      end
+      if shopify_rate.county_name != row['COUNTY_NAME']
+        errors << "COUNTY: #{shopify_rate.county_name} != #{row['COUNTY_NAME']}"
+      end
+      if shopify_rate.city_name != row['CITY_NAME']
+        errors << "CITY: #{shopify_rate.city_name} != #{row['CITY_NAME']}"
+      end
+
+      next if errors.empty?
+
+      file.puts "#{shopify_rate.zip_code} - #{errors.join(',')}"
     end
   end
 end

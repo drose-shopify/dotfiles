@@ -1,12 +1,27 @@
 {
+    "suggest.echodocSupport": true,
+    "suggest.maxCompleteItemCount": 10,
     "languageserver": {
         "golang": {
             "command": "gopls",
             "args": [],
             "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
             "filetypes": ["go"]
+        },
+        "sorbet": {
+            "args": [
+                "tc",
+                "--lsp"
+            ],
+            "command": "./bin/srb",
+            "cwd": "./",
+            "filetypes": [
+                "ruby"
+            ],
+            "initializationOptions": {},
+            "settings": {}
         }
-    }, 
+    },
     "solargraph.commandPath": "/Users/davidrose/.gem/ruby/2.6.2/bin/solargraph",
     "solargraph.useBundler": false,
     "solargraph.checkGemVersion": false,

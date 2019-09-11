@@ -1,20 +1,21 @@
 ---
 include:
+- "app/**/*.rb"
 - "components/**/*.rb"
 - "eagerlib/**/*.rb"
 - "lib/**/*.rb"
+- "gems/**/*.rb"
+- "rbi/**/*.rb"
 exclude:
 - spec/**/*
 - "**/test/**/*"
 - test/**/*
 - vendor/**/*
 - ".bundle/**/*"
-require:
-  - rails
+require: []
 domains: []
 reporters:
 - rubocop
-- require_not_found
 plugins: []
 require_paths: []
 max_files: 0

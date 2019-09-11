@@ -53,6 +53,7 @@
 	excludesfile = ~/.gitignore
 	hooksPath = ~/.git/hooks
 	editor = vim
+	commitGraph = true
 [merge]
     tool = vimdiff
 [push]
@@ -65,3 +66,5 @@
 	version = 2
 [credential]
 	helper = osxkeychain
+[gc]
+	writeCommitGraph = true
