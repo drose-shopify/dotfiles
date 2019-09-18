@@ -51,7 +51,6 @@
 	frebase = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git rebase -i `echo ${HASH} | awk '{ print $1 }'`^
 [core]
 	excludesfile = ~/.gitignore
-	hooksPath = ~/.git/hooks
 	editor = vim
 	commitGraph = true
 [merge]

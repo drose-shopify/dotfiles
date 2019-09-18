@@ -1,0 +1,10 @@
+---
+api_clients:
+  shopify-web:
+    - tax_exemptions_for_customer
+    - tax_overrides_api
+shop_betas:
+  - use_active_tax_engine
+  - use_active_tax_engine_usa
+  - customer_tax_exemptions
+

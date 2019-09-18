@@ -3,6 +3,8 @@ require_relative 'shopify_tasks'
 require 'yaml'
 require 'csv'
 require 'bigdecimal'
+require 'net/ftp'
+require 'zip'
 
 module TaxUtils
   extend self
@@ -35,6 +37,8 @@ def rate_row_equal?(old_row, new_row)
   return false unless BigDecimal(old_row.state_sales_tax, 8) == BigDecimal(new_row.state_sales_tax, 8)
   return false unless BigDecimal(old_row.county_sales_tax, 8) == BigDecimal(new_row.county_sales_tax, 8)
   return false unless BigDecimal(old_row.city_sales_tax, 8) == BigDecimal(new_row.city_sales_tax, 8)
+  return false unless old_row.tax_shipping_alone == new_row.tax_shipping_alone
+  return false unless old_row.tax_shipping_and_handling_together == new_row.tax_shipping_and_handling_together
   return true
 end
 
@@ -65,31 +69,30 @@ end
   namespace :taxes do
     desc "Enables all tax betas"
     task enable_edge: [:environment] do
-      app_handle = ENV['APP_HANDLE'] || 'shopify-web'
-      app_client = ApiClient.find_by(handle: app_handle)
+      beta_flags = YAML.load_file('/Users/davidrose/dotfiles/rake_global/beta_flags.yml').with_indifferent_access
 
-      api_betas = [
-        {
-          feature: 'tax_exemptions_for_customer',
-          state: :enable,
-        }, {
-          feature: 'tax_overrides_api',
-          state: :enable,
-        }
-      ]
+      beta_flags[:api_clients].each_pair do |app_handle, flags|
+        app_client = ApiClient.find_by(handle: app_handle)
+        configure_betas(
+          obj: app_client,
+          features: flags.map do |flag|
+            {
+              feature: flag,
+              state: :enable
+            }
+          end
+        )
+      end
 
-      shop_betas = [
-        {
-          feature: 'use_active_tax_engine',
-          state: :enable,
-        }, {
-          feature: 'customer_tax_exemptions',
-          state: :enable,
-        }
-      ]
-
-      configure_betas(obj: app_client, features: api_betas)
-      configure_betas(obj: shop_from_env, features: shop_betas)
+      configure_betas(
+        obj: shop_from_env,
+        features: beta_flags[:shop_betas].map do |flag|
+          {
+            feature: flag,
+            state: :enable
+          }
+        end
+      )
     end
 
     desc "Sets shop into canada migration state"
@@ -158,6 +161,40 @@ end
       end
     end
 
+    desc "Determine differences in total sales tax rate"
+    task determine_rate_differences: [:environment] do
+      rate_file = ENV['TAX_RATE_FILE']
+      output_file = ENV['OUTPUT_FILE'] || 'rate_difference.csv'
+
+      output_rows = []
+
+      output = CSV.open(output_file, 'w')
+      output << ["zip_code","difference","state_sales_tax_old","state_sales_tax_new","county_sales_tax_old","county_sales_tax_new","city_sales_tax_old","city_sales_tax_new","total_sales_tax_old","total_sales_tax_new"]
+      CSV.foreach(rate_file, headers: true) do |row|
+        old_row = ::USATaxRate.find_by(zip_code: row['zip_code'])
+
+        output_rows << {
+          zip_code: old_row.zip_code,
+          difference: old_row.total_sales_tax.to_d - row['total_sales_tax'].to_d,
+          state_sales_tax_old: old_row.state_sales_tax,
+          state_sales_tax_new: row['state_sales_tax'],
+          county_sales_tax_old: old_row.county_sales_tax,
+          county_sales_tax_new: row['county_sales_tax'],
+          city_sales_tax_old: old_row.city_sales_tax,
+          city_sales_tax_new: row['city_sales_tax'],
+          total_sales_tax_old: old_row.total_sales_tax,
+          total_sales_tax_new: row['total_sales_tax']
+        }
+      end
+
+      output_rows
+        .sort_by { |row| row[:difference] }
+        .reverse_each do |row|
+         output << row.values
+        end
+      output.close
+    end
+
     desc "Generates a tax rate delta from yaml file"
     task generate_rate_update: [:environment] do
       rate_file = ENV['TAX_RATE_FILE'] || '/Users/davidrose/dotfiles/rake_global/tax_rates_july.yml'
@@ -205,30 +242,81 @@ end
 
   desc "updates the usa_tax_rate db from onesource db"
   task update_tax_rates: [:environment] do
-    rate_db = '/Users/davidrose/Downloads/AS_zip4/zip5.csv'
-    error_file = '/Users/davidrose/Downloads/AS_zip4/mismatch.txt'
-    file = File.open(error_file, 'w')
-    CSV.foreach(rate_db, headers: true) do |row|
-      shopify_rate = ::USATaxRate.find_by(zip_code: row['ZIP_CODE'].to_s)
-      if shopify_rate.blank?
-        puts "No entry for #{row['ZIP_CODE']}\n"
-        next
-      end
-
-      errors = []
-      if shopify_rate.state_abbrev != row['STATE_ABBREV']
-        errors << "STATE: #{shopify_rate.state_abbrev} != #{row['STATE_ABBREV']}"
-      end
-      if shopify_rate.county_name != row['COUNTY_NAME']
-        errors << "COUNTY: #{shopify_rate.county_name} != #{row['COUNTY_NAME']}"
-      end
-      if shopify_rate.city_name != row['CITY_NAME']
-        errors << "CITY: #{shopify_rate.city_name} != #{row['CITY_NAME']}"
-      end
-
-      next if errors.empty?
-
-      file.puts "#{shopify_rate.zip_code} - #{errors.join(',')}"
+    rate_db_file = nil
+    Net::FTP.open('ftp.taxdatasystems.com') do |ftp|
+      ftp.login('shopify1','shopify99')
+      #beginning_of_month = Date.today - Date.today.mday + 1
+      #ftp.nlst.each do |filename|
+        #if ftp.mtime(filename).to_date >= Date.today
+          #ftp.getbinaryfile(filename)
+          #rate_db_file = filename
+          #return
+        #end
+      #end
+      ftp.getbinaryfile('AS_zip4.zip')
+      rate_db_file='AS_zip4.zip'
     end
+
+    if rate_db_file.nil?
+      puts "No new rate file found"
+      return
+    end
+
+    Zip::File.open(rate_db_file) do |zip_file|
+      entry = zip_file.glob("#{File.basename(rate_db_file, '.*')}.txt").first
+      entry.extract('rate_file.txt')
+    end
+
+    output_file = ENV['OUTPUT_FILE'] || 'delta_tax_rate.csv'
+    rate_db = 'rate_file.txt'
+    #rate_db = '/Users/davidrose/Downloads/AS_zip4/AS_zip4.txt'
+    revert_csv = CSV.open(File.join(File.dirname(output_file), "revert_#{File.basename(output_file)}"), 'w')
+    delta_csv = CSV.open(output_file, 'w')
+
+    total_changes = 0
+
+    begin
+      revert_csv << ['zip_code','state_abbrev','county_name','city_name','state_sales_tax','county_sales_tax','city_sales_tax','total_sales_tax','tax_shipping_alone','tax_shipping_and_handling_together']
+      delta_csv << ['zip_code','state_abbrev','county_name','city_name','state_sales_tax','county_sales_tax','city_sales_tax','total_sales_tax','tax_shipping_alone','tax_shipping_and_handling_together']
+
+      CSV.foreach(rate_db, headers: true, col_sep: "\t") do |row|
+        next if row['RECORD_TYPE'] == 'Z'
+        shopify_rate = ::USATaxRate.find_by(zip_code: row['ZIP_CODE'].to_s)
+        if shopify_rate.blank?
+          # puts "No entry for #{row['ZIP_CODE']}\n"
+          next
+        end
+
+        state_rate = row['STATE_SALES_TAX'].to_d
+        county_rate = row['COUNTY_SALES_TAX'].to_d
+        city_rate = row['CITY_SALES_TAX'].to_d
+        other_rates = row['MTA_SALES_TAX'].to_d +
+          row['SPD_SALES_TAX'].to_d +
+          row['OTHER1_SALES_TAX'].to_d +
+          row['OTHER2_SALES_TAX'].to_d +
+          row['OTHER3_SALES_TAX'].to_d +
+          row['OTHER4_SALES_TAX'].to_d
+
+        new_rate = shopify_rate.dup
+
+        new_rate.state_sales_tax = state_rate
+        new_rate.county_sales_tax = county_rate
+        new_rate.city_sales_tax = city_rate + other_rates
+        new_rate.total_sales_tax = state_rate + county_rate + city_rate + other_rates
+        new_rate.tax_shipping_alone = row['TAX_SHIPPING_ALONE'] == 'Y'
+        new_rate.tax_shipping_and_handling_together = row['TAX_SHIPPING_AND_HANDLING_TOGETHER'] == 'Y'
+
+        next if rate_row_equal?(shopify_rate, new_rate)
+        total_changes += 1
+
+        delta_csv << create_row(new_rate)
+        revert_csv << create_row(shopify_rate)
+      end
+    ensure
+      revert_csv.close
+      delta_csv.close
+    end
+
+    puts "#{total_changes} rows changes"
   end
 end
