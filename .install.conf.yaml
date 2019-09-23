@@ -26,6 +26,10 @@
     ~/.config/nvim/init.vim: 'init.vim'
     ~/.config/nvim/coc-settings.json: 'coc-settings.json'
     ~/.config/solargraph/config.yml: 'solargraph.yml'
+    ~/.config/nvim/UltiSnips:
+      create: true
+      glob: true
+      path: snippets/ultisnips/*
     ~/.rgignore:
 
 - shell:

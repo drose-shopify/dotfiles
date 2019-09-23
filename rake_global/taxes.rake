@@ -253,8 +253,9 @@ end
           #return
         #end
       #end
-      ftp.getbinaryfile('AS_zip4.zip')
       rate_db_file='AS_zip4.zip'
+      puts "Downloading #{rate_db_file}" unless rate_db_file.nil?
+      ftp.getbinaryfile(rate_db_file)
     end
 
     if rate_db_file.nil?
@@ -262,6 +263,7 @@ end
       return
     end
 
+    puts "Extracting zip"
     Zip::File.open(rate_db_file) do |zip_file|
       entry = zip_file.glob("#{File.basename(rate_db_file, '.*')}.txt").first
       entry.extract('rate_file.txt')
@@ -278,9 +280,9 @@ end
     begin
       revert_csv << ['zip_code','state_abbrev','county_name','city_name','state_sales_tax','county_sales_tax','city_sales_tax','total_sales_tax','tax_shipping_alone','tax_shipping_and_handling_together']
       delta_csv << ['zip_code','state_abbrev','county_name','city_name','state_sales_tax','county_sales_tax','city_sales_tax','total_sales_tax','tax_shipping_alone','tax_shipping_and_handling_together']
-
+      puts "Reading file and checking for differences"
       CSV.foreach(rate_db, headers: true, col_sep: "\t") do |row|
-        next if row['RECORD_TYPE'] == 'Z'
+        next unless row['RECORD_TYPE'] == 'Z'
         shopify_rate = ::USATaxRate.find_by(zip_code: row['ZIP_CODE'].to_s)
         if shopify_rate.blank?
           # puts "No entry for #{row['ZIP_CODE']}\n"
@@ -303,8 +305,8 @@ end
         new_rate.county_sales_tax = county_rate
         new_rate.city_sales_tax = city_rate + other_rates
         new_rate.total_sales_tax = state_rate + county_rate + city_rate + other_rates
-        new_rate.tax_shipping_alone = row['TAX_SHIPPING_ALONE'] == 'Y'
-        new_rate.tax_shipping_and_handling_together = row['TAX_SHIPPING_AND_HANDLING_TOGETHER'] == 'Y'
+        new_rate.tax_shipping_alone = shopify_rate.tax_shipping_alone
+        new_rate.tax_shipping_and_handling_together = shopify_rate.tax_shipping_and_handling_together
 
         next if rate_row_equal?(shopify_rate, new_rate)
         total_changes += 1

@@ -24,6 +24,7 @@ endif
     Plug 'tpope/vim-surround'
     Plug 'peitalin/vim-jsx-typescript'
     Plug 'HerringtonDarkholme/yats.vim'
+    Plug 'SirVer/ultisnips'
 
 call plug#end()
 "Plugin Management end
@@ -120,6 +121,8 @@ call plug#end()
           \ coc#refresh()
     inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
     inoremap <silent><expr> <c-space> coc#refresh()
+    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() :
+                                           \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
     " Use K to show documentation in preview window
     nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -136,3 +139,24 @@ call plug#end()
         call CocAction('doHover')
       endif
     endfunction
+
+
+    inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+    function! s:check_back_space() abort
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+
+    let g:coc_snippet_next = '<tab>'
+
+" Ultisnips configs
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-l>"
+let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+
+let g:UltiSnipsEditSplit="vertical"

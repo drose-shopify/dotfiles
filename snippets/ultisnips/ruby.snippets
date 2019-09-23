@@ -1,0 +1,21 @@
+snippet __frozen "# frozen string"
+# frozen_string_literal: true
+endsnippet
+
+snippet __pry "binding.pry"
+binding.pry if true
+endsnippet
+
+snippet __gen_taxjob "Creates a USA Tax Rate Import Job"
+# frozen_string_literal: true
+
+class UsaTaxRateImportJobDelta`!v strftime("%Y%m%d")` < MaintenanceTaskMigration
+  mark_as_master_migration!
+  self.author_github_username = "drose-shopify"
+
+  def self.up
+    file_path = File.join(Rails.root, 'db/avalara/delta_{cursor}.csv').freeze
+	push(USATaxRateImportJob, delta_file: file_path)
+  end
+end
+endsnippet

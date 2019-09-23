@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 require_relative 'shopify_tasks'
 
-
 AVALARA_CUSTOMERS = [{
   first_name: 'Avalara',
   last_name: 'NewYork',
@@ -43,7 +42,7 @@ AVALARA_CUSTOMERS = [{
     zip: 'V6R2G2',
     country: 'CA',
   },
-}, { 
+}, {
     first_name: 'Texas',
     last_name: 'MultiSPDRates',
     address: {
@@ -103,7 +102,7 @@ module AvalaraTasks
       location_service.set_location_as_shipping_address(location.id)
     end
 
-    desc "Create Avalara customers" 
+    desc "Create Avalara customers"
     task create_customers: [:environment] do
       shop = shop_from_env
 
