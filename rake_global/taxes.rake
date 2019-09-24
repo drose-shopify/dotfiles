@@ -34,9 +34,9 @@ module TaxUtils
   end
 
 def rate_row_equal?(old_row, new_row)
-  return false unless BigDecimal(old_row.state_sales_tax, 8) == BigDecimal(new_row.state_sales_tax, 8)
-  return false unless BigDecimal(old_row.county_sales_tax, 8) == BigDecimal(new_row.county_sales_tax, 8)
-  return false unless BigDecimal(old_row.city_sales_tax, 8) == BigDecimal(new_row.city_sales_tax, 8)
+  return false unless bigdecimal(old_row.state_sales_tax, 8) == bigdecimal(new_row.state_sales_tax, 8)
+  return false unless bigdecimal(old_row.county_sales_tax, 8) == bigdecimal(new_row.county_sales_tax, 8)
+  return false unless bigdecimal(old_row.city_sales_tax, 8) == bigdecimal(new_row.city_sales_tax, 8)
   return false unless old_row.tax_shipping_alone == new_row.tax_shipping_alone
   return false unless old_row.tax_shipping_and_handling_together == new_row.tax_shipping_and_handling_together
   return true
@@ -241,21 +241,21 @@ end
   end
 
   desc "updates the usa_tax_rate db from onesource db"
-  task update_tax_rates: [:environment] do
+  task update_tax_rates_old: [:environment] do
     rate_db_file = nil
     Net::FTP.open('ftp.taxdatasystems.com') do |ftp|
       ftp.login('shopify1','shopify99')
-      #beginning_of_month = Date.today - Date.today.mday + 1
-      #ftp.nlst.each do |filename|
-        #if ftp.mtime(filename).to_date >= Date.today
-          #ftp.getbinaryfile(filename)
-          #rate_db_file = filename
-          #return
-        #end
-      #end
-      rate_db_file='AS_zip4.zip'
+      beginning_of_month = Date.today - Date.today.mday + 1
+      ftp.nlst.each do |filename|
+        if ftp.mtime(filename).to_date >= Date.today
+          ftp.getbinaryfile(filename)
+          rate_db_file = filename
+          return
+        end
+      end
+      rate_db_file = 'AS_zip4.zip'
       puts "Downloading #{rate_db_file}" unless rate_db_file.nil?
-      ftp.getbinaryfile(rate_db_file)
+      ftp.getbinaryfile(rate_db_file) unless rate_db_file.nil?
     end
 
     if rate_db_file.nil?
@@ -320,5 +320,127 @@ end
     end
 
     puts "#{total_changes} rows changes"
+  end
+
+  desc "updates the usa_tax_rate db from onesource db"
+  task calculate_zip: [:environment] do
+    rate_db = '/Users/davidrose/Downloads/AS_zip4/AS_zip4.txt'
+
+    zip4 = []
+    zip5 = nil
+    current_zip = nil
+    output_file = CSV.open('zip5_rates.csv', 'w')
+    check_file = CSV.open('zip5_check.csv', 'w')
+    header_written = false
+
+    CSV.foreach(rate_db, headers: true, col_sep: "\t") do |row|
+      unless header_written
+        output_file << row.headers
+        check_file << row.headers
+        header_written = true
+      end
+      if row['ZIP_CODE'] != current_zip
+        new_zip = process_zips(zip4, zip5, check_file) unless current_zip.nil?
+        write_onesource_zip(output_file, new_zip)
+        zip4 = []
+        zip5 = nil
+        current_zip = row['ZIP_CODE']
+      end
+
+      if row['RECORD_TYPE'] == 'Z'
+        zip5 = row
+        next
+      end
+      zip4 << row
+    end
+
+    output_file.close
+    check_file.close
+  end
+
+  def write_onesource_zip(output_file, zip5)
+    return if zip5.nil?
+    output_file << zip5
+  end
+
+  def process_zips(extended_zips, zip5, f)
+    return zip5 if extended_zips.empty?
+
+    rates = {
+      state: [],
+      county: [],
+      city: [],
+      other1: [],
+      other2: [],
+      other3: [],
+      other4: [],
+    }
+
+    zips_by_county = extended_zips.select do |zip|
+      zip['COUNTY_NAME'] == zip5['COUNTY_NAME']
+    end
+
+    zips_by_city = zips_by_county.select do |zip|
+      zip['CITY_NAME'] == zip5['CITY_NAME']
+    end
+
+    zips = if !zips_by_city.empty?
+             zips_by_city
+          elsif !zips_by_county.empty?
+            zips_by_county
+          else
+            extended_zips
+          end
+
+    zips.each do |zip|
+      rates[:state] << zip['STATE_SALES_TAX']
+      rates[:county] << zip['COUNTY_SALES_TAX']
+      rates[:city] << zip['CITY_SALES_TAX']
+      rates[:other1] << zip['OTHER1_SALES_TAX']
+      rates[:other2] << zip['OTHER2_SALES_TAX']
+      rates[:other3] << zip['OTHER3_SALES_TAX']
+      rates[:other4] << zip['OTHER4_SALES_TAX']
+    end
+
+
+    changed = false
+    if zip5['STATE_SALES_TAX'] != mode(rates[:state]) ||
+        zip5['COUNTY_SALES_TAX'] != mode(rates[:county]) ||
+        zip5['CITY_SALES_TAX'] !=  mode(rates[:city]) ||
+        zip5['OTHER1_SALES_TAX'] !=  mode(rates[:other1]) ||
+        zip5['OTHER2_SALES_TAX'] !=  mode(rates[:other2]) ||
+        zip5['OTHER3_SALES_TAX'] !=  mode(rates[:other3]) ||
+        zip5['OTHER4_SALES_TAX'] != mode(rates[:other4])
+      changed = true
+      f << zip5
+    end
+
+    new_zip = zip5.dup
+    new_zip['STATE_SALES_TAX'] = mode(rates[:state])
+    new_zip['COUNTY_SALES_TAX'] = mode(rates[:county])
+    new_zip['CITY_SALES_TAX'] = mode(rates[:city])
+    new_zip['OTHER1_SALES_TAX'] = mode(rates[:other1])
+    new_zip['OTHER2_SALES_TAX'] = mode(rates[:other2])
+    new_zip['OTHER3_SALES_TAX'] = mode(rates[:other3])
+    new_zip['OTHER4_SALES_TAX'] = mode(rates[:other4])
+
+    if changed
+      f << new_zip
+    end
+
+    new_zip
+  end
+
+  def unincoporated?(zip)
+    zip['CITY_NAME'] =~ /UNINCORPORATED/i
+  end
+
+  def mode(arr)
+    freq = frequency(arr)
+    arr.max_by { |v| freq[v] }
+  end
+
+  def frequency(arr)
+    arr.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
   end
 end
