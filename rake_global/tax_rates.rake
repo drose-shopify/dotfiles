@@ -14,26 +14,27 @@ module TaxRateUtils
 
   desc "Updates the usa_tax_rate db from onesource db"
   task update_tax_rates: [:environment] do
-    puts "Looking for new rate file"
-    rate_db_zip = download_rate_file(true)
-    if rate_db_zip.nil?
-      puts "No new rate file found"
-      break
-    end
-
-    puts "Extracting zip"
-    rate_db_file = extract_rate_file(rate_db_zip)
-
-    puts "Calculating 5-digit zip taxes"
-    zip5_file = create_zip5_csv(rate_db_file)
-
-    delta_file_name = ENV['OUTPUT_FILE'] || "db/avalara/delta_#{Date.today.strftime('%b_%d_%Y').downcase}.csv"
-
-    revert_csv = CSV.open(File.join(File.dirname(delta_file_name), "revert_#{File.basename(delta_file_name)}"), 'w')
-    delta_csv = CSV.open(delta_file_name, 'w')
-
-    total_changes = 0
+    force_download = !!ENV['FORCE_DOWNLOAD']
     begin
+      puts "Looking for new rate file"
+      rate_db_zip = download_rate_file(force_download)
+      if rate_db_zip.nil?
+        puts "No new rate file found"
+        break
+      end
+
+      puts "Extracting zip"
+      rate_db_file = extract_rate_file(rate_db_zip)
+
+      puts "Calculating 5-digit zip taxes"
+      zip5_file = create_zip5_csv(rate_db_file)
+
+      delta_file_name = ENV['OUTPUT_FILE'] || "db/avalara/delta_#{Date.today.strftime('%b_%d_%Y').downcase}.csv"
+
+      revert_csv = CSV.open(File.join(File.dirname(delta_file_name), "revert_#{File.basename(delta_file_name)}"), 'w')
+      delta_csv = CSV.open(delta_file_name, 'w')
+
+      total_changes = 0
       write_delta_headers(revert_csv)
       write_delta_headers(delta_csv)
       puts "Checking rate file for differences"
@@ -60,8 +61,8 @@ module TaxRateUtils
       end
       puts "#{total_changes} rows affected"
     ensure
-      revert_csv.close
-      delta_csv.close
+      revert_csv.close unless revert_csv.nil?
+      delta_csv.close unless delta_csv.nil?
       File.delete(zip5_file)
       File.delete(rate_db_file)
       File.delete(rate_db_zip)

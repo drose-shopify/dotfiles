@@ -25,6 +25,7 @@ endif
     Plug 'peitalin/vim-jsx-typescript'
     Plug 'HerringtonDarkholme/yats.vim'
     Plug 'SirVer/ultisnips'
+    Plug 'sbdchd/neoformat'
 
 call plug#end()
 "Plugin Management end
@@ -160,3 +161,10 @@ let g:UltiSnipsJumpForwardTrigger="<c-l>"
 let g:UltiSnipsJumpBackwardTrigger="<c-h>"
 
 let g:UltiSnipsEditSplit="vertical"
+
+" Neoformatter config
+let g:neoformat_enabled_ruby = ['rubocop']
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+augroup END

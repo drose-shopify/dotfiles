@@ -14,8 +14,8 @@ class UsaTaxRateImportJobDelta`!v strftime("%Y%m%d")` < MaintenanceTaskMigration
   self.author_github_username = "drose-shopify"
 
   def self.up
-    file_path = File.join(Rails.root, 'db/avalara/delta_{cursor}.csv').freeze
-	push(USATaxRateImportJob, delta_file: file_path)
+    file_path = File.join(Rails.root, 'db/avalara/delta_`!v tolower(strftime("%b_%d_%Y"))`.csv').freeze
+    push(USATaxRateImportJob, delta_file: file_path)
   end
 end
 endsnippet
