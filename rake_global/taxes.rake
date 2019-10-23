@@ -38,9 +38,9 @@ module TaxUtils
   end
 
   def rate_row_equal?(old_row, new_row)
-    return false unless bigdecimal(old_row.state_sales_tax, 8) == bigdecimal(new_row.state_sales_tax, 8)
-    return false unless bigdecimal(old_row.county_sales_tax, 8) == bigdecimal(new_row.county_sales_tax, 8)
-    return false unless bigdecimal(old_row.city_sales_tax, 8) == bigdecimal(new_row.city_sales_tax, 8)
+    return false unless BigDecimal(old_row.state_sales_tax, 8) == BigDecimal(new_row.state_sales_tax, 8)
+    return false unless BigDecimal(old_row.county_sales_tax, 8) == BigDecimal(new_row.county_sales_tax, 8)
+    return false unless BigDecimal(old_row.city_sales_tax, 8) == BigDecimal(new_row.city_sales_tax, 8)
     return false unless old_row.tax_shipping_alone == new_row.tax_shipping_alone
     return false unless old_row.tax_shipping_and_handling_together == new_row.tax_shipping_and_handling_together
 
@@ -201,6 +201,93 @@ module TaxUtils
       output.close
     end
 
+    desc 'Imports all delta files'
+    task reimport_deltas: [:environment] do
+      puts "Deleting all entries in usa_tax_rates"
+      ::USATaxRate.destroy_all
+
+      puts "Running import on base file #{::USATaxRate::Importer::USA_RATE_FILE_PATH}"
+      ::USATaxRate::Importer.run
+
+      sorted_deltas = Dir["db/avalara/delta*.csv"].sort_by do |filepath|
+        filename = File.basename(filepath, '.csv')
+        file_date_parts = filename.sub(/^delta_?/, '').split('_')
+        file_date = Time.parse(file_date_parts.join(' '))
+      end
+
+      sorted_deltas.each do |delta_filepath|
+        puts "Running import on delta #{File.basename(delta_filepath, '.csv')}"
+        ::USATaxRate::Importer.importdelta(delta_filepath)
+      end
+    end
+
+    desc 'Fixes California'
+    task fix_california: [:environment] do
+      county_taxes = {
+        'ALAMEDA': 2,
+        'AMADOR': 0.5,
+        'CONTRA COSTA': 1,
+        'DEL NORTE': 0.25,
+        'FRESNO': 0.725,
+        'HUMBOLDT': 0.5,
+        'IMPERIAL': 0.5,
+        'INYO': 0.5,
+        'LOS ANGELES': 2.25,
+        'MADERA': 0.5,
+        'MARIN': 1,
+        'MARIPOSA': 0.5,
+        'MENDOCINO': 0.625,
+        'MERCED': 0.5,
+        'MONTEREY': 0.5,
+        'NAPA': 0.5,
+        'NEVADA': 0.25,
+        'ORANGE': 0.5,
+        'RIVERSIDE': 0.5,
+        'SACRAMENTO': 0.5,
+        'SAN BENITO': 1,
+        'SAN BERNARDINO': 0.5,
+        'SAN DIEGO': 0.5,
+        'SAN JOAQUIN': 0.5,
+        'SAN MATEO': 2,
+        'SANTA BARBARA': 0.5,
+        'SANTA CLARA': 1.75,
+        'SANTA CRUZ': 1.75,
+        'SOLANO': 0.125,
+        'SONOMA': 1,
+        'STANISLAUS': 0.625,
+        'TULARE': 0.5,
+        'YUBA': 1
+      }.with_indifferent_access
+      delta_file_name = ENV['OUTPUT_FILE'] || "db/avalara/delta_#{Date.today.strftime('%b_%d_%Y').downcase}.csv"
+
+      revert_csv = CSV.open(File.join(File.dirname(delta_file_name), "revert_#{File.basename(delta_file_name)}"), 'w')
+      delta_csv = CSV.open(delta_file_name, 'w')
+
+      revert_csv << %w[zip_code state_abbrev county_name city_name state_sales_tax county_sales_tax city_sales_tax total_sales_tax tax_shipping_alone tax_shipping_and_handling_together]
+      delta_csv << %w[zip_code state_abbrev county_name city_name state_sales_tax county_sales_tax city_sales_tax total_sales_tax tax_shipping_alone tax_shipping_and_handling_together]
+      ::USATaxRate.where(state_abbrev: 'CA').each do |rate_row|
+        next unless county_taxes.key?(rate_row.county_name)
+
+        state_tax = rate_row.state_sales_tax.to_d
+        county_tax = county_taxes[rate_row.county_name].to_d / 100.to_d
+        city_tax = rate_row.total_sales_tax.to_d - (state_tax + county_tax)
+
+        next if city_tax < 0
+        next if county_tax < 0
+
+        new_rate = rate_row.dup
+        new_rate.state_sales_tax = state_tax
+        new_rate.county_sales_tax = county_tax
+        new_rate.city_sales_tax = city_tax
+        next if rate_row_equal?(rate_row, new_rate)
+
+        delta_csv << create_row(new_rate)
+        revert_csv << create_row(rate_row)
+      end
+      revert_csv.close
+      delta_csv.close
+    end
+
     desc 'Generates a tax rate delta from yaml file'
     task generate_rate_update: [:environment] do
       rate_file = ENV['TAX_RATE_FILE'] || '/Users/davidrose/dotfiles/rake_global/tax_rates_july.yml'
@@ -244,209 +331,5 @@ module TaxUtils
         delta_csv.close
       end
     end
-  end
-
-  desc 'updates the usa_tax_rate db from onesource db'
-  task update_tax_rates_old: [:environment] do
-    rate_db_file = nil
-    Net::FTP.open('ftp.taxdatasystems.com') do |ftp|
-      ftp.login('shopify1', 'shopify99')
-      beginning_of_month = Date.today - Date.today.mday + 1
-      ftp.nlst.each do |filename|
-        next unless ftp.mtime(filename).to_date >= Date.today
-
-        ftp.getbinaryfile(filename)
-        rate_db_file = filename
-        return
-      end
-      rate_db_file = 'AS_zip4.zip'
-      puts "Downloading #{rate_db_file}" unless rate_db_file.nil?
-      ftp.getbinaryfile(rate_db_file) unless rate_db_file.nil?
-    end
-
-    if rate_db_file.nil?
-      puts 'No new rate file found'
-      return
-    end
-
-    puts 'Extracting zip'
-    Zip::File.open(rate_db_file) do |zip_file|
-      entry = zip_file.glob("#{File.basename(rate_db_file, '.*')}.txt").first
-      entry.extract('rate_file.txt')
-    end
-
-    output_file = ENV['OUTPUT_FILE'] || 'delta_tax_rate.csv'
-    rate_db = 'rate_file.txt'
-    # rate_db = '/Users/davidrose/Downloads/AS_zip4/AS_zip4.txt'
-    revert_csv = CSV.open(File.join(File.dirname(output_file), "revert_#{File.basename(output_file)}"), 'w')
-    delta_csv = CSV.open(output_file, 'w')
-
-    total_changes = 0
-
-    begin
-      revert_csv << %w[zip_code state_abbrev county_name city_name state_sales_tax county_sales_tax city_sales_tax total_sales_tax tax_shipping_alone tax_shipping_and_handling_together]
-      delta_csv << %w[zip_code state_abbrev county_name city_name state_sales_tax county_sales_tax city_sales_tax total_sales_tax tax_shipping_alone tax_shipping_and_handling_together]
-      puts 'Reading file and checking for differences'
-      CSV.foreach(rate_db, headers: true, col_sep: "\t") do |row|
-        next unless row['RECORD_TYPE'] == 'Z'
-
-        shopify_rate = ::USATaxRate.find_by(zip_code: row['ZIP_CODE'].to_s)
-        if shopify_rate.blank?
-          # puts "No entry for #{row['ZIP_CODE']}\n"
-          next
-        end
-
-        state_rate = row['STATE_SALES_TAX'].to_d
-        county_rate = row['COUNTY_SALES_TAX'].to_d
-        city_rate = row['CITY_SALES_TAX'].to_d
-        other_rates = row['MTA_SALES_TAX'].to_d +
-                      row['SPD_SALES_TAX'].to_d +
-                      row['OTHER1_SALES_TAX'].to_d +
-                      row['OTHER2_SALES_TAX'].to_d +
-                      row['OTHER3_SALES_TAX'].to_d +
-                      row['OTHER4_SALES_TAX'].to_d
-
-        new_rate = shopify_rate.dup
-
-        new_rate.state_sales_tax = state_rate
-        new_rate.county_sales_tax = county_rate
-        new_rate.city_sales_tax = city_rate + other_rates
-        new_rate.total_sales_tax = state_rate + county_rate + city_rate + other_rates
-        new_rate.tax_shipping_alone = shopify_rate.tax_shipping_alone
-        new_rate.tax_shipping_and_handling_together = shopify_rate.tax_shipping_and_handling_together
-
-        next if rate_row_equal?(shopify_rate, new_rate)
-
-        total_changes += 1
-
-        delta_csv << create_row(new_rate)
-        revert_csv << create_row(shopify_rate)
-      end
-    ensure
-      revert_csv.close
-      delta_csv.close
-    end
-
-    puts "#{total_changes} rows changes"
-  end
-
-  desc 'updates the usa_tax_rate db from onesource db'
-  task calculate_zip: [:environment] do
-    rate_db = '/Users/davidrose/Downloads/AS_zip4/AS_zip4.txt'
-
-    zip4 = []
-    zip5 = nil
-    current_zip = nil
-    output_file = CSV.open('zip5_rates.csv', 'w')
-    check_file = CSV.open('zip5_check.csv', 'w')
-    header_written = false
-
-    CSV.foreach(rate_db, headers: true, col_sep: "\t") do |row|
-      unless header_written
-        output_file << row.headers
-        check_file << row.headers
-        header_written = true
-      end
-      if row['ZIP_CODE'] != current_zip
-        new_zip = process_zips(zip4, zip5, check_file) unless current_zip.nil?
-        write_onesource_zip(output_file, new_zip)
-        zip4 = []
-        zip5 = nil
-        current_zip = row['ZIP_CODE']
-      end
-
-      if row['RECORD_TYPE'] == 'Z'
-        zip5 = row
-        next
-      end
-      zip4 << row
-    end
-
-    output_file.close
-    check_file.close
-  end
-
-  def write_onesource_zip(output_file, zip5)
-    return if zip5.nil?
-
-    output_file << zip5
-  end
-
-  def process_zips(extended_zips, zip5, f)
-    return zip5 if extended_zips.empty?
-
-    rates = {
-      state: [],
-      county: [],
-      city: [],
-      other1: [],
-      other2: [],
-      other3: [],
-      other4: []
-    }
-
-    zips_by_county = extended_zips.select do |zip|
-      zip['COUNTY_NAME'] == zip5['COUNTY_NAME']
-    end
-
-    zips_by_city = zips_by_county.select do |zip|
-      zip['CITY_NAME'] == zip5['CITY_NAME']
-    end
-
-    zips = if !zips_by_city.empty?
-             zips_by_city
-           elsif !zips_by_county.empty?
-             zips_by_county
-           else
-             extended_zips
-          end
-
-    zips.each do |zip|
-      rates[:state] << zip['STATE_SALES_TAX']
-      rates[:county] << zip['COUNTY_SALES_TAX']
-      rates[:city] << zip['CITY_SALES_TAX']
-      rates[:other1] << zip['OTHER1_SALES_TAX']
-      rates[:other2] << zip['OTHER2_SALES_TAX']
-      rates[:other3] << zip['OTHER3_SALES_TAX']
-      rates[:other4] << zip['OTHER4_SALES_TAX']
-    end
-
-    changed = false
-    if zip5['STATE_SALES_TAX'] != mode(rates[:state]) ||
-       zip5['COUNTY_SALES_TAX'] != mode(rates[:county]) ||
-       zip5['CITY_SALES_TAX'] != mode(rates[:city]) ||
-       zip5['OTHER1_SALES_TAX'] !=  mode(rates[:other1]) ||
-       zip5['OTHER2_SALES_TAX'] !=  mode(rates[:other2]) ||
-       zip5['OTHER3_SALES_TAX'] !=  mode(rates[:other3]) ||
-       zip5['OTHER4_SALES_TAX'] != mode(rates[:other4])
-      changed = true
-      f << zip5
-    end
-
-    new_zip = zip5.dup
-    new_zip['STATE_SALES_TAX'] = mode(rates[:state])
-    new_zip['COUNTY_SALES_TAX'] = mode(rates[:county])
-    new_zip['CITY_SALES_TAX'] = mode(rates[:city])
-    new_zip['OTHER1_SALES_TAX'] = mode(rates[:other1])
-    new_zip['OTHER2_SALES_TAX'] = mode(rates[:other2])
-    new_zip['OTHER3_SALES_TAX'] = mode(rates[:other3])
-    new_zip['OTHER4_SALES_TAX'] = mode(rates[:other4])
-
-    f << new_zip if changed
-
-    new_zip
-  end
-
-  def unincoporated?(zip)
-    zip['CITY_NAME'] =~ /UNINCORPORATED/i
-  end
-
-  def mode(arr)
-    freq = frequency(arr)
-    arr.max_by { |v| freq[v] }
-  end
-
-  def frequency(arr)
-    arr.each_with_object(Hash.new(0)) { |v, h| h[v] += 1; }
   end
 end

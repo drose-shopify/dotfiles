@@ -26,6 +26,7 @@ endif
     Plug 'HerringtonDarkholme/yats.vim'
     Plug 'SirVer/ultisnips'
     Plug 'sbdchd/neoformat'
+    Plug 'tpope/vim-eunuch'
 
 call plug#end()
 "Plugin Management end
@@ -164,7 +165,8 @@ let g:UltiSnipsEditSplit="vertical"
 
 " Neoformatter config
 let g:neoformat_enabled_ruby = ['rubocop']
-augroup fmt
-  autocmd!
-  autocmd BufWritePre * undojoin | Neoformat
-augroup END
+let g:neoformat_verbose = 1
+"augroup fmt
+"  autocmd!
+"  autocmd BufWritePre * undojoin | Neoformat
+"augroup END
