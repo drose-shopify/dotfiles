@@ -2,15 +2,12 @@ let SessionLoad = 1
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
-cd ~/src/github.com/Shopify/shopify
+cd ~/dotfiles
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +76 components/sales/app/public/sales/order_builder/order_creation_metrics.rb
-badd +405 components/sales/app/public/sales/order_builder/builder.rb
-badd +19 components/taxes/app/public/taxes/calculate_taxes_response_schema.rb
-badd +1 components/taxes/app/public/taxes/line_item_schema.rb
+badd +35 vimrc
 argglobal
 silent! argdel *
 $argadd .

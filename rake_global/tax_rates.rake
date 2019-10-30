@@ -7,7 +7,7 @@ require 'net/ftp'
 require 'zip'
 
 module TaxRateUtils
-  extend self
+  module_function
   extend Rake::DSL
   extend RakeTaskWithPodSelection
   extend ShopifyHelper

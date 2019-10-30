@@ -27,6 +27,7 @@ endif
     Plug 'SirVer/ultisnips'
     Plug 'sbdchd/neoformat'
     Plug 'tpope/vim-eunuch'
+    Plug 'xolox/vim-notes'
 
 call plug#end()
 "Plugin Management end

@@ -12,12 +12,17 @@
         "sorbet": {
             "args": [
                 "tc",
-                "--lsp"
+                "--lsp",
+                "--enable-all-experimental-lsp-features",
+                "--disable-watchman"
             ],
             "command": "./bin/srb",
             "cwd": "./",
             "filetypes": [
                 "ruby"
+            ],
+            "rootPatterns": [
+                "sorbet/config"
             ],
             "initializationOptions": {},
             "settings": {}
