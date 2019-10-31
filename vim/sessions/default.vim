@@ -7,10 +7,12 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +35 vimrc
+badd +2 vimrc
+badd +15 .install.conf.yaml
 argglobal
-silent! argdel *
+%argdel
 $argadd .
+edit vimrc
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -20,16 +22,20 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 argglobal
-enew
-file NERD_tree_2
-setlocal fdm=manual
+setlocal fdm=indent
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
 setlocal fdl=10
 setlocal fml=1
 setlocal fdn=10
-setlocal nofen
+setlocal fen
+let s:l = 3 - ((2 * winheight(0) + 27) / 55)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+3
+normal! 0
 tabnext 1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

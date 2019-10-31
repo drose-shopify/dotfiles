@@ -27,6 +27,7 @@ endif
     Plug 'SirVer/ultisnips'
     Plug 'sbdchd/neoformat'
     Plug 'tpope/vim-eunuch'
+    Plug 'xolox/vim-misc'
     Plug 'xolox/vim-notes'
 
 call plug#end()
@@ -171,3 +172,7 @@ let g:neoformat_verbose = 1
 "  autocmd!
 "  autocmd BufWritePre * undojoin | Neoformat
 "augroup END
+"
+
+" vim-notes configs
+let g:notes_directories = ['~/Google Drive File Stream/My Drive/Documents/Notes', '~/Documents/notes']
