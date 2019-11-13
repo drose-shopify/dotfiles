@@ -1,4 +1,5 @@
 set nocompatible
+set hidden
 
 if has('nvim')
   call plug#begin('~/.local/share/nvim/plugged')
@@ -29,5 +30,6 @@ endif
     Plug 'tpope/vim-eunuch'
     Plug 'xolox/vim-misc'
     Plug 'xolox/vim-notes'
+    Plug 'tpope/vim-dispatch'
 
 call plug#end()

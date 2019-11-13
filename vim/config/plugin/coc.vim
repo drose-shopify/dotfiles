@@ -1,3 +1,5 @@
+set hidden
+
 set nobackup
 set nowritebackup
 set cmdheight=2

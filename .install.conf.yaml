@@ -19,6 +19,7 @@
         glob: true
         path: oh-my-zsh/custom/*
     ~/.zshrc:
+    ~/.zshenv:
     ~/.rake: rake_global
     ~/.tmux.conf:
     ~/.tmuxline:
