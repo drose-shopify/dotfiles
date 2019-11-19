@@ -6,6 +6,54 @@ snippet __pry "binding.pry"
 binding.pry if true
 endsnippet
 
+snippet __class "class .. end"
+class ${1:`!v substitute(vim_snippets#Filename(), '\(_\|^\)\(.\)', '\u\2', 'g')`}
+	${2}
+end
+endsnippet
+
+snippet __class "class .. initialize .. end"
+class ${1:`!v substitute(vim_snippets#Filename(), '\(_\|^\)\(.\)', '\u\2', 'g')`}
+	def initialize(${2:args})
+		${3}
+	end
+end
+endsnippet
+
+snippet __class "class .. < ParentClass .. initialize .. end"
+class ${1:`!v substitute(vim_snippets#Filename(), '\(_\|^\)\(.\)', '\u\2', 'g')`} < ${2:ParentClass}
+	def initialize(${3:args})
+		${4}
+	end
+end
+endsnippet
+
+snippet __class "class << self .. end"
+class << ${1:self}
+	${2}
+end
+endsnippet
+
+snippet __module "module .. end"
+module ${1:`!v substitute(vim_snippets#Filename(), '\(_\|^\)\(.\)', '\u\2', 'g')`}
+	${2}
+end
+endsnippet
+
+snippet __module "module .. ClassMethods .. end"
+module ${1:`!v substitute(vim_snippets#Filename(), '\(_\|^\)\(.\)', '\u\2', 'g')`}
+	module ClassMethods
+		${2}
+	end
+	module InstanceMethods
+	end
+	def self.included(receiver)
+		receiver.extend         ClassMethods
+		receiver.send :include, InstanceMethods
+	end
+end
+endsnippet
+
 snippet __gen_taxjob "Creates a USA Tax Rate Import Job"
 # frozen_string_literal: true
 

@@ -2,16 +2,20 @@ let SessionLoad = 1
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
-cd ~/src/github.com/Shopify/shopify
+cd ~/dotfiles
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +0 components/sales/app/public/sales/order_builder/builder.rb
+badd +1 ~/dotfiles
+badd +1 vim/config/plugin/ale.vim
+badd +1 .install.conf.yaml
+badd +1 install
+badd +41 setup_macos
 argglobal
-silent! argdel *
-$argadd .
-edit components/sales/app/public/sales/order_builder/builder.rb
+%argdel
+$argadd ~/dotfiles
+edit vim/config/plugin/ale.vim
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -28,7 +32,7 @@ exe 'vert 1resize ' . ((&columns * 31 + 104) / 208)
 exe 'vert 2resize ' . ((&columns * 176 + 104) / 208)
 argglobal
 enew
-file NERD_tree_2
+file NERD_tree_1
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -47,20 +51,12 @@ setlocal fdl=10
 setlocal fml=1
 setlocal fdn=10
 setlocal fen
-4
-normal! zo
-5
-normal! zo
-6
-normal! zo
-767
-normal! zo
-let s:l = 774 - ((14 * winheight(0) + 21) / 42)
+let s:l = 6 - ((5 * winheight(0) + 26) / 53)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-774
-normal! 050|
+6
+normal! 026|
 wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 31 + 104) / 208)

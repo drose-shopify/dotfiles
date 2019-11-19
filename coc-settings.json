@@ -2,6 +2,7 @@
     "suggest.echodocSupport": true,
     "suggest.maxCompleteItemCount": 10,
     "suggest.noselect": false,
+    "diagnostic.displayByAle": true,
     "languageserver": {
         "golang": {
             "command": "gopls",
@@ -11,12 +12,13 @@
         },
         "sorbet": {
             "args": [
+                "bundle exec srb",
                 "tc",
                 "--lsp",
                 "--enable-all-experimental-lsp-features",
                 "--disable-watchman"
             ],
-            "command": "./bin/srb",
+            "command": "/opt/dev/bin/shim",
             "cwd": "./",
             "filetypes": [
                 "ruby"

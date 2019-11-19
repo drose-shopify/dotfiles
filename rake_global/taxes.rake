@@ -130,7 +130,7 @@ module TaxUtils
 
       errors_by_zip = {}
       tax_rates.each do |new_rate|
-        current_rate = ::USATaxRate.find_by(zip_code: new_rate[:zip_code])
+        current_rate = ::UsaTaxRate.find_by(zip_code: new_rate[:zip_code])
         if current_rate.blank?
           puts "usa_tax_rate table is missing zipcode: #{new_rate[:zip_code]}"
           next
@@ -177,7 +177,7 @@ module TaxUtils
       output = CSV.open(output_file, 'w')
       output << %w[zip_code difference state_sales_tax_old state_sales_tax_new county_sales_tax_old county_sales_tax_new city_sales_tax_old city_sales_tax_new total_sales_tax_old total_sales_tax_new]
       CSV.foreach(rate_file, headers: true) do |row|
-        old_row = ::USATaxRate.find_by(zip_code: row['zip_code'])
+        old_row = ::UsaTaxRate.find_by(zip_code: row['zip_code'])
 
         output_rows << {
           zip_code: old_row.zip_code,
@@ -204,10 +204,10 @@ module TaxUtils
     desc 'Imports all delta files'
     task reimport_deltas: [:environment] do
       puts "Deleting all entries in usa_tax_rates"
-      ::USATaxRate.destroy_all
+      ::UsaTaxRate.destroy_all
 
-      puts "Running import on base file #{::USATaxRate::Importer::USA_RATE_FILE_PATH}"
-      ::USATaxRate::Importer.run
+      puts "Running import on base file #{::UsaTaxRate::Importer::USA_RATE_FILE_PATH}"
+      ::UsaTaxRate::Importer.run
 
       sorted_deltas = Dir["db/avalara/delta*.csv"].sort_by do |filepath|
         filename = File.basename(filepath, '.csv')
@@ -217,7 +217,7 @@ module TaxUtils
 
       sorted_deltas.each do |delta_filepath|
         puts "Running import on delta #{File.basename(delta_filepath, '.csv')}"
-        ::USATaxRate::Importer.importdelta(delta_filepath)
+        ::UsaTaxRate::Importer.importdelta(delta_filepath)
       end
     end
 
@@ -265,7 +265,7 @@ module TaxUtils
 
       revert_csv << %w[zip_code state_abbrev county_name city_name state_sales_tax county_sales_tax city_sales_tax total_sales_tax tax_shipping_alone tax_shipping_and_handling_together]
       delta_csv << %w[zip_code state_abbrev county_name city_name state_sales_tax county_sales_tax city_sales_tax total_sales_tax tax_shipping_alone tax_shipping_and_handling_together]
-      ::USATaxRate.where(state_abbrev: 'CA').each do |rate_row|
+      ::UsaTaxRate.where(state_abbrev: 'CA').each do |rate_row|
         next unless county_taxes.key?(rate_row.county_name)
 
         state_tax = rate_row.state_sales_tax.to_d
@@ -302,7 +302,7 @@ module TaxUtils
         revert_csv << %w[zip_code state_abbrev county_name city_name state_sales_tax county_sales_tax city_sales_tax total_sales_tax tax_shipping_alone tax_shipping_and_handling_together]
         delta_csv << %w[zip_code state_abbrev county_name city_name state_sales_tax county_sales_tax city_sales_tax total_sales_tax tax_shipping_alone tax_shipping_and_handling_together]
         rates.each do |state, state_info|
-          state_data = ::USATaxRate.where(state_abbrev: state.upcase)
+          state_data = ::UsaTaxRate.where(state_abbrev: state.upcase)
           state_data.each do |old_rate|
             new_rate = old_rate.dup
 

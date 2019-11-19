@@ -26,10 +26,16 @@ endif
     Plug 'peitalin/vim-jsx-typescript'
     Plug 'HerringtonDarkholme/yats.vim'
     Plug 'SirVer/ultisnips'
-    Plug 'sbdchd/neoformat'
     Plug 'tpope/vim-eunuch'
     Plug 'xolox/vim-misc'
     Plug 'xolox/vim-notes'
     Plug 'tpope/vim-dispatch'
+    Plug 'radenling/vim-dispatch-neovim'
+    Plug 'tpope/vim-dadbod'
+    Plug 'tpope/vim-jdaddy'
+    Plug 'tpope/vim-speeddating'
+    Plug 'svermeulen/vim-subversive'
+    Plug 'svermeulen/vim-yoink'
+    Plug 'dense-analysis/ale'
 
 call plug#end()

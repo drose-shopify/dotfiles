@@ -12,8 +12,8 @@
     filetype indent on
     filetype plugin on
     set autoindent
-    " remove trailing whitespace on save
-    autocmd BufWritePre * :%s/\s\+$//e
+    " remove trailing whitespace on save - now handled by ale plugin
+    " autocmd BufWritePre * :%s/\s\+$//e
 " }}}
 "Searching {{{
     set ignorecase
@@ -34,5 +34,3 @@
     set wildmenu
     set lazyredraw
 " }}}
-
-

@@ -37,3 +37,5 @@ sudo python3 -m spacy download en
 sudo python3 -m spacy download en_core_web_lg
 pip3 install pandas
 pip3 install --user neovim
+
+brew install yamllint
