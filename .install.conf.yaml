@@ -1,13 +1,13 @@
 - defaults:
     link:
-        create: true
-        relink: true
+      create: true
+      relink: true
 
-- clean: ['~', '~/.config']
+- clean: ["~", "~/.config"]
 
 - link:
     ~/.aprc:
-    ~/.dotfiles: ''
+    ~/.dotfiles: ""
     ~/.gitignore:
     ~/.gitconfig:
     ~/.git:
@@ -16,27 +16,29 @@
     ~/.vimrc:
     ~/.pryrc:
     ~/.oh-my-zsh/custom:
-        glob: true
-        path: oh-my-zsh/custom/*
+      glob: true
+      path: oh-my-zsh/custom/*
     ~/.zshrc:
     ~/.zshenv:
     ~/.rake: rake_global
     ~/.tmux.conf:
     ~/.tmuxline:
-    ~/.ctags.d/default.ctags: 'ctags'
-    ~/.config/nvim/init.vim: 'init.vim'
-    ~/.config/nvim/coc-settings.json: 'coc-settings.json'
-    ~/.config/solargraph/config.yml: 'solargraph.yml'
+    ~/.ctags.d/default.ctags: "ctags"
+    ~/.config/nvim/init.vim: "init.vim"
+    ~/.config/nvim/coc-settings.json: "coc-settings.json"
+    ~/.config/solargraph/config.yml: "solargraph.yml"
     ~/.config/nvim/UltiSnips:
       create: true
       glob: true
       path: snippets/ultisnips/*
+    ~/.config/fish:
+      glob: true
+      path: config/fish/*
     ~/.rgignore:
 
 - shell:
     - git update-submodules
-    -
-      command: [./fonts/install.sh, Install fonts]
+    - command: [./fonts/install.sh, Install fonts]
       stdin: true
       stdout: true
       stderr: true

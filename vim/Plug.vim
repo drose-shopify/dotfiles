@@ -37,5 +37,6 @@ endif
     Plug 'svermeulen/vim-subversive'
     Plug 'svermeulen/vim-yoink'
     Plug 'dense-analysis/ale'
+    Plug 'dag/vim-fish'
 
 call plug#end()
