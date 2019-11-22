@@ -21,16 +21,21 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 mkdir -p ~/.config/nvim/bundle
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.config/nvim/bundle/Vundle.vim
 
+## Install FISH && Oh-My-Fish
+echo “/usr/local/bin/fish” | sudo tee -a /etc/shells
+curl -L https://get.oh-my.fish | fish
+chsh -s /usr/local/bin/fish
+
 ## Other Installs
-brew cask install sequel-pro
-brew cask install visual-studio-code
-brew install httpie
-brew install fzf
+# brew cask install sequel-pro
+# brew cask install visual-studio-code
+# brew install httpie
+# brew install fzf
 $(brew --prefix)/opt/fzf/install
-brew install ripgrep
+# brew install ripgrep
 
 ## Install Python and Python Libs
-brew install python
+# brew install python
 
 pip3 install -U spacy
 sudo python3 -m spacy download en
@@ -38,4 +43,9 @@ sudo python3 -m spacy download en_core_web_lg
 pip3 install pandas
 pip3 install --user neovim
 
-brew install yamllint
+# brew install yamllint
+
+
+## Shopify Setup
+
+eval "$(curl -sS https://up.dev)"

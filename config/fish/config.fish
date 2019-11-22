@@ -28,6 +28,7 @@ function e; nvim $argv; end
 function b; bundle exec $argv; end
 
 # Shopify Aliases
+function dcd; dev cd $argv; end
 function ddu; dev down && dev up; end
 function dr; dev reset-railgun; end
 function pr; dev open pr; end
@@ -49,6 +50,7 @@ make_completion g 'git'
 make_completion d 'dev'
 make_completion e 'nvim'
 make_completion b 'bundle exec'
+make_completion dcd 'dev cd'
 
 # iterm2
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
