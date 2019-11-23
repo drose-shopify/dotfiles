@@ -8,6 +8,7 @@ set -x GPG_TTY (tty)
 set -x GREP_COLOR "1;37;45"
 set -x LANG en_US.UTF-8
 set -x LC_ALL en_US.UTF-8
+set -x LSCOLORS "Hx"
 
 fish_vi_key_bindings
 set -g __fish_vi_mode 1

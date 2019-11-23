@@ -1,4 +1,5 @@
 {
+    "coc.preferences.currentFunctionSymbolAutoUpdate": true,
     "suggest.echodocSupport": true,
     "suggest.maxCompleteItemCount": 10,
     "suggest.noselect": false,
@@ -30,7 +31,7 @@
             "settings": {}
         }
     },
-    "solargraph.commandPath": "/Users/davidrose/.gem/ruby/2.6.2/bin/solargraph",
+    "solargraph.commandPath": "/opt/rubies/2.6.5/bin/solargraph",
     "solargraph.useBundler": false,
     "solargraph.checkGemVersion": false,
     "solargraph.completion": true,

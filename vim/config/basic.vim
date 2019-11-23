@@ -1,7 +1,11 @@
+" Mapleader {{{
+    let mapleader=","
+" }}}
 " Colors {{{
     syntax enable
     colorscheme molokai
     set termguicolors
+    set t_Co=256
 " }}}
 " Spaces & Tabs {{{
     set tabstop=4
@@ -33,4 +37,19 @@
     set showmatch
     set wildmenu
     set lazyredraw
+" }}}
+
+set hidden
+set nobackup
+set nowritebackup
+set cmdheight=2
+set signcolumn=yes
+set updatetime=500
+
+" File Type overrides {{{
+augroup filetype_ruby
+    autocmd!
+
+    au BufRead,BufNewFile Rakefile,Capfile,Gemfile,.autotest,.irbrc,*.treetop,*.tt set ft=ruby syntax=ruby
+augroup END
 " }}}
