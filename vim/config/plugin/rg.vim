@@ -4,3 +4,5 @@ if executable('rg')
 else
     let g:ctrlp_clear_cache_on_exit = 0
 endif
+
+nnoremap <leader>/ :Rg<space>

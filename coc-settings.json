@@ -1,44 +1,51 @@
 {
-    "coc.preferences.currentFunctionSymbolAutoUpdate": true,
-    "suggest.echodocSupport": true,
-    "suggest.maxCompleteItemCount": 10,
-    "suggest.noselect": false,
-    "diagnostic.displayByAle": true,
-    "languageserver": {
-        "golang": {
-            "command": "gopls",
-            "args": [],
-            "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
-            "filetypes": ["go"]
-        },
-        "sorbet": {
-            "args": [
-                "bundle exec srb",
-                "tc",
-                "--lsp",
-                "--enable-all-experimental-lsp-features",
-                "--disable-watchman"
-            ],
-            "command": "/opt/dev/bin/shim",
-            "cwd": "./",
-            "filetypes": [
-                "ruby"
-            ],
-            "rootPatterns": [
-                "sorbet/config"
-            ],
-            "initializationOptions": {},
-            "settings": {}
-        }
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
+  "diagnostic.displayByAle": true,
+  "languageserver": {
+    "golang": {
+      "args": [],
+      "command": "gopls",
+      "filetypes": [
+        "go"
+      ],
+      "rootPatterns": [
+        "go.mod",
+        ".vim/",
+        ".git/",
+        ".hg/"
+      ]
     },
-    "solargraph.commandPath": "/opt/rubies/2.6.5/bin/solargraph",
-    "solargraph.useBundler": false,
-    "solargraph.checkGemVersion": false,
-    "solargraph.completion": true,
-    "solargraph.hover": true,
-    "solargraph.formatting": true,
-    "solargraph.symbols": true,
-    "solargraph.definitions": true,
-    "solargraph.rename": true,
-    "solargraph.references": true
+    "sorbet": {
+      "args": [
+        "bundle exec srb",
+        "tc",
+        "--lsp",
+        "--enable-all-experimental-lsp-features",
+        "--disable-watchman"
+      ],
+      "command": "/opt/dev/bin/shim",
+      "cwd": "./",
+      "filetypes": [
+        "ruby"
+      ],
+      "initializationOptions": {},
+      "rootPatterns": [
+        "sorbet/config"
+      ],
+      "settings": {}
+    }
+  },
+  "solargraph.checkGemVersion": false,
+  "solargraph.commandPath": "/opt/rubies/2.6.5/bin/solargraph",
+  "solargraph.completion": true,
+  "solargraph.definitions": true,
+  "solargraph.formatting": true,
+  "solargraph.hover": true,
+  "solargraph.references": true,
+  "solargraph.rename": true,
+  "solargraph.symbols": true,
+  "solargraph.useBundler": false,
+  "suggest.echodocSupport": true,
+  "suggest.maxCompleteItemCount": 10,
+  "suggest.noselect": false
 }

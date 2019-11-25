@@ -30,4 +30,9 @@ augroup general_config
   nnoremap Y y$
 " }}}
 
+" Directory / Editing {{{
+    "create file from directory of current buffer
+    nnoremap <leader>ef :e %:h/
+" }}}
+
 augroup END
