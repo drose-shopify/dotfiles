@@ -21,9 +21,8 @@ vim +PlugUpdate +qall
 nvim +PlugInstall +qall
 nvim +PlugUpdate +qall
 
-vim -c 'CocInstall -sync coc-solargraph coc-json coc-rls coc-tsserver coc-yaml coc-highlight coc-ultisnips coc-snippets coc-lists|q'
-nvim -c 'CocInstall -sync coc-solargraph coc-json coc-rls coc-tsserver coc-yaml coc-highlight coc-ultisnips coc-snippets coc-lists|q'
+vim -c 'CocInstall -sync coc-solargraph coc-json coc-rls coc-tsserver coc-yaml coc-highlight coc-neosnippet coc-snippets coc-lists|q'
+nvim -c 'CocInstall -sync coc-solargraph coc-json coc-rls coc-tsserver coc-yaml coc-highlight coc-neosnippet coc-snippets coc-lists|q'
 vim -c 'CocUpdateSync|q'
 nvim -c 'CocUpdateSync|q'
 #~/.config/nvim/bundle/LanguageClient-neovim/install.sh
-

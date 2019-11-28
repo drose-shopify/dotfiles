@@ -45,6 +45,7 @@ set nowritebackup
 set cmdheight=2
 set signcolumn=yes
 set updatetime=500
+set shell=/bin/bash
 
 " File Type overrides {{{
 augroup filetype_ruby

@@ -8,23 +8,12 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 ~/dotfiles
-badd +29 ~/.config/nvim/coc-settings.json
-badd +32 vim/config/bindings.vim
-badd +8 vim/config/plugin/rg.vim
-badd +13 vim/config/plugin/nerdtree.vim
-badd +1 vim/config/plugin/lightline.vim
-badd +8 vim/config/plugin/fzf.vim
-badd +5 vim/config/plugin/coc.vim
-badd +4 vim/config/plugin/ale.vim
-badd +1 vim/config/plugin/ultisnips.vim
-badd +1 vim/config/basic.vim
-badd +1 vim/config/plugin/vim_notes.vim
-badd +1 vim/config/plugin/vim_subversive.vim
-badd +1 vim/config/plugin/vim_yoink.vim
+badd +37 vim/config/bindings.vim
+badd +0 vim/syntax/shopifydev.vim
 argglobal
 %argdel
 $argadd ~/dotfiles
-edit vim/config/plugin/coc.vim
+edit vim/syntax/shopifydev.vim
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -59,21 +48,22 @@ setlocal fdn=10
 setlocal nofen
 wincmd w
 argglobal
-if bufexists("~/.local/share/nvim/plugged/coc.nvim/doc/coc.txt") | buffer ~/.local/share/nvim/plugged/coc.nvim/doc/coc.txt | else | edit ~/.local/share/nvim/plugged/coc.nvim/doc/coc.txt | endif
-setlocal fdm=marker
+if bufexists("/usr/local/Cellar/neovim/0.4.3/share/nvim/runtime/doc/syntax.txt") | buffer /usr/local/Cellar/neovim/0.4.3/share/nvim/runtime/doc/syntax.txt | else | edit /usr/local/Cellar/neovim/0.4.3/share/nvim/runtime/doc/syntax.txt | endif
+setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
 setlocal fdl=10
 setlocal fml=1
 setlocal fdn=10
-setlocal fen
-let s:l = 996 - ((25 * winheight(0) + 13) / 27)
+setlocal nofen
+silent! normal! zE
+let s:l = 230 - ((25 * winheight(0) + 13) / 27)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-996
-normal! 0
+230
+normal! 025|
 wincmd w
 argglobal
 setlocal fdm=indent
@@ -84,16 +74,14 @@ setlocal fdl=10
 setlocal fml=1
 setlocal fdn=10
 setlocal fen
-2
-normal! zo
-let s:l = 47 - ((25 * winheight(0) + 13) / 27)
+let s:l = 7 - ((3 * winheight(0) + 13) / 27)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-47
-normal! 0
+7
+normal! 040|
 wincmd w
-3wincmd w
+2wincmd w
 exe 'vert 1resize ' . ((&columns * 31 + 118) / 236)
 exe '2resize ' . ((&lines * 27 + 29) / 58)
 exe 'vert 2resize ' . ((&columns * 204 + 118) / 236)

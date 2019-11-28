@@ -1,0 +1,14 @@
+snippet __frozen
+	# frozen_string_literal: true
+snippet __gen_taxjob
+    # frozen_string_literal: true
+
+    class UsaTaxRateImportJobDelta`strftime("%Y%m%d")` < MaintenanceTaskMigration
+      mark_as_master_migration!
+      self.author_github_username = "drose-shopify"
+
+      def self.up
+        file_path = File.join(Rails.root, 'db/avalara/delta_`tolower(strftime("%b_%d_%Y"))`.csv').freeze
+        push(USATaxRateImportJob, delta_file: file_path)
+      end
+    end

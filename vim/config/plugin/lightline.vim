@@ -9,8 +9,10 @@ augroup lightline_config
         if !exists('b:git_dir')
             return ''
         endif
-        " return "\ue0a0 %{fugitive#head()}"
-        return "git:(%{fugitive#head()})"
+        if !exists('b:drose_git_branch')
+            let b:drose_git_branch = fugitive#head()
+        end
+        return "git:(%{b:drose_git_branch})"
     endfunction
 
     let g:lightline = {}

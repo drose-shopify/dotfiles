@@ -16,6 +16,7 @@ set -g __fish_vi_mode 1
 # Paths
 test -d /usr/local/share ; and set PATH /usr/local/share $PATH
 test -d $HOME/go ; and set GOPATH $HOME/go
+test -d /usr/local/sbin ; and set PATH /usr/local/sbin $PATH
 
 if test -f /opt/dev/dev.fish
   source /opt/dev/dev.fish

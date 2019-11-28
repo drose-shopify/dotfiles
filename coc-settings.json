@@ -1,5 +1,7 @@
 {
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
+  "coc.preferences.hoverTarget": "float",
+  "coc.preferences.useQuickfixForLocations": true,
   "diagnostic.displayByAle": true,
   "languageserver": {
     "golang": {
@@ -17,14 +19,15 @@
     },
     "sorbet": {
       "args": [
-        "bundle exec srb",
+          "bundle",
+        "exec",
+        "srb",
         "tc",
-        "--lsp",
         "--enable-all-experimental-lsp-features",
-        "--disable-watchman"
+        "--lsp",
+        "--disable-watchman",
       ],
       "command": "/opt/dev/bin/shim",
-      "cwd": "./",
       "filetypes": [
         "ruby"
       ],
@@ -32,9 +35,10 @@
       "rootPatterns": [
         "sorbet/config"
       ],
-      "settings": {}
+      "settings": {},
     }
   },
+  "snippets.ultisnips.enable": false,
   "solargraph.checkGemVersion": false,
   "solargraph.commandPath": "/opt/rubies/2.6.5/bin/solargraph",
   "solargraph.completion": true,
@@ -45,6 +49,9 @@
   "solargraph.rename": true,
   "solargraph.symbols": true,
   "solargraph.useBundler": false,
+  "suggest.autoTrigger": [
+    "trigger"
+  ],
   "suggest.echodocSupport": true,
   "suggest.maxCompleteItemCount": 10,
   "suggest.noselect": false
