@@ -44,7 +44,6 @@ call plug#begin($VIMHOME . 'plugged')
     Plug 'radenling/vim-dispatch-neovim'
     Plug 'tpope/vim-dadbod'
     Plug 'tpope/vim-speeddating'
-    Plug 'tpope/vim-jdaddy'
     Plug 'svermeulen/vim-subversive'
     Plug 'svermeulen/vim-yoink'
     Plug 'junegunn/vim-easy-align'
@@ -53,8 +52,15 @@ call plug#begin($VIMHOME . 'plugged')
     Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'
 
+    " Text Objects
+    Plug 'machakann/vim-textobj-delimited'
+    Plug 'tpope/vim-jdaddy'
+
     "UI
     Plug 'itchyny/lightline.vim'
     Plug 'maximbaz/lightline-ale'
+
+    " Work Related
+    Plug 'Shopify/shadowenv.vim'
 
 call plug#end()

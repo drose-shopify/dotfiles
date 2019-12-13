@@ -39,4 +39,19 @@ augroup general_config
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
+
+    " Copy into clipboard
+    nnoremap <leader>cp :set operatorfunc=<SID>ClipboardOperator<cr>g@
+    vnoremap <leader>cp :<c-u>call <SID>ClipboardOperator(visualmode())<cr>
+
+    function! s:ClipboardOperator(type)
+        if a:type ==# 'v'
+            exec "normal! `<v`>\"+y"
+        elseif a:type ==# 'char'
+            exec "normal! `[v`]\"+y"
+        else
+            return
+        endif
+    endfunction
+
 augroup END

@@ -1,5 +1,4 @@
 {
-  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
   "coc.preferences.hoverTarget": "float",
   "coc.preferences.useQuickfixForLocations": true,
   "diagnostic.displayByAle": true,

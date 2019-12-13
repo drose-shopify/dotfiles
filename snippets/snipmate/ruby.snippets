@@ -9,6 +9,14 @@ snippet __gen_taxjob
 
       def self.up
         file_path = File.join(Rails.root, 'db/avalara/delta_`tolower(strftime("%b_%d_%Y"))`.csv').freeze
-        push(USATaxRateImportJob, delta_file: file_path)
+        push(UsaTaxRateImportJob, delta_file: file_path)
       end
     end
+snippet __sv
+sig { void }
+snippet __slns
+T.let(${1}, T.nilable(String))
+snippet __sls
+T.let(${1}, String)
+snippet __sns
+T.nilable(String)

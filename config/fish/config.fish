@@ -35,6 +35,12 @@ function ddu; dev down && dev up; end
 function dr; dev reset-railgun; end
 function pr; dev open pr; end
 function dfmt; dev style --include-branch-commits; end
+function gen_rate_job
+    set -l date (date +'%Y%m%d')
+    bin/rails generate maintenance_task UsaTaxRateImportJobDelta$date
+    rm db/maintenance/maintenance/usa_tax_rate_import_job_delta{$date}_task.rb
+    rm test/unit/maintenance/usa_tax_rate_import_job_delta{$date}_task_test.rb
+end
 
 # Completions
 function make_completion --argument-names alias command

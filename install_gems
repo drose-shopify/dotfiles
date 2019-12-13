@@ -17,7 +17,6 @@ def is_installed(gem_exec, gem)
 end
 
 gems = %w(
-    bundler
     solargraph
     rubocop
     awesome_print

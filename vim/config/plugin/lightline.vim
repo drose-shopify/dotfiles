@@ -22,12 +22,9 @@ augroup lightline_config
         \   'linter_warnings': 'lightline#ale#warnings',
         \   'linter_errors': 'lightline#ale#errors',
         \   'linter_ok': 'lightline#ale#ok',
-        \   'gitbranch': 'GitBranch'
+        \   'gitbranch': 'GitBranch',
         \ }
-    let g:lightline.component_function = {
-        \   'cocstatus': 'coc#status',
-        \   'currentfunction': 'CocCurrentFunction',
-        \ }
+    let g:lightline.component_function = {}
     let g:lightline.component_type = {
         \   'linter_checking': 'left',
         \   'linter_warnings': 'warning',
@@ -37,8 +34,7 @@ augroup lightline_config
 
     let g:lightline.active = {
         \   'left': [[ 'mode', 'paste' ],
-        \           ['readonly', 'filename', 'modified','gitbranch'],
-        \           ['cocstatus', 'currentfunction']],
+        \           ['readonly', 'relativepath', 'modified','gitbranch']],
         \   'right': [[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ]]
         \ }
 
