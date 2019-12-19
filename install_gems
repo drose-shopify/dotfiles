@@ -24,8 +24,6 @@ gems = %w(
     pry-rails
     pry-nav
     pry-byebug
-    sorbet-static
-    rufo
 )
 
 rubies_dir = '/opt/rubies'

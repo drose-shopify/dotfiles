@@ -12,11 +12,13 @@ snippet __gen_taxjob
         push(UsaTaxRateImportJob, delta_file: file_path)
       end
     end
-snippet __sv
+snippet ,sv
 sig { void }
-snippet __slns
+snippet ,slns
 T.let(${1}, T.nilable(String))
-snippet __sls
+snippet ,sls
 T.let(${1}, String)
-snippet __sns
+snippet ,sns
 T.nilable(String)
+snippet ,is
+extend(T::Sig)

@@ -41,6 +41,7 @@ augroup general_config
 
 
     " Copy into clipboard
+    nnoremap <leader>crf :let @+ = expand("%")<cr>
     nnoremap <leader>cp :set operatorfunc=<SID>ClipboardOperator<cr>g@
     vnoremap <leader>cp :<c-u>call <SID>ClipboardOperator(visualmode())<cr>
 

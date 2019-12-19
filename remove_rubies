@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rm -rf /opt/rubies/*
+rm -rf ~/.gem/ruby/*
