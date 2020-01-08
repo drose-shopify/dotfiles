@@ -13,6 +13,11 @@ augroup ale_config
     let g:ale_sign_error = '>>'
 
     let g:ale_use_global_executables = 1
+    let g:ale_typescript_standard_use_global = 1
+    let g:ale_typescript_tslint_use_global = 1
+    let g:ale_typescript_tsserver_use_global = 1
+    let g:ale_typescript_tslint_executable = 'tslint'
+    let g:ale_typescript_tslint_config_path = ''
 
     let g:ale_linters = {}
     let g:ale_fixers = {}
@@ -62,8 +67,8 @@ augroup ale_config
 
         let g:ale_json_jq_options = '-S'
 
+        "  \ 'jq',
         let g:ale_fixers.json = [
-          \ 'jq',
           \ 'remove_trailing_lines',
           \ 'trim_whitespace'
           \ ]

@@ -51,14 +51,21 @@
 	frebase = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git rebase -i `echo ${HASH} | awk '{ print $1 }'`^
 [core]
 	excludesfile = ~/.gitignore
-	editor = vim
+	editor = nvim
 	commitGraph = true
 [merge]
-    tool = vimdiff
+    tool = vscode
 [push]
     default = current
 [mergetool]
+    prompt = true
     keepBackup = false
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
+[mergetool "vimdiff"]
+    cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
 [diff]
 	algorithm = patience
 [protocol]
