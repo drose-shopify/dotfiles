@@ -37,9 +37,14 @@ function pr; dev open pr; end
 function dfmt; dev style --include-branch-commits; end
 function gen_rate_job
     set -l date (date +'%Y%m%d')
-    bin/rails generate maintenance_task UsaTaxRateImportJobDelta$date
-    rm db/maintenance/maintenance/usa_tax_rate_import_job_delta{$date}_task.rb
-    rm test/unit/maintenance/usa_tax_rate_import_job_delta{$date}_task_test.rb
+    bin/rails generate maintenance_task:migration UsaTaxRateImportJobDelta$date
+end
+function mypr
+    set -l selected_pr (gh pr list --assignee 'drose-shopify' | fzf)
+    set -l pr_number (echo $selected_pr | rg -o '^\d+')
+    set -l pr_branch (echo $selected_pr | rg -o '[^\s]+$')
+    echo "Switching to $pr_branch"
+    gh pr checkout $pr_number
 end
 
 # Completions

@@ -1,5 +1,6 @@
 # === Editor ===
-Pry.editor = "vim"
+Pry.editor = "nvim"
+Pry.config.editor = 'nvim'
 
 # == Pry-Nav ==
 Pry.commands.alias_command 'c', 'continue' rescue nil
@@ -59,8 +60,8 @@ Pry.config.commands.import default_command_set
 
 #load '~/dotfiles/pry-debundle.rb'
 
-Dir[File.expand_path('~/dotfiles/pry_modules/*.rb')].each do |file| 
-  require file 
+Dir[File.expand_path('~/dotfiles/pry_modules/*.rb')].each do |file|
+  require file
 end
 
 Debundle.debundle!

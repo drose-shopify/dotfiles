@@ -24,7 +24,7 @@ augroup ale_config
 
     " Other
     let g:ale_fixers['*'] = ['remove_trailing_lines', 'trim_whitespace']
-    let g:ale_fixers.yaml = ['prettier', 'remove_trailing_lines', 'trim_whitespace']
+    let g:ale_fixers.yaml = ['remove_trailing_lines', 'trim_whitespace']
 
     " Ruby
         let g:ale_ruby_sorbet_executable = 'bundle'
