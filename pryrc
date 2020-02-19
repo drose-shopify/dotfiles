@@ -54,11 +54,6 @@ Pry.config.commands.import default_command_set
 
 # === CONVENIENCE METHODS ===
 # Stolen from https://gist.github.com/807492
-#load '~/dotfiles/pry_modules/pry_utils.rb'
-#load '~/dotfiles/pry_modules/array.rb'
-#load '~/dotfiles/pry_modules/hash.rb'
-
-#load '~/dotfiles/pry-debundle.rb'
 
 Dir[File.expand_path('~/dotfiles/pry_modules/*.rb')].each do |file|
   require file
@@ -69,9 +64,11 @@ Debundle.debundle!
 ### END debundle.rb ###
 
 # == PLUGINS ==
-=begin
-require 'pry-rails' if defined? Rails
-=end
+begin
+    require 'pry-macro'
+rescue LoadError => err
+    puts 'gem install pry-macro # <-- highly recommended'
+end
 
 # awesome_print gem: great syntax colorized printing
 # look at ~/.aprc for more settings
@@ -86,34 +83,3 @@ begin
 rescue LoadError => err
   puts "gem install awesome_print  # <-- highly recommended"
 end
-
-=begin
-begin
-    require 'hirb'
-rescue LoadError
-    puts 'gem install hirb-unicode # <-- highly recommended'
-end
-
-if defined? Hirb
-# Dirty hack to support in-session Hirb.disable/enable
-  Hirb::View.instance_eval do
-    def enable_output_method
-      @output_method = true
-      Pry.config.print = proc do |output, value|
-        Hirb::View.view_or_page_output(value) || output.puts(value.ai)
-      end
-    end
-
-    def disable_output_method
-      Pry.config.print = proc { |output, value| output.puts(value.ai) }
-      @output_method = nil
-    end
-  end
-end
-
-#begin
-#  require 'faker'
-#rescue LoadError
-#  puts 'gem install faker'
-#end
-=end

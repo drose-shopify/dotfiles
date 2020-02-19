@@ -40,7 +40,7 @@ function gen_rate_job
     bin/rails generate maintenance_task:migration UsaTaxRateImportJobDelta$date
 end
 function mypr
-    set -l selected_pr (gh pr list --assignee 'drose-shopify' | fzf)
+    set -l selected_pr (gh pr list --assignee 'drose-shopify' 2>/dev/null | fzf)
     set -l pr_number (echo $selected_pr | rg -o '^\d+')
     set -l pr_branch (echo $selected_pr | rg -o '[^\s]+$')
     echo "Switching to $pr_branch"

@@ -18,7 +18,6 @@
     },
     "sorbet": {
       "args": [
-          "bundle",
         "exec",
         "srb",
         "tc",
@@ -26,7 +25,7 @@
         "--lsp",
         "--disable-watchman",
       ],
-      "command": "/opt/dev/bin/shim",
+      "command": "bundle",
       "filetypes": [
         "ruby"
       ],
@@ -48,9 +47,7 @@
   "solargraph.rename": true,
   "solargraph.symbols": true,
   "solargraph.useBundler": false,
-  "suggest.autoTrigger": [
-    "trigger"
-  ],
+  "suggest.autoTrigger": "trigger",
   "suggest.echodocSupport": true,
   "suggest.maxCompleteItemCount": 10,
   "suggest.noselect": false

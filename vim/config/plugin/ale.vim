@@ -64,13 +64,23 @@ augroup ale_config
                     \ 'tsserver',
                     \ 'typecheck'
                     \ ]
+        let g:ale_fixers['typescriptreact'] = [
+            \ 'prettier',
+            \ 'tslint',
+            \ ]
+        let g:ale_linters['typescriptreact'] = [
+                    \ 'tslint',
+                    \ 'tsserver',
+                    \ 'typecheck'
+                    \ ]
 
         let g:ale_json_jq_options = '-S'
 
         "  \ 'jq',
         let g:ale_fixers.json = [
           \ 'remove_trailing_lines',
-          \ 'trim_whitespace'
+          \ 'trim_whitespace',
+          \ 'prettier'
           \ ]
 
     " Golang
