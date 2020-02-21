@@ -1,6 +1,20 @@
+[user]
+    email = dave.rose@shopify.com
+    name = Dave Rose
+[github]
+    user = drose-shopify
 [include]
     path = ~/.gitconfig.local
 [alias]
+    # Common
+    co = checkout
+    afwl = "!git commit --amend --no-edit && git push --force-with-lease"
+    ri = rebase -i
+    mybranches = "!f() { if test $# = 0 ; then set -- refs/remotes ; fi ; git for-each-ref --format='%(authordate:relative)\t%(refname:short)\t%(authoremail)' --sort=authordate \"$@\" | sed -ne \"s/\t<$(git config user.email)>//p\" | column -s '\t' -t ; } ; f"
+
+    # Fixes
+    change-commit = "!f() { git commit --fixup=$1 && git rebase -i --autosquash ${1}^; }; f"
+
     branch-name = "!git rev-parse --abbrev-ref HEAD"
     update-submodules = submodule update --init --recursive
     upgrade-submodules = submodule update --init --remote
@@ -27,7 +41,6 @@
     unstage = reset HEAD
     untracked-files = ls-files -o --exclude-standard
     unmerged = branch --sort=committerdate --no-merged
-    afwl = "!git commit --amend --no-edit && git push --force-with-lease"
     clean-branches = "!git checkout master && git pull && git branch | egrep -v \"(master$|\\*)\" | xargs git branch -D && git fetch --prune"
     squash = commit --amend --no-edit
     sq = commit --amend --no-edit
