@@ -2,15 +2,17 @@ let SessionLoad = 1
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
-cd ~/src/github.com/Shopify/web/app/sections/Taxes
+cd ~/dotfiles
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +1 ~/src/github.com/Shopify/web/app/sections/Taxes
+badd +1 ~/dotfiles
+badd +1 vim/config/plugin/fzf.vim
+badd +3 rgignore
 argglobal
 %argdel
-$argadd ~/src/github.com/Shopify/web/app/sections/Taxes
+$argadd ~/dotfiles
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -21,7 +23,7 @@ set winminwidth=0
 set winwidth=1
 argglobal
 enew
-setlocal fdm=indent
+setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
@@ -29,6 +31,7 @@ setlocal fdl=10
 setlocal fml=1
 setlocal fdn=10
 setlocal fen
+lcd ~/dotfiles
 tabnext 1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

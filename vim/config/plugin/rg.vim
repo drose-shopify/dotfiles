@@ -5,6 +5,8 @@ else
     let g:ctrlp_clear_cache_on_exit = 0
 endif
 
+nnoremap <C-F> :Rg!<space>
+nnoremap <leader>f :Rg! <Up><CR>
 nnoremap <leader>// :Rg<space>
 "nnoremap <expr> <leader>/w ':Rg ' . expand('<cword>') . '<cr>'
 
