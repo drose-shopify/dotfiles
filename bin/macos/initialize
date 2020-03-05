@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Setup Brew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+source ./homebrew/install
+
+# Setup dotfiles
+source ../update_symlinks
+
+# Setup Other Programs
+
+source ./setup_shell
+source ./setup_python
+
+$(brew --prefix)/opt/fzf/install
+source ../setup_vim
+source ./shopify

@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+taps = File.readlines('./taps')
+casks = File.readlines('./casks')
+packages = File.readlines('./packages')
+
+def tap_installed?(tap)
+  brew_output = `brew tap-info #{tap}`
+  brew_output.match?(/Not installed$/i)
+end
+
+def package_installed?(package)
+  brew_output = `brew list -1 --versions #{package}`
+  !brew_output.empty?
+end
+
+def cask_installed?(cask)
+  brew_output = `brew cask list #{cask}`
+  !brew_output.empty?
+end
+
+p 'Install taps...'
+taps.each do |tap|
+  if tap_installed?(tap)
+    p "#{tap} already installed"
+    next
+  end
+
+  `brew tap #{tap}`
+end
+
+p 'Updating homebrew'
+`brew update`
+
+p 'Install packages...'
+packages.each do |package|
+  if package_installed?(package)
+    `brew upgrade #{package}`
+  else
+    `brew install #{package}`
+  end
+end
+
+p 'Install casks...'
+casks.each do |cask|
+  if cask_installed?(cask)
+    `brew cask upgrade #{cask}`
+  else
+    `brew cask install #{cask}`
+  end
+end

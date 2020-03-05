@@ -1,0 +1,6 @@
+#!/bin/bash
+
+pip3 install -U spacy
+sudo python3 -m spacy download en
+sudo python3 -m spacy download en_core_web_lg
+pip3 install pandas

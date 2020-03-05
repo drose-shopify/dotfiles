@@ -1,0 +1,3 @@
+#!/bin/bash
+
+eval "$(curl -sS https://up.dev)"
