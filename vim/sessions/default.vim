@@ -8,28 +8,28 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 ~/dotfiles
-badd +4 setup_macos
-badd +1 bin/macos/fonts/list
-badd +6 bin/macos/initialize
-badd +2 bin/macos/casks
-badd +6 bin/macos/brew_packages
-badd +2 bin/macos/taps
-badd +2 bin/macos/install_brews
-badd +2 bin/macos/homebrew/install_taps
+badd +47 .install.conf.yaml
+badd +1 bin/setup_vim
+badd +12 bin/update_symlinks
+badd +1 update_python_pkgs
+badd +1 remove_rubies
+badd +1 iterate_rubies
+badd +40 install_gems
 badd +1 install-debase
-badd +1 bin/macos/homebrew/casks
+badd +1 install_gems_chruby
+badd +1 init.vim
+badd +1 gitignore
+badd +1 ctags
+badd +1 brew_list
+badd +6 brew_casks
 argglobal
 %argdel
 $argadd ~/dotfiles
-edit bin/macos/homebrew/install_taps
+edit bin/update_symlinks
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
 1wincmd h
-wincmd w
-wincmd _ | wincmd |
-split
-1wincmd k
 wincmd w
 set nosplitbelow
 set nosplitright
@@ -39,10 +39,7 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 exe 'vert 1resize ' . ((&columns * 31 + 118) / 236)
-exe '2resize ' . ((&lines * 22 + 23) / 47)
 exe 'vert 2resize ' . ((&columns * 204 + 118) / 236)
-exe '3resize ' . ((&lines * 21 + 23) / 47)
-exe 'vert 3resize ' . ((&columns * 204 + 118) / 236)
 argglobal
 enew
 file NERD_tree_1
@@ -64,35 +61,15 @@ setlocal fdl=10
 setlocal fml=1
 setlocal fdn=10
 setlocal fen
-let s:l = 1 - ((0 * winheight(0) + 11) / 22)
+let s:l = 12 - ((11 * winheight(0) + 22) / 44)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
-wincmd w
-argglobal
-if bufexists("bin/macos/install_brews") | buffer bin/macos/install_brews | else | edit bin/macos/install_brews | endif
-setlocal fdm=indent
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=10
-setlocal fml=1
-setlocal fdn=10
-setlocal fen
-let s:l = 2 - ((1 * winheight(0) + 10) / 21)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-2
+12
 normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 31 + 118) / 236)
-exe '2resize ' . ((&lines * 22 + 23) / 47)
 exe 'vert 2resize ' . ((&columns * 204 + 118) / 236)
-exe '3resize ' . ((&lines * 21 + 23) / 47)
-exe 'vert 3resize ' . ((&columns * 204 + 118) / 236)
 tabnext 1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
