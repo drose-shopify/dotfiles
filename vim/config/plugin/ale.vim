@@ -83,6 +83,14 @@ augroup ale_config
           \ 'prettier'
           \ ]
 
+    " scss"
+    let g:ale_fixers.scss = [
+                \ 'remove_trailing_lines',
+                \ 'trim_whitespace',
+                \ 'prettier',
+                \ 'stylelint'
+                \ ]
+
     " Golang
     let g:ale_fixers.go = [
           \ 'gofmt',

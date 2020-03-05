@@ -6,15 +6,8 @@
     "golang": {
       "args": [],
       "command": "gopls",
-      "filetypes": [
-        "go"
-      ],
-      "rootPatterns": [
-        "go.mod",
-        ".vim/",
-        ".git/",
-        ".hg/"
-      ]
+      "filetypes": ["go"],
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"]
     },
     "sorbet": {
       "args": [
@@ -23,17 +16,13 @@
         "tc",
         "--enable-all-experimental-lsp-features",
         "--lsp",
-        "--disable-watchman",
+        "--disable-watchman"
       ],
       "command": "bundle",
-      "filetypes": [
-        "ruby"
-      ],
+      "filetypes": ["ruby"],
       "initializationOptions": {},
-      "rootPatterns": [
-        "sorbet/config"
-      ],
-      "settings": {},
+      "rootPatterns": ["sorbet/config"],
+      "settings": {}
     }
   },
   "snippets.ultisnips.enable": false,
