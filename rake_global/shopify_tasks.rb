@@ -5,11 +5,11 @@ Dir.chdir(shopify_root)
 require File.join(shopify_root, 'config', 'application')
 Rails.application.load_tasks
 
+require 'development_support'
 require 'development_support/shop_builder'
 require 'development_support/exchange_rate_setup'
 require 'development_support/gateway_setup'
 require 'development_support/resource_feedbacks_helper'
-require 'development_support/wedge'
 require 'rake_task_with_pod_selection'
 
 module ShopifyHelper
