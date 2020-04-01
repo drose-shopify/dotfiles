@@ -129,10 +129,28 @@ module AvalaraTasks
       end
     end
 
+    desc "Update shop for Avalara"
+    task update_shop: [:environment] do
+      shop = shop_from_env
+      condensed_date = Date.today.strftime('%Y%m%d')
+
+      shop.address1 = '85 Willis Way'
+      shop.city = 'Waterloo'
+      shop.province = 'Ontario'
+      shop.country = 'CA'
+      shop.zip = 'N2H3V1'
+      shop.order_number_format = "drose-#{condensed_date}-\#{{number}}"
+
+      shop.save!(validate: false)
+    end
+
     desc "Setup data and enable Avalara"
     unpodded_task setup: [:environment] do
       puts "Enabling Avalara"
       Rake::Task['avalara:enable'].invoke
+
+      puts "Updating shop information"
+      Rake::Task['avalara:update_shop'].invoke
 
       puts "Setup shipping"
       Rake::Task['avalara:setup_shipping'].invoke
