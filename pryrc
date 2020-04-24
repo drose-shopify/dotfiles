@@ -13,7 +13,11 @@ Pry.config.ls.public_method_color = :green
 Pry.config.ls.protected_method_color = :yellow
 Pry.config.ls.private_method_color = :bright_black
 
-
+if defined?(PrySorbet)
+  Pry.hooks.add_hook(:before_session, "sorbet-unwrap") do |output, binding, pry|
+    pry.run_command "sorbet-unwrap"
+  end
+end
 
 # === Custom Commands ===
 default_command_set = Pry::CommandSet.new do
@@ -59,7 +63,11 @@ Dir[File.expand_path('~/dotfiles/pry_modules/*.rb')].each do |file|
   require file
 end
 
-Debundle.debundle!
+begin
+    Debundle.debundle!
+rescue StandardError => err
+    puts "Failed to debundle"
+end
 
 ### END debundle.rb ###
 

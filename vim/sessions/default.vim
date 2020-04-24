@@ -8,28 +8,19 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 ~/dotfiles
-badd +47 .install.conf.yaml
-badd +1 bin/setup_vim
-badd +12 bin/update_symlinks
-badd +1 update_python_pkgs
-badd +1 remove_rubies
-badd +1 iterate_rubies
-badd +40 install_gems
-badd +1 install-debase
-badd +1 install_gems_chruby
-badd +1 init.vim
-badd +1 gitignore
-badd +1 ctags
-badd +1 brew_list
-badd +6 brew_casks
+badd +1 vim/config/plugin/ale.vim
 argglobal
 %argdel
 $argadd ~/dotfiles
-edit bin/update_symlinks
+edit vim/config/plugin/ale.vim
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
 1wincmd h
+wincmd w
+wincmd _ | wincmd |
+split
+1wincmd k
 wincmd w
 set nosplitbelow
 set nosplitright
@@ -38,8 +29,11 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 31 + 118) / 236)
-exe 'vert 2resize ' . ((&columns * 204 + 118) / 236)
+exe 'vert 1resize ' . ((&columns * 31 + 119) / 238)
+exe '2resize ' . ((&lines * 21 + 22) / 45)
+exe 'vert 2resize ' . ((&columns * 206 + 119) / 238)
+exe '3resize ' . ((&lines * 20 + 22) / 45)
+exe 'vert 3resize ' . ((&columns * 206 + 119) / 238)
 argglobal
 enew
 file NERD_tree_1
@@ -61,15 +55,36 @@ setlocal fdl=10
 setlocal fml=1
 setlocal fdn=10
 setlocal fen
-let s:l = 12 - ((11 * winheight(0) + 22) / 44)
+let s:l = 1 - ((0 * winheight(0) + 10) / 21)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-12
+1
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 31 + 118) / 236)
-exe 'vert 2resize ' . ((&columns * 204 + 118) / 236)
+argglobal
+if bufexists("vim/config/plugin/ale.vim") | buffer vim/config/plugin/ale.vim | else | edit vim/config/plugin/ale.vim | endif
+setlocal fdm=indent
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=10
+setlocal fml=1
+setlocal fdn=10
+setlocal fen
+let s:l = 105 - ((19 * winheight(0) + 10) / 20)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+105
+normal! 0
+wincmd w
+3wincmd w
+exe 'vert 1resize ' . ((&columns * 31 + 119) / 238)
+exe '2resize ' . ((&lines * 21 + 22) / 45)
+exe 'vert 2resize ' . ((&columns * 206 + 119) / 238)
+exe '3resize ' . ((&lines * 20 + 22) / 45)
+exe 'vert 3resize ' . ((&columns * 206 + 119) / 238)
 tabnext 1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

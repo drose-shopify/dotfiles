@@ -27,7 +27,7 @@
   },
   "snippets.ultisnips.enable": false,
   "solargraph.checkGemVersion": false,
-  "solargraph.commandPath": "/opt/rubies/2.6.5/bin/solargraph",
+  "solargraph.commandPath": "solargraph",
   "solargraph.completion": true,
   "solargraph.definitions": true,
   "solargraph.formatting": true,

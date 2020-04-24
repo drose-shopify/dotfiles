@@ -134,11 +134,11 @@ module AvalaraTasks
       shop = shop_from_env
       condensed_date = Date.today.strftime('%Y%m%d')
 
-      shop.address1 = '85 Willis Way'
-      shop.city = 'Waterloo'
-      shop.province = 'Ontario'
-      shop.country = 'CA'
-      shop.zip = 'N2H3V1'
+      shop.address1 = '2-230 Hoyt St.'
+      shop.city = 'Brooklyn'
+      shop.province = 'New York'
+      shop.country = 'US'
+      shop.zip = '11217'
       shop.order_number_format = "drose-#{condensed_date}-\#{{number}}"
 
       shop.save!(validate: false)

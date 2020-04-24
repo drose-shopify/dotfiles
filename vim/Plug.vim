@@ -51,6 +51,7 @@ call plug#begin($VIMHOME . 'plugged')
     Plug 'tpope/vim-commentary'
     Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'
+    Plug 'AndrewRadev/splitjoin.vim'
 
     " Text Objects
     Plug 'machakann/vim-textobj-delimited'
