@@ -37,7 +37,19 @@ function pr; dev open pr; end
 function dfmt; dev style --include-branch-commits; end
 function gen_rate_job
     set -l date (date +'%Y%m%d')
-    bin/rails generate maintenance_task:migration UsaTaxRateImportJobDelta$date
+    bin/rails generate migration UsaTaxRateImportJobDelta$date
+end
+function copy_tax_rates
+    set -l date (date +'%b_%d_%Y' | tr '[:upper:'] '[:lower:]')
+    if test -e ~/src/github.com/Shopify/taxes/tax_rates/jurisdictions.yml
+        cp -f ~/src/github.com/Shopify/taxes/tax_rates/jurisdictions.yml ~/src/github.com/Shopify/active_tax/data/jurisdictions.yml
+    end
+    if test -e ~/src/github.com/Shopify/taxes/tax_rates/tax_rate_lookup.yml
+        cp -f ~/src/github.com/Shopify/taxes/tax_rates/tax_rate_lookup.yml ~/src/github.com/Shopify/shopify/db/data
+    end
+    if test -e ~/src/github.com/Shopify/taxes/tax_rates/data/delta_rates/delta_$date.csv
+        cp -f ~/src/github.com/Shopify/taxes/tax_rates/data/delta_rates/delta_$date.csv ~/src/github.com/Shopify/shopify/db/avalara
+    end
 end
 function mypr
     set -l selected_pr (gh pr list --assignee 'drose-shopify' 2>/dev/null | fzf)
