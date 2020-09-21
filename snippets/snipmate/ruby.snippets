@@ -12,18 +12,92 @@ snippet __gen_taxjob
         push(UsaTaxRateImportJob, delta_file: file_path)
       end
     end
+
+snippet ,abstract
+extend T::Helpers
+
+abstract!
 snippet ,sv
 sig { void }
-snippet ,slns
-T.let(${1}, T.nilable(String))
-snippet ,sls
-T.let(${1}, String)
-snippet ,sns
-T.nilable(String)
+snippet ,sl
+T.let(${1}, ${2})
+snippet ,sn
+T.nilable(${1})
+snippet ,sary
+T::Array\[${1}\]
+snippet ,sb
+T::Boolean
 snippet ,is
 extend(T::Sig)
-snippet ,spns
-sig { returns(T.nilable(String)) }
-snippet ,arns
-sig { returns(T.nilable(String)) }
-attr_reader :${1}
+snippet ,sigpv
+sig { params(${1}).void }
+snippet ,sigpr
+sig { params(${1}).returns(${2}) }
+snippet ,sigr
+sig { returns(${1}) }
+snippet ,msigpv
+sig do
+    params(
+        ${1}
+    ).void
+end
+snippet ,msigpr
+sig do
+    params(
+        ${1}
+    ).returns(${2})
+end
+snippet ,msigr
+sig do
+    returns(
+        ${1}
+    )
+end
+snippet ,asigpv
+sig { abstract.params(${1}).void }
+snippet ,asigpr
+sig { abstract.params(${1}).returns(${2}) }
+snippet ,asigr
+sig { abstract.returns(${1}) }
+snippet ,masigpv
+sig do
+    abstract.params(
+        ${1}
+    ).void
+end
+snippet ,masigpr
+sig do
+    abstract.params(
+        ${1}
+    ).returns(${2})
+end
+snippet ,masigr
+sig do
+    abstract.returns(
+        ${1}
+    )
+end
+snippet ,osigpv
+sig { override.params(${1}).void }
+snippet ,osigpr
+sig { override.params(${1}).returns(${2}) }
+snippet ,osigr
+sig { override.returns(${1}) }
+snippet ,mosigpv
+sig do
+    override.params(
+        ${1}
+    ).void
+end
+snippet ,mosigpr
+sig do
+    override.params(
+        ${1}
+    ).returns(${2})
+end
+snippet ,mosigr
+sig do
+    override.returns(
+        ${1}
+    )
+end

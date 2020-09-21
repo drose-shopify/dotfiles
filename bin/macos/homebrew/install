@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-taps = File.readlines('./taps')
-casks = File.readlines('./casks')
-packages = File.readlines('./packages')
+taps = File.readlines(File.join(__dir__, './taps'))
+casks = File.readlines(File.join(__dir__, './casks'))
+packages = File.readlines(File.join(__dir__, './packages'))
 
 def tap_installed?(tap)
   brew_output = `brew tap-info #{tap}`

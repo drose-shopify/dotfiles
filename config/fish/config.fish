@@ -17,6 +17,7 @@ set -g __fish_vi_mode 1
 test -d /usr/local/share ; and set PATH /usr/local/share $PATH
 test -d $HOME/go ; and set GOPATH $HOME/go
 test -d /usr/local/sbin ; and set PATH /usr/local/sbin $PATH
+test -d $HOME/.ejson/keys ; and set EJSON_KEYDIR $HOME/.ejson/keys
 
 if test -f /opt/dev/dev.fish
   source /opt/dev/dev.fish
@@ -57,6 +58,24 @@ function mypr
     set -l pr_branch (echo $selected_pr | rg -o '[^\s]+$')
     echo "Switching to $pr_branch"
     gh pr checkout $pr_number
+end
+function new_dungeondraft
+    mkdir data
+    mkdir data/tilesets
+    mkdir data/walls
+    mkdir textures
+    mkdir textures/objects
+    mkdir textures/materials
+    mkdir textures/paths
+    mkdir textures/portals
+    mkdir textures/terrain
+    mkdir textures/tilesets
+    mkdir textures/tilesets/simple
+    mkdir textures/patterns
+    mkdir textures/patterns/colorable
+    mkdir textures/patterns/normal
+    mkdir textures/walls
+    mkdir textures/lights
 end
 
 # Completions

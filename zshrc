@@ -37,9 +37,9 @@ source $ZSH/oh-my-zsh.sh
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
 
 export GOPATH=$HOME/go
+export EJSON_KEYDIR=$HOME/.ejson/keys
 export PATH="/usr/local/share:$PATH"
 export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs --hidden'
 export KEYTIMEOUT=1
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-

@@ -56,4 +56,14 @@ class PryUtils
       end
     end
   end
+
+  def self.pbcopy(input)
+    str = input.to_s
+    IO.popen('pbcopy', 'w') { |f| f << str }
+    str
+  end
+
+  def self.pbpaste
+    `pbpaste`
+  end
 end

@@ -1,4 +1,6 @@
 augroup coc_config
+    let g:coc_node_path = '/usr/local/bin/node'
+
     function! CocCurrentFunction()
         return get(b:, 'coc_current_function', '')
     endfunction

@@ -47,6 +47,9 @@ set signcolumn=yes
 set updatetime=500
 set shell=/bin/bash
 
+" forces yank to copy to both the registers and clipboard
+set clipboard=unnamed
+
 " File Type overrides {{{
 augroup filetype_ruby
     autocmd!
