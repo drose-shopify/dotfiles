@@ -25,6 +25,7 @@ call plug#begin($VIMHOME . 'plugged')
     Plug 'HerringtonDarkholme/yats.vim' "Yet another typscript syntax
     Plug 'dag/vim-fish'
     Plug 'jparise/vim-graphql'
+    Plug 'udalov/kotlin-vim'
 
     "Version Control
     Plug 'tpope/vim-fugitive'

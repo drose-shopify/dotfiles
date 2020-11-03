@@ -1,6 +1,8 @@
 " Select all results with <C-a>
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
 
+let g:fzf_layout = { 'down': '40%' }
+
 nn <leader>pf :GFiles<cr>
 nn <leader>pg :GFiles?<cr>
 nn <leader>pc :BCommits<cr>
@@ -45,8 +47,8 @@ endfunction
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --ignore-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0 ? fzf#vim#with_preview('up60%')
+  \           : fzf#vim#with_preview('right50%:hidden', '?'),
   \   <bang>0
   \ )
 

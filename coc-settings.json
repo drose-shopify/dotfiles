@@ -23,6 +23,10 @@
       "initializationOptions": {},
       "rootPatterns": ["sorbet/config"],
       "settings": {}
+    },
+    "kotlin": {
+      "command": "/Users/davidrose/kotlin-language-server/bin/kotlin-language-server",
+      "filetypes": ["kotlin"]
     }
   },
   "snippets.ultisnips.enable": false,
