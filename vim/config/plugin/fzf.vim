@@ -1,4 +1,12 @@
 " Select all results with <C-a>
+augroup update_bat_theme
+    autocmd!
+    autocmd colorscheme * call ToggleBatEnvVar()
+augroup end
+function ToggleBatEnvVar()
+   let $BAT_THEME='Monokai Extended'
+endfunction
+
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
 
 let g:fzf_layout = { 'down': '40%' }
@@ -47,7 +55,7 @@ endfunction
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --ignore-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up60%')
+  \   <bang>0 ? fzf#vim#with_preview({'up': '60%'})
   \           : fzf#vim#with_preview('right50%:hidden', '?'),
   \   <bang>0
   \ )
