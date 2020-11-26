@@ -2,17 +2,17 @@ let SessionLoad = 1
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
-cd ~/src/github.com/Shopify/drose-trickle-demo
+cd ~/dotfiles
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +1 ~/src/github.com/Shopify/drose-trickle-demo
-badd +0 src/main/kotlin/com/shopify/drose_trickle_demo/pipelines/help_center_touchpoints/HelpCenterSources.kt
+badd +1 ~/dotfiles
+badd +0 zshenv
 argglobal
 %argdel
-$argadd ~/src/github.com/Shopify/drose-trickle-demo
-edit src/main/kotlin/com/shopify/drose_trickle_demo/pipelines/help_center_touchpoints/HelpCenterSources.kt
+$argadd ~/dotfiles
+edit zshenv
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -25,8 +25,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 31 + 38) / 77)
-exe 'vert 2resize ' . ((&columns * 45 + 38) / 77)
+exe 'vert 1resize ' . ((&columns * 31 + 135) / 270)
+exe 'vert 2resize ' . ((&columns * 238 + 135) / 270)
 argglobal
 enew
 file NERD_tree_1
@@ -48,22 +48,16 @@ setlocal fdl=10
 setlocal fml=1
 setlocal fdn=10
 setlocal fen
-18
-normal! zo
-38
-normal! zo
-40
-normal! zo
-let s:l = 41 - ((11 * winheight(0) + 11) / 22)
+let s:l = 1 - ((0 * winheight(0) + 26) / 52)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-41
+1
 normal! 0
 wincmd w
 2wincmd w
-exe 'vert 1resize ' . ((&columns * 31 + 38) / 77)
-exe 'vert 2resize ' . ((&columns * 45 + 38) / 77)
+exe 'vert 1resize ' . ((&columns * 31 + 135) / 270)
+exe 'vert 2resize ' . ((&columns * 238 + 135) / 270)
 tabnext 1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
