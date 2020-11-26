@@ -1,0 +1,67 @@
+snippet __monosource
+object ${1:source_name} {
+	private val payloadSchema: Schema = Schema.builder()
+		.build()
+
+	val schema: Schema = Schema.builder()
+		.addFields(payloadSchema.fields)
+		.addInt64Field("event_timestamp")
+		.build()
+		.setUUID()
+
+	class Decorate : DoFn<Row, Row>() {
+		@ProcessElement
+		fun process(@Element result: Row, c: ProcessContext) {
+			val payload = result.getRow("payload")!!
+			c.output(Row.withSchema(schema)
+					.addValue(result.getDateTime("message_timestamp")!!.millis)
+					.build())
+		}
+	}
+
+	fun of(pipeline: Pipeline, window: Window<Row>): PCollection<Row> {
+		val conf = Config.load()
+		val read = Monorail.readEvents(conf.kafkaAggregate())
+				.withRegistryToken(conf.secrets.get("monorail-registry-token")!!)
+				.withTopic("${2:monorail_topic}")
+				.fromKafka()
+				.withAutoOffset(AutoOffset.Earliest)
+				.withoutMetadata()
+
+		return pipeline.apply("${3:source_name}", read)
+				.apply(Values.create())
+				.apply("DECORATE", ParDo.of(Decorate()))
+				.setCoder(RowCoder.of(schema))
+				.apply("SELECT_FIELDS", Select.of(schema))
+				.apply("WINDOWING", window)
+	}
+}
+endsnippet
+
+snippet ,s
+.add${1:type}Field("${2:field_name}")
+endsnippet
+snippet ,sn
+.addNullableField("${1:field_name}", Schema.FieldType.${2:type})
+endsnippet
+snippet ,sns
+.addNullableField("${1:field_name}", Schema.FieldType.STRING)
+endsnippet
+snippet ,ss
+.addStringField("${1:field_name}")
+endsnippet
+snippet ,sl
+.addInt64Field("${1:field_name}")
+endsnippet
+snippet ,snl
+.addNullableField("${1:field_name}", Schema.FieldType.INT64)
+endsnippet
+snippet ,as
+.addValue(${1:row}.getString("${2:field_name}"))
+endsnippet
+snippet ,al
+.addValue(${1:row}.getInt64("${2:field_name}"))
+endsnippet
+snippet ,av
+.addValue(${1:row}.get${2:type}("${3:field_name}"))
+endsnippet

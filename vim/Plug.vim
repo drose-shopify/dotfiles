@@ -35,7 +35,7 @@ call plug#begin($VIMHOME . 'plugged')
     Plug 'scrooloose/nerdtree'
 
     "Productivity
-    Plug 'Shougo/neosnippet.vim'
+    Plug 'SirVer/ultisnips'
     Plug 'xolox/vim-misc'
     Plug 'xolox/vim-notes'
 

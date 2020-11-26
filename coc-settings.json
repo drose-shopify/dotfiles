@@ -40,7 +40,7 @@
   "solargraph.rename": true,
   "solargraph.symbols": true,
   "solargraph.useBundler": false,
-  "suggest.autoTrigger": "trigger",
+  "suggest.autoTrigger": "always",
   "suggest.echodocSupport": true,
   "suggest.maxCompleteItemCount": 10,
   "suggest.noselect": false

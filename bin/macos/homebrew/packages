@@ -4,7 +4,7 @@ neovim
 ripgrep
 github/gh/gh
 fzf
-python
 yamllint
 gron
 bat
+python3
