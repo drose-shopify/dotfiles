@@ -64,7 +64,7 @@ class PryUtils
   end
 
   def self.pbcopy_json(input)
-    str = JSON.pretty_generate(input)
+    str = JSON.pretty_generate(input).undump
     IO.popen('pbcopy', 'w') { |f| f << str }
     str
   end

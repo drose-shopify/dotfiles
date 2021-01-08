@@ -64,7 +64,7 @@
 	frebase = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git rebase -i `echo ${HASH} | awk '{ print $1 }'`^
 [core]
 	excludesfile = ~/.gitignore
-	editor = nvim
+	editor = nvim --noplugin
 	commitGraph = true
 [merge]
     tool = vscode
@@ -91,5 +91,5 @@
 	insteadOf = ssh://git@github.com/Shopify/
 	insteadOf = ssh://git@github.com/shopify/
 [credential]
-	helper = 
+	helper =
 	helper = store --file /opt/dev/var/private/git_credential_store

@@ -1,69 +1,45 @@
+global !p
+import os
+from snippet_string_helpers import camelcase, pascalcase, snakecase, uppersnakecase
+
+IGNORED_DIRS = ['app', 'lib']
+
+def write_instance_vars(arglist, snip):
+	args = str(arglist).split(',')
+	for arg in args:
+		name = arg.strip().replace(':', ' ').split(' ', 1)[0]
+		if name:
+			snip += '  @{} = {}'.format(name, name)
+		else:
+			snip += ''
+
+def get_modules():
+	path = os.path.relpath(path)
+	
+endglobal
+
 snippet __frozen "# frozen string"
 # frozen_string_literal: true
+# typed: false
 endsnippet
 
 snippet __pry "binding.pry"
 binding.pry if true
 endsnippet
 
-snippet __class "class .. end"
-class ${1:`!v substitute(vim_snippets#Filename(), '\(_\|^\)\(.\)', '\u\2', 'g')`}
-	${2}
+snippet __class
+class ${1:`!p snip.rv = pascalcase(snip.basename)`}
+	$0
 end
 endsnippet
 
-snippet __class "class .. initialize .. end"
-class ${1:`!v substitute(vim_snippets#Filename(), '\(_\|^\)\(.\)', '\u\2', 'g')`}
-	def initialize(${2:args})
-		${3}
-	end
+snippet __init "def initialize ..."
+def initialize($1)`!p write_instance_vars(t[1],snip)`$0
 end
 endsnippet
 
-snippet __class "class .. < ParentClass .. initialize .. end"
-class ${1:`!v substitute(vim_snippets#Filename(), '\(_\|^\)\(.\)', '\u\2', 'g')`} < ${2:ParentClass}
-	def initialize(${3:args})
-		${4}
-	end
-end
-endsnippet
-
-snippet __class "class << self .. end"
-class << ${1:self}
-	${2}
-end
-endsnippet
-
-snippet __module "module .. end"
-module ${1:`!v substitute(vim_snippets#Filename(), '\(_\|^\)\(.\)', '\u\2', 'g')`}
-	${2}
-end
-endsnippet
-
-snippet __module "module .. ClassMethods .. end"
-module ${1:`!v substitute(vim_snippets#Filename(), '\(_\|^\)\(.\)', '\u\2', 'g')`}
-	module ClassMethods
-		${2}
-	end
-	module InstanceMethods
-	end
-	def self.included(receiver)
-		receiver.extend         ClassMethods
-		receiver.send :include, InstanceMethods
-	end
-end
-endsnippet
-
-snippet __gen_taxjob "Creates a USA Tax Rate Import Job"
-# frozen_string_literal: true
-
-class UsaTaxRateImportJobDelta`!v strftime("%Y%m%d")` < MaintenanceTaskMigration
-  mark_as_master_migration!
-  self.author_github_username = "drose-shopify"
-
-  def self.up
-    file_path = File.join(Rails.root, 'db/avalara/delta_`!v tolower(strftime("%b_%d_%Y"))`.csv').freeze
-    push(USATaxRateImportJob, delta_file: file_path)
-  end
-end
+snippet __test
+namespace `!p
+snip.rv = os.path.relpath(path)
+`
 endsnippet

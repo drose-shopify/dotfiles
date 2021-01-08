@@ -1,6 +1,7 @@
 # === Editor ===
 Pry.editor = "nvim"
 Pry.config.editor = 'nvim'
+Pry.config.history_file = '.pry_history'
 
 # == Pry-Nav ==
 Pry.commands.alias_command 'c', 'continue' rescue nil
@@ -63,11 +64,11 @@ Dir[File.expand_path('~/dotfiles/pry_modules/*.rb')].each do |file|
   require file
 end
 
-begin
-    Debundle.debundle!
-rescue StandardError => err
-    puts "Failed to debundle"
-end
+#begin
+#    Debundle.debundle!
+#rescue StandardError => err
+#    puts "Failed to debundle"
+#end
 
 ### END debundle.rb ###
 

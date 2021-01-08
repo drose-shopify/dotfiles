@@ -1,3 +1,7 @@
+global !p
+from snippet_string_helpers import camelcase, pascalcase, snakecase, uppersnakecase
+endglobal
+
 snippet __monosource
 object ${1:source_name} {
 	private val payloadSchema: Schema = Schema.builder()
@@ -34,6 +38,106 @@ object ${1:source_name} {
 				.setCoder(RowCoder.of(schema))
 				.apply("SELECT_FIELDS", Select.of(schema))
 				.apply("WINDOWING", window)
+	}
+}
+endsnippet
+
+snippet __touchsource
+object ${1:EventName} {
+	class Decorate : DoFn<Row, Row>() {
+		@ProcessElement
+		fun process(@Element result: Row, c: ProcessContext) {
+			val payload = result.getRow("payload")!!
+			val timestamp = result.getDateTime("message_timestamp")!!.millis
+			val metadata: Map<String, String> = mapOf(
+				"${7:meta_field_name}" to payload.getString("${8:meta_field}").orEmpty()${0}
+			)
+			c.output(Row.withSchema(Schemas.envelope)
+					.addValue(payload.getString("shop_id"))
+					.addValue(payload.getString("identity_uuid"))
+					.addValue(payload.getString("session_token"))
+					.addValue("support_touch")
+					.addValue("help_center_touch")
+					.addValue(timestamp)
+					.addValue(Row.withSchema(Schemas.touchPoint)
+							.addValue("${2:context}")
+							.addValue("${3:action}")
+							.addValue(payload.getString("${4:content}"))
+							.addValue(timestamp)
+							.addValue(metadata)
+							.build()
+					)
+					.build()
+			)
+		}
+	}
+
+	fun of(pipeline: Pipeline, window: Window<Row>): PCollection<Row> {
+		val conf = Config.load()
+		val read = Monorail.readEvents(conf.kafkaAggregate())
+				.withRegistryToken(conf.secrets.get("monorail-registry-token")!!)
+				.withTopic("monorail_${5:topic_name}_${6:version}")
+				.fromKafka()
+				.withAutoOffset(AutoOffset.Earliest)
+				.withoutMetadata()
+
+		return pipeline.apply("`!p snip.rv=uppersnakecase(t[1])`", read)
+				.apply(Values.create())
+				.apply("DECORATE", ParDo.of(Decorate()))
+				.setCoder(RowCoder.of(Schemas.envelope))
+				.apply("SELECT_FIELDS", Select.of(Schemas.envelope))
+				.apply("WINDOWING", window)
+	}
+}
+endsnippet
+
+snippet __innerjoin
+private class NormalizeEvent : DoFn<KV<Long, CoGbkResult>, Row>() {
+	companion object {
+		const val `!p snip.rv=uppersnakecase(t[1])`_STATE = "`!p snip.rv=snakecase(t[1])`_state"
+		const val `!p snip.rv=uppersnakecase(t[2])`_STATE = "`!p snip.rv=snakecase(t[2])`_state"
+	}
+	@StateId(`!p snip.rv=uppersnakecase(t[1])`_STATE)
+	val $1StateSpec =
+			StateSpecs.value<Row>(RowCoder.of(${4:lhsSchema}))
+
+	@StateId(`!p snip.rv=uppersnakecase(t[2])`_STATE)
+	val $2StateSpec = StateSpecs.value<Row>(RowCoder.of(${5:rhsSchema}))
+
+	fun emit($1Row: Row, $2Row: Row): Row {
+		return Row.withSchema(${3:outputSchema})
+				.build()
+	}
+
+	@ProcessElement
+	fun process(
+		@AlwaysFetched @StateId(`!p snip.rv=uppersnakecase(t[1])`_STATE) ${1:lhs}State: ValueState<Row>,
+		@AlwaysFetched @StateId(`!p snip.rb=uppersnakecase(t[2])`_STATE) ${2:rhs}State: ValueState<Row>,
+		c: ProcessContext
+	) {
+		val gbkResult = c.element()
+
+		val $1InState = $1State.read()
+		val $1InPane = gbkResult.value.getAll<Row>("${6:`!p snip.rv="KEYED_" + uppersnakecase(t[1])`}").toMutableSet()
+		val $1Row = $1InPane
+			.apply { $1InState?.let { add(it) } }
+			.maxBy { it.getInt64("event_timestamp")!! }
+			?.apply { $1State.write(this) }
+
+		val $2InState = $2State.read()
+		val $2InPane = gbkResult.value.getAll<Row>("${7:`!p snip.rv= "KEYED_" + uppersnakecase(t[2])`}").toMutableSet()
+		val $2Row = $2InPane
+			.apply { $2InState?.let { add(it) } }
+			.maxBy { it.getInt64("event_timestamp")!! }
+			?.apply { $2State.write(this) }
+
+		$1Row?.let { $1 ->
+			$2Row?.let { $2 ->
+				c.output(emit($1, $2))
+				$1State.clear()
+				$2State.clear()
+			}
+		}
 	}
 }
 endsnippet
