@@ -37,6 +37,9 @@
     ~/.config/fish:
       glob: true
       path: config/fish/*
+    ~/.config/omf:
+      glob: true
+      path: config/omf/*
     ~/.rgignore:
 
 - shell:
