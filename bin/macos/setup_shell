@@ -1,5 +1,5 @@
 #!/bin/bash
 
-echo “/usr/local/bin/fish” | sudo tee -a /etc/shells
+echo /usr/local/bin/fish | sudo tee -a /etc/shells
 curl -L https://get.oh-my.fish | fish
 chsh -s /usr/local/bin/fish

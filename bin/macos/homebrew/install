@@ -11,12 +11,12 @@ def tap_installed?(tap)
 end
 
 def package_installed?(package)
-  brew_output = `brew list -1 --versions #{package}`
+  brew_output = `brew list --versions #{package}`
   !brew_output.empty?
 end
 
 def cask_installed?(cask)
-  brew_output = `brew cask list #{cask}`
+  brew_output = `brew list --cask #{cask}`
   !brew_output.empty?
 end
 
@@ -26,6 +26,7 @@ taps.each do |tap|
     p "#{tap} already installed"
     next
   end
+  p "tapping #{tap}"
 
   `brew tap #{tap}`
 end
@@ -36,8 +37,10 @@ p 'Updating homebrew'
 p 'Install packages...'
 packages.each do |package|
   if package_installed?(package)
+    p "Upgrading #{package}"
     `brew upgrade #{package}`
   else
+    p "Installing #{package}"
     `brew install #{package}`
   end
 end
@@ -45,8 +48,10 @@ end
 p 'Install casks...'
 casks.each do |cask|
   if cask_installed?(cask)
-    `brew cask upgrade #{cask}`
+    p "Upgrading #{cask}"
+    `brew upgrade --cask #{cask}`
   else
-    `brew cask install #{cask}`
+    p "Installing #{cask}"
+    `brew install --cask #{cask}`
   end
 end

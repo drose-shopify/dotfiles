@@ -3,7 +3,10 @@
 # Setup Brew
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-source ./homebrew/install
+cd homebrew
+ruby ./install
+#source ./homebrew/install
+cd ..
 
 # Setup dotfiles
 source ../update_symlinks
