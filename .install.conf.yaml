@@ -44,7 +44,3 @@
 
 - shell:
     - git update-submodules
-    - command: [./fonts/install.sh, Install fonts]
-      stdin: true
-      stdout: true
-      stderr: true
