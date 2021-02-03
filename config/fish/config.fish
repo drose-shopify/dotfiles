@@ -36,6 +36,7 @@ function dcd; dev cd $argv; end
 function ddu; dev down && dev up; end
 function dr; dev reset-railgun; end
 function pr; dev open pr; end
+function npr; dev open pr --new; end
 function dfmt; dev style --include-branch-commits; end
 function gen_rate_job
     set -l date (date +'%Y%m%d')
