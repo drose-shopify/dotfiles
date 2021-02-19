@@ -15,7 +15,7 @@ def write_instance_vars(arglist, snip):
 
 def get_modules():
 	path = os.path.relpath(path)
-	
+
 endglobal
 
 snippet __frozen "# frozen string"
@@ -29,6 +29,12 @@ endsnippet
 
 snippet __class
 class ${1:`!p snip.rv = pascalcase(snip.basename)`}
+	$0
+end
+endsnippet
+
+snippet __testclass
+class ${1:`!p snip.rv = pascalcase(snip.basename)`} < ActiveSupport::TestCase
 	$0
 end
 endsnippet

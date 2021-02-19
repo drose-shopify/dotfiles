@@ -16,6 +16,7 @@ augroup coc_config
     nmap <silent> <leader>s :<C-u>CocList outline<cr>
     " Find symbol in current workspace
     nmap <silent> <leader>S :<C-u>CocList -I symbols<cr>
+    nmap <silent> <leader>cw :call coc#float#close_all() <cr>
 
     " Use tab for trigger completion with characters ahead and navigate.
     " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.

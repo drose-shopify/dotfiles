@@ -48,10 +48,10 @@ function copy_tax_rates
         cp -f ~/src/github.com/Shopify/taxes/tax_rates/jurisdictions.yml ~/src/github.com/Shopify/active_tax/data/jurisdictions.yml
     end
     if test -e ~/src/github.com/Shopify/taxes/tax_rates/tax_rate_lookup.yml
-        cp -f ~/src/github.com/Shopify/taxes/tax_rates/tax_rate_lookup.yml ~/src/github.com/Shopify/shopify/db/data
+        cp -f ~/src/github.com/Shopify/taxes/tax_rates/tax_rate_lookup.yml ~/src/github.com/Shopify/active_tax/data
     end
     if test -e ~/src/github.com/Shopify/taxes/tax_rates/data/delta_rates/delta_$date.csv
-        cp -f ~/src/github.com/Shopify/taxes/tax_rates/data/delta_rates/delta_$date.csv ~/src/github.com/Shopify/shopify/db/avalara
+        cp -f ~/src/github.com/Shopify/taxes/tax_rates/data/delta_rates/delta_$date.csv ~/src/github.com/Shopify/shopify/db/taxes
     end
 end
 function mypr
@@ -60,6 +60,10 @@ function mypr
     set -l pr_branch (echo $selected_pr | rg -o '[^\s]+$')
     echo "Switching to $pr_branch"
     gh pr checkout $pr_number
+end
+function fix_code
+    sudo rm -rf (xcode-select -print-path)
+    xcode-select --install
 end
 function new_dungeondraft
     mkdir data
