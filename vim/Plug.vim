@@ -65,5 +65,6 @@ call plug#begin($VIMHOME . 'plugged')
     " Work Related
     Plug 'Shopify/shadowenv.vim'
     Plug 'Shopify/vim-devilish'
+    Plug 'Shopify/vim-sorbet'
 
 call plug#end()
