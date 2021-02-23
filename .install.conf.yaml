@@ -19,9 +19,9 @@
       path: oh-my-zsh/custom/*
     ~/.zshrc:
     ~/.zshenv:
-    ~/.rake: rake_global
     ~/.tmux.conf:
     ~/.tmuxline:
+    ~/.rake: rake_global
     ~/.ctags.d/default.ctags: "ctags"
     ~/.config/nvim/init.vim: "init.vim"
     ~/.config/nvim/coc-settings.json: "coc-settings.json"

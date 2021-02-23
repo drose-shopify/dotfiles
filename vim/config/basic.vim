@@ -4,7 +4,10 @@
 " Colors {{{
     syntax enable
     colorscheme molokai
-    set termguicolors
+    set background=dark
+    if empty($SPIN)
+        set termguicolors
+    endif
     set t_Co=256
 " }}}
 " Spaces & Tabs {{{

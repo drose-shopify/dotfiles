@@ -62,8 +62,10 @@ call plug#begin($VIMHOME . 'plugged')
     Plug 'maximbaz/lightline-ale'
 
     " Work Related
-    Plug 'Shopify/shadowenv.vim'
-    Plug 'Shopify/vim-devilish'
+    if empty($SPIN)
+        Plug 'Shopify/shadowenv.vim'
+        Plug 'Shopify/vim-devilish'
+    endif
     Plug 'Shopify/vim-sorbet'
 
 call plug#end()
