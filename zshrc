@@ -10,7 +10,9 @@ export DISABLE_UNTRACKED_FILES_DIRTY="true"
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="robbyrussell"
 
-source ~/.shell/bootstrap.sh
+alias e='nvim'
+alias g='git'
+#source ~/.shell/bootstrap.sh
 #source ~/.shell/external.sh
 #source ~/.shell/aliases.sh
 
@@ -22,7 +24,6 @@ plugins=(
   gem
   node
   golang
-  shopify_dev
   zsh-completions
   zsh-syntax-highlighting
   zsh_reload
@@ -34,9 +35,11 @@ autoload -U compinit && compinit
 
 source $ZSH/oh-my-zsh.sh
 
-[ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
+if [ !$SPIN ]; then
+    [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
+    export GOPATH=$HOME/go
+fi
 
-export GOPATH=$HOME/go
 export EJSON_KEYDIR=$HOME/.ejson/keys
 export PATH="/usr/local/share:$PATH"
 export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs --hidden'

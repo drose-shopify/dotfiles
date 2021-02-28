@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if ! command -v pip3 &> /dev/null; then
-    sudo apt-get install -y python3
+    sudo apt-get install -y python3-pip
 fi
 
 if ! command -v rg &> /dev/null; then
@@ -13,19 +13,27 @@ if ! command -v fd &> /dev/null; then
 fi
 
 if ! command -v fzf &> /dev/null; then
-    sudo apt-get install -y fzf
+    git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+    "$HOME"/.fzf/install --all
 fi
 if ! command -v nvim &> /dev/null; then
     sudo apt-get install -y python3-neovim
     pip3 install --user neovim
 fi
 
+# Setup nvim
+git clone https://github.com/junegunn/vim-plug.git "$HOME/vim-plug"
+mkdir -p $HOME/.local/share/nvim/site/autoload
+cp ~/vim-plug/plug.vim $HOME/.local/share/nvim/site/autoload
+
 sudo apt-get install -y powerline fonts-powerline
 git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
+echo "source ~/dotfiles/zshrc" >> ~/.zshrc
+
 # Link dotfiles
 set -e
-CONFIG=".install.conf.yaml"
+CONFIG=".spin_install.conf.yaml"
 DOTBOT_DIR="dotbot"
 
 DOTBOT_BIN="bin/dotbot"
@@ -34,11 +42,3 @@ DOTBOT_BIN="bin/dotbot"
 #cd "${BASEDIR}"
 git submodule update --init --recursive "${DOTBOT_DIR}"
 "${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
-
-# Setup nvim
-curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-nvim +PlugInstall +qall
-nvim +PlugUpdate +qall
-nvim -c 'CocInstall -sync coc-solargraph coc-json coc-rls coc-tsserver coc-yaml coc-highlight coc-lists coc-eslint|q'
-nvim -c 'CocUpdateSync|q'

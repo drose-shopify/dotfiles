@@ -14,7 +14,8 @@
         "exec",
         "srb",
         "tc",
-        "--lsp"
+        "--lsp",
+        "--enable-all-experimental-lsp-features"
       ],
       "command": "bundle",
       "filetypes": ["ruby"],

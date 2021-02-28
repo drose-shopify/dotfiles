@@ -19,12 +19,10 @@
       force: true
       glob: true
       path: oh-my-zsh/custom/*
-    ~/.zshrc:
     ~/.zshenv:
     ~/.tmux.conf:
     ~/.tmuxline:
     ~/.rake: rake_global
-    ~/.ctags.d/default.ctags: "ctags"
     ~/.config/nvim/init.vim: "init.vim"
     ~/.config/nvim/coc-settings.json: "coc-settings.json"
     ~/.config/solargraph/config.yml: "solargraph.yml"
@@ -32,14 +30,12 @@
       create: true
       glob: true
       path: snippets/ultisnips/*
-    ~/.config/nvim/snippets:
-      create: true
-      glob: true
-      path: snippets/snipmate/*
-    ~/.config/fish:
-      glob: true
-      path: config/fish/*
     ~/.config/omf:
       glob: true
       path: config/omf/*
     ~/.rgignore:
+- shell:
+    - [echo "source $HOME/dotfiles/zshrc" >> $HOME/.zshrc, Adding to existing zshrc]
+    - [source $HOME/.zshrc, Reloading zsh]
+    - [nvim --headless -c "PlugInstall" +qall, Loading nvim plugins]
+    - [nvim --headless -c 'CocInstall -sync coc-solargraph coc-json coc-rls coc-tsserver coc-yaml coc-highlight coc-lists coc-eslint|q' +qall, Loading Coc.vim Plugins]
