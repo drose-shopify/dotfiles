@@ -38,6 +38,7 @@ function dr; dev reset-railgun; end
 function pr; dev open pr; end
 function npr; dev open pr --new; end
 function dfmt; dev style --include-branch-commits; end
+function sda; spin destroy --all; end
 function gen_rate_job
     set -l date (date +'%Y%m%d')
     bin/rails generate migration UsaTaxRateImportJobDelta$date

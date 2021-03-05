@@ -12,9 +12,9 @@ ZSH_THEME="robbyrussell"
 
 alias e='nvim'
 alias g='git'
-#source ~/.shell/bootstrap.sh
+source ~/.shell/bootstrap.sh
 #source ~/.shell/external.sh
-#source ~/.shell/aliases.sh
+source ~/.shell/aliases.sh
 
 plugins=(
   git
