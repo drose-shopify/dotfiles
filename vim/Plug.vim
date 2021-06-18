@@ -67,5 +67,4 @@ call plug#begin($VIMHOME . 'plugged')
         Plug 'Shopify/vim-devilish'
     endif
     Plug 'Shopify/vim-sorbet'
-
 call plug#end()
