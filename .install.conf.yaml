@@ -43,3 +43,6 @@
       glob: true
       path: config/omf/*
     ~/.rgignore:
+    ~/Library/LaunchAgents:
+      glob: true
+      path: config/macos/launch_agents/*
