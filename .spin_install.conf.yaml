@@ -20,8 +20,6 @@
       glob: true
       path: oh-my-zsh/custom/*
     ~/.zshenv:
-    ~/.tmux.conf:
-    ~/.tmuxline:
     ~/.rake: rake_global
     ~/.config/nvim/init.vim: "init.vim"
     ~/.config/nvim/coc-settings.json: "coc-settings.json"
