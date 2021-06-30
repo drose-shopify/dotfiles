@@ -8,7 +8,9 @@
 - link:
     ~/.dotfiles: ""
     ~/.gitignore:
+      force: true
     ~/.gitconfig:
+      force: true
     ~/.git:
     ~/.shell:
     ~/.vim:
