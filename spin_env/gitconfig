@@ -1,0 +1,73 @@
+[user]
+    email = dave.rose@shopify.com
+    name = Dave Rose
+[alias]
+    # Common
+    co = checkout
+    afwl = "!git commit --amend --no-edit && git push --force-with-lease"
+    ri = rebase -i
+    mybranches = "!f() { if test $# = 0 ; then set -- refs/remotes ; fi ; git for-each-ref --format='%(authordate:relative)\t%(refname:short)\t%(authoremail)' --sort=authordate \"$@\" | sed -ne \"s/\t<$(git config user.email)>//p\" | column -s '\t' -t ; } ; f"
+
+    # Fixes
+    change-commit = "!f() { git commit --fixup=$1 && git rebase -i --autosquash ${1}^; }; f"
+
+    branch-name = "!git rev-parse --abbrev-ref HEAD"
+    update-submodules = submodule update --init --recursive
+    upgrade-submodules = submodule update --init --remote
+    root = rev-parse --show-toplevel
+    ls = log --pretty=format:"%C(yellow)%hCred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+    last = log -1 HEAD
+    today = log --since=midnight --color --graph \
+                --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)[%an]%Creset' \
+                --abbrev-commit
+    yesterday = log --since yesterday --until=midnight --color --graph \
+            --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)[%an]%Creset' \
+            --abbrev-commit
+    history = log --graph --pretty=format:'%C(yellow)%h%Creset \
+            -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' \
+            --abbrev-commit --date=short --date-order -n30
+    lsd = ls -d */
+    graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold cyan)<%an>%Creset%n' --abbrev-commit --date=relative --branches
+    graph2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+    prune = fetch origin --prune
+    amend = commit --amend --no-edit
+    fwl = push --force-with-lease
+    modified-files = ls-files -m
+    timeline = log --graph --branches --pretty=oneline --decorate
+    unstage = reset HEAD
+    untracked-files = ls-files -o --exclude-standard
+    unmerged = branch --sort=committerdate --no-merged
+    clean-branches = "!git checkout master && git pull && git branch | egrep -v \"(master$|\\*)\" | xargs git branch -D && git fetch --prune"
+    squash = commit --amend --no-edit
+    sq = commit --amend --no-edit
+    diff-files = "!f() { git diff --name-only HEAD~$1; }; f"
+    df = "!f() { git diff --name-only HEAD~$1; }; f"
+    retro = log --since '8 day ago' --no-merges --branches --decorate --oneline --author 'Dave Rose'
+    pr = "!open \"http://github.com/$(git remote -v|sed -e '/^origin/!d' -e '/(push)$/!d' -e 's|^.*github\\.com[:/]\\([^. ]*\\).*$|\\1|')/pull/new/master...$(git rev-parse --abbrev-ref HEAD)\""
+    gh = "!open \"http://github.com/$(git remote -v|sed -e '/^origin/!d' -e '/(push)$/!d' -e 's|^.*github\\.com[:/]\\([^. ]*\\).*$|\\1|')/tree/$(git rev-parse --abbrev-ref HEAD)\""
+    ghc = "!open \"http://github.com/$(git remote -v|sed -e '/^origin/!d' -e '/(push)$/!d' -e 's|^.*github\\.com[:/]\\([^. ]*\\).*$|\\1|')/commit/$(git rev-parse HEAD)\""
+    reset-hard = "!git reset --hard origin/$(git branch-name)"
+    monday = log --since '76 hour ago' --no-merges --branches --decorate --oneline --author 'Dave Rose'
+    dmb = "!git checkout master && git pull && git branch --merged | grep -Ev '(    \\*|master)' | xargs -n 1 git branch -d && git fetch --prune"
+    standup = log --since '28 hour ago' --no-merges --branches --decorate     --oneline --author 'Dave Rose'
+    rebase-master = "!git checkout master && git pull && git checkout - && git rebase master"
+    ub = "!git rebase-master"
+
+# fuzzy add using fzf
+    fza = "!git ls-files -m -o --exclude-standard | fzf --print0 -m --preview 'git diff {}' --preview-window=top:10:wrap | xargs -0 -t -o git add --all"
+
+# fuzzy rebase interactive choose existing commit to start from
+	frebase = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git rebase -i `echo ${HASH} | awk '{ print $1 }'`^
+[core]
+	excludesfile = ~/.gitignore
+	editor = nvim --noplugin
+	commitGraph = true
+[push]
+    default = current
+[mergetool]
+    prompt = true
+    keepBackup = false
+[protocol]
+	version = 2
+[gc]
+	writeCommitGraph = true

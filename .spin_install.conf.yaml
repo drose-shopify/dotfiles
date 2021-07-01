@@ -8,9 +8,9 @@
 - link:
     ~/.dotfiles: ""
     ~/.gitignore:
-      force: true
     ~/.gitconfig:
       force: true
+      path: ~/spin_env/gitconfig
     ~/.git:
     ~/.shell:
     ~/.vim:
