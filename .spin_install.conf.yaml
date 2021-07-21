@@ -10,7 +10,7 @@
     ~/.gitignore:
     ~/.gitconfig:
       force: true
-      path: ~/spin_env/gitconfig
+      path: spin_env/gitconfig
     ~/.git:
     ~/.shell:
     ~/.vim:
