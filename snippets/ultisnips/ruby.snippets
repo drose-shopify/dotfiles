@@ -51,7 +51,7 @@ snip.rv = os.path.relpath(path)
 endsnippet
 
 snippet #todo
-# TODO(on: date('`date %y`-$1'), to: 'dave.rose@shopify.com')
+# TODO(on: date('`strftime("%Y")`-${1:`strftime("%m")`}-${2:`strftime("%d")`}'), to: 'dave.rose@shopify.com')
 #	${2:description}
 endsnippet
 

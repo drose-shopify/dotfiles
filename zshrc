@@ -46,3 +46,5 @@ export FZF_DEFAULT_COMMAND='rg --files --ignore-vcs --hidden'
 export KEYTIMEOUT=1
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
