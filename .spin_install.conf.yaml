@@ -16,11 +16,6 @@
     ~/.vim:
     ~/.vimrc:
     ~/.pryrc:
-    ~/.oh-my-zsh/custom:
-      create: true
-      force: true
-      glob: true
-      path: oh-my-zsh/custom/*
     ~/.zshenv:
     ~/.rake: rake_global
     ~/.config/nvim/init.vim: "init.vim"
@@ -30,9 +25,6 @@
       create: true
       glob: true
       path: snippets/ultisnips/*
-    ~/.config/omf:
-      glob: true
-      path: config/omf/*
     ~/.rgignore:
 - shell:
     - [echo "source $HOME/dotfiles/zshrc" >> $HOME/.zshrc, Adding to existing zshrc]
