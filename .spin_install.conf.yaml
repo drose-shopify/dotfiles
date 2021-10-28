@@ -14,6 +14,7 @@
     ~/.git:
     ~/.shell:
     ~/.vim:
+    ~/.zsh:
     ~/.vimrc:
     ~/.pryrc:
     ~/.zshenv:

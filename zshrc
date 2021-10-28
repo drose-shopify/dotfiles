@@ -53,4 +53,4 @@ zinit light sindresorhus/pure
 zinit wait lucid for \
     OMZ::lib/git.zsh \
     OMZ::plugins/git/git.plugin.zsh \
-    zdharma/fast-syntax-highlightingc
+    zdharma/fast-syntax-highlighting
