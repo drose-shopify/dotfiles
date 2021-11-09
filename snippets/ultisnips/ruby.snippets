@@ -19,8 +19,8 @@ def get_modules():
 endglobal
 
 snippet __frozen "# frozen string"
+# typed: true
 # frozen_string_literal: true
-# typed: false
 endsnippet
 
 snippet __pry "binding.pry"
@@ -51,8 +51,8 @@ snip.rv = os.path.relpath(path)
 endsnippet
 
 snippet #todo
-# TODO(on: date('`strftime("%Y")`-${1:`strftime("%m")`}-${2:`strftime("%d")`}'), to: 'dave.rose@shopify.com')
-#	${2:description}
+# TODO(on: date('`date +%Y`-${1:`date +%m`}-${2:`date +%d`}'), to: 'dave.rose@shopify.com')
+#	${3:description}
 endsnippet
 
 snippet __gen_taxjob

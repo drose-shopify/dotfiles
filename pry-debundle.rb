@@ -1,6 +1,4 @@
 # Copyright (c) Conrad Irwin <conrad.irwin@gmail.com> -- MIT License
-# Source: https://github.com/ConradIrwin/pry-debundle
-#
 # To install and use this:
 #
 # 1. Recommended
@@ -34,7 +32,7 @@ class << Pry
   # starts.
   #
   # See https://github.com/carlhuda/bundler/issues/183 for some background.
-  # 
+  #
   def debundle!
     return unless defined?(Bundler)
     loaded = false
