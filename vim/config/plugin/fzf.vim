@@ -9,6 +9,7 @@ endfunction
 
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
 
+
 let g:fzf_layout = { 'down': '40%' }
 
 nn <leader>pf :GFiles<cr>

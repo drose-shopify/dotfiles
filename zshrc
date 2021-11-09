@@ -40,10 +40,10 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 zinit light-mode for \
-    zinit-zsh/z-a-rust \
-    zinit-zsh/z-a-as-monitor \
-    zinit-zsh/z-a-patch-dl \
-    zinit-zsh/z-a-bin-gem-node
+    zdharma-continuum/z-a-rust \
+    zdharma-continuum/z-a-as-monitor \
+    zdharma-continuum/z-a-patch-dl \
+    zdharma-continuum/z-a-bin-gem-node
 ### end zinit
 
 # plugins
@@ -54,3 +54,7 @@ zinit wait lucid for \
     OMZ::lib/git.zsh \
     OMZ::plugins/git/git.plugin.zsh \
     zdharma-continuum/fast-syntax-highlighting
+
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
+if [ -e /Users/justincarvalho/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/justincarvalho/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+[[ -x /usr/local/bin/brew ]] && eval $(/usr/local/bin/brew shellenv)

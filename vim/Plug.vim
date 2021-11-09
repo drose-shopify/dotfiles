@@ -51,6 +51,9 @@ call plug#begin($VIMHOME . 'plugged')
     Plug 'tpope/vim-commentary'
     Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'
+    "Plug 'ibhagwan/fzf-lua'
+    "Plug 'vijaymarupudi/nvim-fzf'
+    Plug 'kyazdani42/nvim-web-devicons'
     Plug 'AndrewRadev/splitjoin.vim'
 
     " Text Objects
