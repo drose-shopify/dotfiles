@@ -49,10 +49,10 @@ call plug#begin($VIMHOME . 'plugged')
     Plug 'junegunn/vim-easy-align'
     Plug 'machakann/vim-sandwich'
     Plug 'tpope/vim-commentary'
-    Plug 'junegunn/fzf'
-    Plug 'junegunn/fzf.vim'
-    "Plug 'ibhagwan/fzf-lua'
-    "Plug 'vijaymarupudi/nvim-fzf'
+    "Plug 'junegunn/fzf'
+    "Plug 'junegunn/fzf.vim'
+    Plug 'ibhagwan/fzf-lua'
+    Plug 'vijaymarupudi/nvim-fzf'
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'AndrewRadev/splitjoin.vim'
 
@@ -68,6 +68,7 @@ call plug#begin($VIMHOME . 'plugged')
     if empty($SPIN)
         Plug 'Shopify/shadowenv.vim'
         Plug 'Shopify/vim-devilish'
+        Plug 'mrjones2014/dash.nvim', { 'do': 'make install' }
     endif
     Plug 'Shopify/vim-sorbet'
 call plug#end()
