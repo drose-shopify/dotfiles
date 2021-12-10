@@ -11,25 +11,29 @@ if ! command -v fd &> /dev/null; then
   sudo apt-get install -y fd
 fi
 
+if ! command -v bat &> /dev/null; then
+  sudo apt-get install -y bat
+fi
+
 if ! command -v fzf &> /dev/null; then
     git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
     "$HOME"/.fzf/install --all
 fi
 
-if ! command -v nvim &> /dev/null; then
-    sudo add-apt-repository -y ppa:neovim-ppa/unstable
-    sudo apt-get update
-    sudo apt-get install -y neovim
-    pip3 install --user neovim
-    sudo apt-get install -y python3-neovim
-fi
+#if ! command -v nvim &> /dev/null; then
+#    sudo add-apt-repository -y ppa:neovim-ppa/unstable
+#    sudo apt-get update
+#    sudo apt-get install -y neovim
+#    pip3 install --user neovim
+#    sudo apt-get install -y python3-neovim
+#fi
 #
 ## Setup nvim
-git clone https://github.com/junegunn/vim-plug.git "$HOME/vim-plug"
-mkdir -p $HOME/.local/share/nvim/site/autoload
-cp ~/vim-plug/plug.vim $HOME/.local/share/nvim/site/autoload
+#git clone https://github.com/junegunn/vim-plug.git "$HOME/vim-plug"
+#mkdir -p $HOME/.local/share/nvim/site/autoload
+#cp ~/vim-plug/plug.vim $HOME/.local/share/nvim/site/autoload
 #
-sudo apt-get install -y powerline fonts-powerline
+#sudo apt-get install -y powerline fonts-powerline
 #git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 #
 ## Link dotfiles
