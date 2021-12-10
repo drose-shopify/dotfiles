@@ -28,7 +28,9 @@ require('fzf-lua').setup {
         input_prompt = 'Rg> ',
         rg_opts = '--column --line-number --no-heading --color=always --ignore-case',
         file_icons = true,
-        git_icons = false
+        git_icons = false,
+        glob_flag = '--iglob',
+        glob_separator = "%s%-%-"
     }
 }
 
@@ -42,7 +44,7 @@ require('dash').setup({
 
 EOF
 
-nnoremap <C-F> :lua require('fzf-lua').live_grep_native({ winopts = { split = "belowright new" } })<Cr>
+nnoremap <C-F> :lua require('fzf-lua').live_grep_glob({ winopts = { split = "belowright new" } })<Cr>
 nnoremap <C-p> :lua require('fzf-lua').files()<Cr>
 "nnoremap <leader>f :Rg! <Up><CR>
 "nnoremap <leader>// :Rg<space>
