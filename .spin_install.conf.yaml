@@ -30,6 +30,7 @@
       glob: true
       path: snippets/ultisnips/*
     ~/.rgignore:
+
 - shell:
     - [sudo add-apt-repository -y ppa:neovim-ppa/unstable]
     - [sudo apt-get update]
