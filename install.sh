@@ -1,10 +1,4 @@
 #!/bin/bash
-ln -sfv ~/dotfiles/.zshrc ~/.zshrc
-ln -sfnv ~/dotfiles/.zsh ~/.zsh
-
-#preinstall zinit plugins
-zsh -i -c -- '@zinit-scheduler burst'
-
 if ! command -v pip3 &> /dev/null; then
     sudo apt-get install -y python3-pip
 fi
@@ -23,9 +17,9 @@ if ! command -v fzf &> /dev/null; then
 fi
 
 if ! command -v nvim &> /dev/null; then
-    sudo add-apt-repository ppa:neovim-ppa/unstable
+    sudo add-apt-repository -y ppa:neovim-ppa/unstable
     sudo apt-get update
-    sudo apt-get install neovim
+    sudo apt-get install -y neovim
     pip3 install --user neovim
     sudo apt-get install -y python3-neovim
 fi
@@ -46,6 +40,3 @@ DOTBOT_DIR="dotbot"
 DOTBOT_BIN="bin/dotbot"
 git submodule update --init --recursive "${DOTBOT_DIR}"
 "${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
-
-#preinstall zinit plugins
-zsh -i -c -- '@zinit-scheduler burst'

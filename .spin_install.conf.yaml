@@ -15,6 +15,8 @@
     ~/.shell:
     ~/.vim:
     ~/.zsh:
+    ~/.zshrc:
+      force: true
     ~/.vimrc:
     ~/.pryrc:
     ~/.zshenv:
@@ -28,7 +30,10 @@
       path: snippets/ultisnips/*
     ~/.rgignore:
 - shell:
-    - [echo "source $HOME/dotfiles/zshrc" >> $HOME/.zshrc, Adding to existing zshrc]
+    - [sudo add-apt-repository -y ppa:neovim-ppa/unstable]
+    - [sudo apt-get update]
+    - [sudo apt-get install -y neovim]
+    - [zsh -i -c -- '@zinit-scheduler burst']
     - [source $HOME/.zshrc, Reloading zsh]
     - [nvim --headless -c "PlugInstall" +qall, Loading nvim plugins]
     - [nvim --headless -c 'CocInstall -sync coc-solargraph coc-json coc-rls coc-tsserver coc-yaml coc-highlight coc-lists coc-eslint|q' +qall, Loading Coc.vim Plugins]
