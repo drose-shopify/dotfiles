@@ -36,7 +36,6 @@ call plug#begin($VIMHOME . 'plugged')
     "Productivity
     Plug 'SirVer/ultisnips'
     Plug 'xolox/vim-misc'
-    Plug 'xolox/vim-notes'
 
     "Commands / Quality of Life
     Plug 'tpope/vim-eunuch'

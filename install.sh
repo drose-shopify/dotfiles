@@ -1,4 +1,7 @@
 #!/bin/bash
+# Copy existing spin zshrc
+cp ~/.zshrc ~/.zshrc.bak
+
 if ! command -v pip3 &> /dev/null; then
     sudo apt-get install -y python3-pip
 fi

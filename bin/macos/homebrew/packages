@@ -2,7 +2,6 @@ coreutils
 go
 neovim
 ripgrep
-github/gh/gh
 fzf
 yamllint
 gron
