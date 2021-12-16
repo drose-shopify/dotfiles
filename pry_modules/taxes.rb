@@ -4,7 +4,7 @@ class TaxUtils
   def self.string_to_bool(data)
     return data if !!data == data
     return true if data.casecmp('y').zero? || data.casecmp('true').zero?
-    
+
     false
   end
   def self.verify_rates(file_path)

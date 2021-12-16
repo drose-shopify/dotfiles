@@ -1,5 +1,5 @@
 augroup coc_config
-    let g:coc_node_path = '/usr/local/bin/node'
+    let g:coc_node_path = '/opt/homebrew/bin/node'
 
     function! CocCurrentFunction()
         return get(b:, 'coc_current_function', '')

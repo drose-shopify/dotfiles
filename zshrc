@@ -58,3 +58,5 @@ zinit wait lucid for \
 [[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
 if [ -e /Users/justincarvalho/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/justincarvalho/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 [[ -x /usr/local/bin/brew ]] && eval $(/usr/local/bin/brew shellenv)
+
+[[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)

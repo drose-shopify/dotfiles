@@ -86,7 +86,7 @@
 [gc]
 	writeCommitGraph = true
 [credential]
-	helper =
+	helper = 
 	helper = store --file /opt/dev/var/private/git_credential_store
 [url "https://github.com/Shopify/"]
 	insteadOf = git@github.com:Shopify/
