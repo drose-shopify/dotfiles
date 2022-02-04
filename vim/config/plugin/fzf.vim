@@ -26,7 +26,7 @@ require('fzf-lua').setup {
     },
     grep = {
         input_prompt = 'Rg> ',
-        rg_opts = '--column --line-number --no-heading --color=always --ignore-case',
+        rg_opts = '--column --line-number --no-heading --color=always --ignore-case --auto-hybrid-regex',
         file_icons = true,
         git_icons = false,
         glob_flag = '--iglob',
