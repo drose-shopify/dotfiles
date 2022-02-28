@@ -48,6 +48,7 @@ call plug#begin($VIMHOME . 'plugged')
     Plug 'junegunn/vim-easy-align'
     Plug 'machakann/vim-sandwich'
     Plug 'tpope/vim-commentary'
+    Plug 'github/copilot.vim'
     "Plug 'junegunn/fzf'
     "Plug 'junegunn/fzf.vim'
     Plug 'ibhagwan/fzf-lua'
