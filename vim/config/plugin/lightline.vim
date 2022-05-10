@@ -1,3 +1,7 @@
+if exists('g:vscode')
+    finish
+endif
+
 augroup lightline_config
     autocmd!
     let g:lightline#ale#indicator_checking = "\uf110 "

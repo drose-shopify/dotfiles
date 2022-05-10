@@ -1,5 +1,13 @@
+if exists('g:vscode')
+    finish
+endif
+
 augroup coc_config
-    let g:coc_node_path = '/opt/homebrew/bin/node'
+    if empty($SPIN)
+        let g:coc_node_path = '/opt/homebrew/bin/node'
+    else
+        let g:coc_node_path = '/usr/local/bin/node'
+    endif
 
     function! CocCurrentFunction()
         return get(b:, 'coc_current_function', '')
@@ -13,7 +21,7 @@ augroup coc_config
     " Remap for rename current word
     nmap <leader>rn <Plug>(coc-rename)
     " Find symbol in current file
-    nmap <silent> <leader>s :<C-u>CocList outline<cr>
+    " nmap <silent> <leader>s :<C-u>CocList outline<cr>
     " Find symbol in current workspace
     nmap <silent> <leader>S :<C-u>CocList -I symbols<cr>
     nmap <silent> <leader>cw :call coc#float#close_all() <cr>

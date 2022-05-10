@@ -63,6 +63,7 @@
 
 # fuzzy rebase interactive choose existing commit to start from
 	frebase = !HASH=`git log --pretty=oneline | head -n 100 | fzf` && git rebase -i `echo ${HASH} | awk '{ print $1 }'`^
+    fstaging = "!git add --all && git afwl && git push -f origin $(git branch-name):staging"
 [core]
 	excludesfile = ~/.gitignore
 	editor = nvim --noplugin

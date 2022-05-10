@@ -11,9 +11,6 @@ call plug#begin($VIMHOME . 'plugged')
 
     Plug 'tpope/vim-sensible'
 
-    "Linters and Language Servers
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    Plug 'dense-analysis/ale'
 
     "Syntax Highlighters
     Plug 'vim-ruby/vim-ruby'
@@ -25,13 +22,6 @@ call plug#begin($VIMHOME . 'plugged')
     Plug 'HerringtonDarkholme/yats.vim' "Yet another typscript syntax
     Plug 'dag/vim-fish'
     Plug 'jparise/vim-graphql'
-
-    "Version Control
-    Plug 'tpope/vim-fugitive'
-
-    "Directories and Projects
-    Plug 'tpope/vim-projectionist'
-    Plug 'scrooloose/nerdtree'
 
     "Productivity
     Plug 'SirVer/ultisnips'
@@ -48,21 +38,40 @@ call plug#begin($VIMHOME . 'plugged')
     Plug 'junegunn/vim-easy-align'
     Plug 'machakann/vim-sandwich'
     Plug 'tpope/vim-commentary'
-    Plug 'github/copilot.vim'
     "Plug 'junegunn/fzf'
     "Plug 'junegunn/fzf.vim'
-    Plug 'ibhagwan/fzf-lua'
-    Plug 'vijaymarupudi/nvim-fzf'
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'AndrewRadev/splitjoin.vim'
 
     " Text Objects
     Plug 'machakann/vim-textobj-delimited'
     Plug 'tpope/vim-jdaddy'
+    Plug 'easymotion/vim-easymotion'
 
-    "UI
-    Plug 'itchyny/lightline.vim'
-    Plug 'maximbaz/lightline-ale'
+
+    " Does not work in VSCode
+
+    if !exists('g:vscode')
+        " Linters and Language Servers
+        Plug 'neoclide/coc.nvim', {'branch': 'release'}
+        Plug 'dense-analysis/ale'
+        Plug 'ibhagwan/fzf-lua'
+        Plug 'vijaymarupudi/nvim-fzf'
+
+        " UI
+        Plug 'itchyny/lightline.vim'
+        Plug 'maximbaz/lightline-ale'
+
+        " QoL
+        Plug 'github/copilot.vim'
+
+        "Directories and Projects
+        Plug 'tpope/vim-projectionist'
+        Plug 'scrooloose/nerdtree'
+
+        "Version Control
+        Plug 'tpope/vim-fugitive'
+    endif
 
     " Work Related
     if empty($SPIN)

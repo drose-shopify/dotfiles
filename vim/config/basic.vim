@@ -36,7 +36,7 @@
 " }}}
 " UI Layout {{{
     set number " Show line numbers
-    set relativenumber " Show relative line number
+    " set relativenumber " Show relative line number
     set showmatch
     set wildmenu
     set lazyredraw

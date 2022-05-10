@@ -16,10 +16,6 @@ Pry.config.ls.private_method_color = :bright_black
 
 # === Custom Commands ===
 default_command_set = Pry::CommandSet.new do
-  command "copy", "Copy argument to the clip-board" do |str|
-     IO.popen('pbcopy', 'w') { |f| f << str.to_s }
-  end
-
   command "clear" do
     system 'clear'
     if ENV['RAILS_ENV']
@@ -34,6 +30,7 @@ default_command_set = Pry::CommandSet.new do
       pp "No rails env defined"
     end
   end
+
   command "caller_method" do |depth|
     depth = depth.to_i || 1
     if /^(.+?):(\d+)(?::in `(.*)')?/ =~ caller(depth+1).first
@@ -42,10 +39,6 @@ default_command_set = Pry::CommandSet.new do
       method = Regexp.last_match[3]
       output.puts [file, line, method]
     end
-  end
-
-  command "verify_tax_rates" do |file_path|
-    TaxUtils.verify_rates(file_path)
   end
 end
 

@@ -1,3 +1,7 @@
+if exists('g:vscode')
+    finish
+endif
+
 augroup ale_config
     autocmd!
     nnoremap <leader>af <Plug>(ale_fix)

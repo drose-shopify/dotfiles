@@ -1,3 +1,7 @@
+if exists('g:vscode')
+    finish
+endif
+
 let NERDTreeShowHidden=1
 augroup nerdtree_config
     autocmd!

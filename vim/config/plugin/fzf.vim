@@ -1,3 +1,7 @@
+if exists('g:vscode')
+    finish
+endif
+
 " Select all results with <C-a>
 augroup update_bat_theme
     autocmd!
