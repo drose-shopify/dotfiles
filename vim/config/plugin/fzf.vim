@@ -30,11 +30,10 @@ require('fzf-lua').setup {
     },
     grep = {
         input_prompt = 'Rg> ',
-        rg_opts = '--column --line-number --no-heading --color=always --ignore-case --auto-hybrid-regex',
+        rg_opts = [[--column --line-number --no-heading --color=always --ignore-case --max-columns=512]],
+        no_esc=true,
         file_icons = true,
         git_icons = false,
-        glob_flag = '--iglob',
-        glob_separator = "%s%-%-"
     }
 }
 EOF
@@ -51,7 +50,8 @@ lua << EOF
 EOF
 endif
 
-nnoremap <C-F> :lua require('fzf-lua').live_grep_glob({ winopts = { split = "belowright new" } })<Cr>
+nnoremap <C-F> :lua require('fzf-lua').grep({ winopts = { split = "belowright new" } })<Cr>
+"nnoremap <C-F> :lua require('fzf-lua').live_grep_glob({ winopts = { split = "belowright new" } })<Cr>
 nnoremap <C-p> :lua require('fzf-lua').files()<Cr>
 "nnoremap <leader>f :Rg! <Up><CR>
 "nnoremap <leader>// :Rg<space>

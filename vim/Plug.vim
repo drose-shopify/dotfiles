@@ -42,6 +42,7 @@ call plug#begin($VIMHOME . 'plugged')
     "Plug 'junegunn/fzf.vim'
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'AndrewRadev/splitjoin.vim'
+    Plug 'tpope/vim-rhubarb'
 
     " Text Objects
     Plug 'machakann/vim-textobj-delimited'
