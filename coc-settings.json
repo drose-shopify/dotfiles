@@ -15,7 +15,8 @@
         "srb",
         "tc",
         "--lsp",
-        "--enable-all-experimental-lsp-features"
+        "--enable-all-experimental-lsp-features",
+        "--disable-watchman"
       ],
       "command": "bundle",
       "filetypes": ["ruby"],

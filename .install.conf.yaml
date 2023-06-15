@@ -15,6 +15,7 @@
     ~/.vim:
       force: true
     ~/.vimrc:
+    ~/.rdbgrc:
     ~/.pryrc:
     ~/.zshrc:
       force: true
@@ -31,10 +32,6 @@
       create: true
       glob: true
       path: snippets/ultisnips/*
-    ~/.config/nvim/snippets:
-      create: true
-      glob: true
-      path: snippets/snipmate/*
     ~/.config/fish:
       glob: true
       path: config/fish/*
