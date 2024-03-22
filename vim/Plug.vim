@@ -20,7 +20,6 @@ call plug#begin($VIMHOME . 'plugged')
     Plug 'rust-lang/rust.vim'
     Plug 'peitalin/vim-jsx-typescript'
     Plug 'HerringtonDarkholme/yats.vim' "Yet another typscript syntax
-    Plug 'dag/vim-fish'
     Plug 'jparise/vim-graphql'
 
     "Productivity
@@ -77,8 +76,6 @@ call plug#begin($VIMHOME . 'plugged')
     " Work Related
     if empty($SPIN)
         Plug 'Shopify/shadowenv.vim'
-        Plug 'Shopify/vim-devilish'
-        Plug 'mrjones2014/dash.nvim', { 'do': 'make install' }
     endif
     Plug 'Shopify/vim-sorbet'
 call plug#end()

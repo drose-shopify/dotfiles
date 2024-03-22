@@ -60,3 +60,11 @@ augroup filetype_ruby
     au BufRead,BufNewFile Rakefile,Capfile,Gemfile,.autotest,.irbrc,*.treetop,*.tt set ft=ruby syntax=ruby
 augroup END
 " }}}
+
+" Path overrides {{{
+augroup python_path
+    if empty($SPIN)
+        let g:python3_host_prog = '/opt/homebrew/bin/python3'
+    endif
+augroup END
+" }}}

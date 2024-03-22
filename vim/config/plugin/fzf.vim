@@ -48,17 +48,17 @@ require('fzf-lua').setup {
 }
 EOF
 
-if empty($SPIN)
-lua << EOF
-    require('dash').setup({
-        dash_app_path = '/Applications/Dash.app',
-        debounce = 0,
-        file_type_keywords = {
-            ruby = { 'ruby', 'rails', 'rubygems' }
-        }
-    })
-EOF
-endif
+"if empty($SPIN)
+"lua << EOF
+"    require('dash').setup({
+"        dash_app_path = '/Applications/Dash.app',
+"        debounce = 0,
+"        file_type_keywords = {
+"            ruby = { 'ruby', 'rails', 'rubygems' }
+"        }
+"    })
+"EOF
+"endif
 
 nnoremap <C-F> :lua require('fzf-lua').grep({ winopts = { split = "belowright new" } })<Cr>
 "nnoremap <C-F> :lua require('fzf-lua').live_grep_glob({ winopts = { split = "belowright new" } })<Cr>

@@ -20,7 +20,7 @@
       force: true
     ~/.vimrc:
     ~/.pryrc:
-    ~/.rdgbrc:
+    ~/.rdbgrc.rb:
     ~/.zshenv:
     ~/.rake: rake_global
     ~/.config/nvim/init.vim: "init.vim"

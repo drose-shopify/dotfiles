@@ -71,7 +71,15 @@ module Where
     end
 
     def edit(file, line_number=1)
-      `ENV['EDITOR'] #{file} +#{line_number}`
+      `nvim #{file} +#{line_number}`
+    end
+
+    def defined_methods(klass)
+      methods = klass.methods(false).map{|m| klass.method(m)} +
+        klass.instance_methods(false).map{|m| klass.instance_method(m)}
+      methods.map!(&:source_location)
+      methods.compact!
+      methods
     end
 
   private
@@ -96,13 +104,6 @@ module Where
       methods
     end
 
-    def defined_methods(klass)
-      methods = klass.methods(false).map{|m| klass.method(m)} +
-        klass.instance_methods(false).map{|m| klass.instance_method(m)}
-      methods.map!(&:source_location)
-      methods.compact!
-      methods
-    end
   end
 
   VimEditor = lambda do |file, line|
@@ -115,14 +116,23 @@ module Where
   @editor = VimEditor
 end
 
-def where_is(klass, method = nil)
-  Where.edit(if method
-    begin
-      Where.is_instance_method(klass, method)
-    rescue NameError
-      Where.is_method(klass, method)
-    end
+def edit_where(klass_and_method)
+  edit(where_is(klass_and_method).first)
+end
+
+def where_is(klass_and_method)
+  klass_name, class_method = klass_and_method.split('#')
+  _, instance_method = klass_and_method.split('.')
+
+  klass = Object.const_get(klass_name)
+
+  method = if class_method
+    klass.method(class_method)
+  elsif instance_method
+    klass.instance_method(instance_method)
   else
-    Where.is_class_primarily(klass)
-  end)
+    Where.defined_methods(klass).first
+  end
+
+  method.source_location
 end

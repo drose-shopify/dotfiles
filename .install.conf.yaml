@@ -15,7 +15,7 @@
     ~/.vim:
       force: true
     ~/.vimrc:
-    ~/.rdbgrc:
+    ~/.rdbgrc.rb:
     ~/.pryrc:
     ~/.zshrc:
       force: true
@@ -37,12 +37,7 @@
       path: config/fish/*
       force: true
     ~/.rgignore:
-- shell:
-    - [zsh -i -c -- '@zinit-scheduler burst']
-    - [source $HOME/.zshrc, Reloading zsh]
-    - [pip3 install --user neovim]
-    - [git clone https://github.com/junegunn/vim-plug.git "$HOME/vim-plug"]
-    - [mkdir -p $HOME/.local/share/nvim/site/autoload]
-    - [cp ~/vim-plug/plug.vim $HOME/.local/share/nvim/site/autoload]
-    - [nvim --headless -c "PlugInstall" +qall, Loading nvim plugins]
-    - [nvim --headless -c 'CocInstall -sync coc-solargraph coc-json coc-rls coc-tsserver coc-yaml coc-highlight coc-lists coc-eslint|q' +qall, Loading Coc.vim Plugins]
+    "~/Library/Application Support/espanso":
+      glob: true
+      path: espanso/*
+      force: true

@@ -1,0 +1,29 @@
+matches:
+  - trigger: "$suts"
+    replace: "spin up {{output}}$|$ --cpu 10 --memory 48"
+    vars:
+      - name: output
+        type: choice
+        params:
+          values:
+            - "tax-service:tax-service"
+            - "shopify"
+            - "avalara-app"
+            - "tax-service:tax-service-minimal"
+            - "taxy-tax-app"
+            - "storefront-renderer"
+  - trigger: "$spinb"
+    replace: "spin up {{output}}$|$ --cpu 10 --memory 48 -c \"$(PWD | rev | cut -d/ -f1 | rev).branch=$(git rev-parse --abbrev-ref HEAD)\""
+    vars:
+      - name: output
+        type: choice
+        params:
+          values:
+            - "tax-service:tax-service"
+            - "shopify"
+            - "avalara-app"
+            - "tax-service:tax-service-minimal"
+            - "taxy-tax-app"
+            - "storefront-renderer"
+  - trigger: "$update_tax"
+    replace: "bundle update --conservative active_tax"
