@@ -3,7 +3,7 @@ let s:so_save = &g:so | let s:siso_save = &g:siso | setg so=0 siso=0 | setl so=-
 let v:this_session=expand("<sfile>:p")
 silent only
 silent tabonly
-cd ~/Library/Application\ Support/espanso
+cd ~/src/github.com/Shopify/shopify
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
@@ -13,21 +13,32 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +1 ~/Library/Application\ Support/espanso
-badd +1 match/base.yml
-badd +1 match/_iterm.yml
-badd +42 config/default.yml
-badd +3 config/iterm.yml
+badd +1 ~/src/github.com/Shopify/shopify
+badd +27 areas/core/shopify/components/taxes/app/utils/tax_engine/line_item_calculator.rb
+badd +551 areas/core/shopify/components/checkouts/core/app/models/cart_line.rb
+badd +33 areas/core/shopify/components/checkouts/core/app/models/abandoned_cart/abstract_cart_item.rb
+badd +37 areas/core/shopify/components/checkouts/core/app/models/cart_serializers/cart_item.rb
+badd +1 areas/core/shopify/components/online_store/app/models/cart_item.rb
+badd +44 areas/core/shopify/components/checkouts/core/app/models/abandoned_cart/cart_item_component.rb
+badd +1 areas/core/shopify/components/taxes/test/unit/tax_engine/line_item_calculator_test.rb
+badd +0 areas/core/shopify/components/sales/app/models/concerns/sales/line_item_common.rb
 argglobal
 %argdel
-$argadd ~/Library/Application\ Support/espanso
-edit config/iterm.yml
+$argadd ~/src/github.com/Shopify/shopify
+edit areas/core/shopify/components/taxes/app/utils/tax_engine/line_item_calculator.rb
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
 wincmd _ | wincmd |
+split
+1wincmd k
+wincmd _ | wincmd |
 vsplit
-1wincmd h
+wincmd _ | wincmd |
+vsplit
+2wincmd h
+wincmd w
+wincmd w
 wincmd w
 let &splitbelow = s:save_splitbelow
 let &splitright = s:save_splitright
@@ -38,12 +49,17 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 31 + 139) / 278)
-exe 'vert 2resize ' . ((&columns * 246 + 139) / 278)
+exe '1resize ' . ((&lines * 53 + 33) / 67)
+exe 'vert 1resize ' . ((&columns * 31 + 140) / 281)
+exe '2resize ' . ((&lines * 53 + 33) / 67)
+exe 'vert 2resize ' . ((&columns * 124 + 140) / 281)
+exe '3resize ' . ((&lines * 53 + 33) / 67)
+exe 'vert 3resize ' . ((&columns * 124 + 140) / 281)
+exe '4resize ' . ((&lines * 10 + 33) / 67)
 argglobal
 enew
-file NERD_tree_1
-balt ~/Library/Application\ Support/espanso
+file NERD_tree_tab_1
+balt ~/src/github.com/Shopify/shopify
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -54,8 +70,8 @@ setlocal fdn=10
 setlocal nofen
 wincmd w
 argglobal
-balt config/default.yml
-setlocal fdm=indent
+balt areas/core/shopify/components/taxes/test/unit/tax_engine/line_item_calculator_test.rb
+setlocal fdm=syntax
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
@@ -63,16 +79,78 @@ setlocal fdl=10
 setlocal fml=1
 setlocal fdn=10
 setlocal fen
-let s:l = 3 - ((2 * winheight(0) + 32) / 64)
+4
+normal! zo
+5
+normal! zo
+23
+normal! zo
+31
+normal! zo
+39
+normal! zo
+93
+normal! zo
+103
+normal! zo
+39
+normal! zo
+93
+normal! zo
+103
+normal! zo
+let s:l = 27 - ((26 * winheight(0) + 26) / 53)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 3
-normal! 025|
+keepjumps 27
+normal! 046|
+wincmd w
+argglobal
+if bufexists(fnamemodify("areas/core/shopify/components/sales/app/models/concerns/sales/line_item_common.rb", ":p")) | buffer areas/core/shopify/components/sales/app/models/concerns/sales/line_item_common.rb | else | edit areas/core/shopify/components/sales/app/models/concerns/sales/line_item_common.rb | endif
+if &buftype ==# 'terminal'
+  silent file areas/core/shopify/components/sales/app/models/concerns/sales/line_item_common.rb
+endif
+balt areas/core/shopify/components/taxes/app/utils/tax_engine/line_item_calculator.rb
+setlocal fdm=syntax
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=10
+setlocal fml=1
+setlocal fdn=10
+setlocal fen
+4
+normal! zo
+5
+normal! zo
+let s:l = 34 - ((33 * winheight(0) + 26) / 53)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 34
+normal! 0
+wincmd w
+argglobal
+enew
+balt areas/core/shopify/components/checkouts/core/app/models/cart_line.rb
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=10
+setlocal fml=1
+setlocal fdn=10
+setlocal fen
 wincmd w
 2wincmd w
-exe 'vert 1resize ' . ((&columns * 31 + 139) / 278)
-exe 'vert 2resize ' . ((&columns * 246 + 139) / 278)
+exe '1resize ' . ((&lines * 53 + 33) / 67)
+exe 'vert 1resize ' . ((&columns * 31 + 140) / 281)
+exe '2resize ' . ((&lines * 53 + 33) / 67)
+exe 'vert 2resize ' . ((&columns * 124 + 140) / 281)
+exe '3resize ' . ((&lines * 53 + 33) / 67)
+exe 'vert 3resize ' . ((&columns * 124 + 140) / 281)
+exe '4resize ' . ((&lines * 10 + 33) / 67)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

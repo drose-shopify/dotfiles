@@ -23,8 +23,9 @@ call plug#begin($VIMHOME . 'plugged')
     Plug 'jparise/vim-graphql'
 
     "Productivity
-    Plug 'SirVer/ultisnips'
+    "Plug 'SirVer/ultisnips'
     Plug 'xolox/vim-misc'
+    Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
 
     "Commands / Quality of Life
     Plug 'tpope/vim-eunuch'
