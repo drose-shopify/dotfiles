@@ -81,6 +81,8 @@
     cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [difftool "vscode"]
     cmd = code --wait --diff $LOCAL $REMOTE
+[credential]
+	useHttpPath = true
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f

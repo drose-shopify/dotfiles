@@ -19,7 +19,6 @@ matches:
       - name: mydate
         type: date
         params:
-          format: "%Y-%m-%d"
-
+          format: "%m/%d/%Y"
   - trigger: "$eur"
     replace: "€"

@@ -41,12 +41,9 @@ fi
 #
 ## Link dotfiles
 set -e
-CONFIG=".spin_install.conf.yaml"
-SHELL_CONFIG=".install.shell.yaml"
+CONFIG=".install.conf.yaml"
+SHELL_CONFIG=".shell_install.conf.yaml"
 DOTBOT_DIR="dotbot"
-#
-DOTBOT_BIN="bin/dotbot"
 git submodule update --init --recursive "${DOTBOT_DIR}"
 "${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
-
 "${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${SHELL_CONFIG}" "${@}"
