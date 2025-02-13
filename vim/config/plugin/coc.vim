@@ -4,7 +4,7 @@ endif
 
 augroup coc_config
     if empty($SPIN)
-        let g:coc_node_path = '/opt/homebrew/bin/node'
+        let g:coc_node_path= '/Users/daverose/.nvm/versions/node/v17.9.1/bin/node'
     else
         let g:coc_node_path = '/usr/local/bin/node'
     endif
@@ -64,6 +64,9 @@ augroup coc_config
       let col = col('.') - 1
       return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
+
+    inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
     "let g:coc_snippet_next = '<tab>'
 augroup END

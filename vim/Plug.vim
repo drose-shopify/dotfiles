@@ -73,10 +73,5 @@ call plug#begin($VIMHOME . 'plugged')
         "Version Control
         Plug 'tpope/vim-fugitive'
     endif
-
-    " Work Related
-    if empty($SPIN)
-        Plug 'Shopify/shadowenv.vim'
-    endif
     Plug 'Shopify/vim-sorbet'
 call plug#end()
