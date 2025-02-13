@@ -1,3 +1,6 @@
+#!/bin/bash
+# Copy existing spin zshrc
+set -e
 CONFIG=".install.conf.yaml"
 DOTBOT_DIR="dotbot"
 #

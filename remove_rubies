@@ -1,4 +1,9 @@
 #!/bin/bash
 
+echo "Removing ruby versions"
 rm -rf /opt/rubies/*
-rm -rf ~/.gem/ruby/*
+
+echo "Removing ruby gems"
+mkdir ~/.gem/temp
+rsync -a --delete ~/.gem/temp/ ~/.gem/ruby/
+rm -rf ~/.gem

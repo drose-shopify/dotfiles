@@ -1,5 +1,5 @@
 [user]
-    email = dave.rose@shopify.com
+	email = 37878206+drose-shopify@users.noreply.github.com
     name = Dave Rose
 [github]
     user = drose-shopify
@@ -55,8 +55,9 @@
     monday = log --since '76 hour ago' --no-merges --branches --decorate --oneline --author 'Dave Rose'
     dmb = "!git checkout master && git pull && git branch --merged | grep -Ev '(    \\*|master)' | xargs -n 1 git branch -d && git fetch --prune"
     standup = log --since '28 hour ago' --no-merges --branches --decorate     --oneline --author 'Dave Rose'
-    rebase-master = "!git checkout master && git pull && git checkout - && git rebase master"
-    ub = "!git rebase-master"
+    update-branch = "!git checkout main && git pull && git checkout - && git rebase main"
+    ub = "!git update-branch"
+    mybranches = "!git for-each-ref --sort=committerdate --format='%(committerdate) %09 %(authorname) %09 %(refname)' refs/remotes | rg 'Dave Rose'"
 
 # fuzzy add using fzf
     fza = "!git ls-files -m -o --exclude-standard | fzf --print0 -m --preview 'git diff {}' --preview-window=top:10:wrap | xargs -0 -t -o git add --all"
@@ -82,3 +83,8 @@
     cmd = code --wait --diff $LOCAL $REMOTE
 [credential]
 	useHttpPath = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

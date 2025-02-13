@@ -1,0 +1,4 @@
+matches:
+  - trigger: "Garauntee"
+    replace: "Guarantee"
+    word: true

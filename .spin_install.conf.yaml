@@ -20,6 +20,7 @@
       force: true
     ~/.vimrc:
     ~/.pryrc:
+    ~/.rdbgrc.rb:
     ~/.zshenv:
     ~/.rake: rake_global
     ~/.config/nvim/init.vim: "init.vim"
@@ -35,15 +36,16 @@
     - [sudo apt remove neovim -y]
     - [zsh -i -c -- '@zinit-scheduler burst']
     - [source $HOME/.zshrc, Reloading zsh]
-    - [sudo add-apt-repository -y ppa:neovim-ppa/stable]
+    - [sudo add-apt-repository -y ppa:neovim-ppa/unstable]
     - [sudo apt-get update]
     - [sudo apt-get install node]
     - [sudo apt-get install -y neovim]
-    - [pip3 install --user neovim]
-    - [sudo apt-get install -y python3-neovim]
+    - [curl -fLo $HOME/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim]
     - [git clone https://github.com/junegunn/vim-plug.git "$HOME/vim-plug"]
     - [mkdir -p $HOME/.local/share/nvim/site/autoload]
     - [cp ~/vim-plug/plug.vim $HOME/.local/share/nvim/site/autoload]
     - [sudo apt-get install -y powerline fonts-powerline]
     - [nvim --headless -c "PlugInstall" +qall, Loading nvim plugins]
     - [nvim --headless -c 'CocInstall -sync coc-solargraph coc-json coc-rls coc-tsserver coc-yaml coc-highlight coc-lists coc-eslint|q' +qall, Loading Coc.vim Plugins]
+    - [pip3 install --user neovim]
+    - [sudo apt-get install -y python3-neovim]

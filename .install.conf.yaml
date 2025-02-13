@@ -15,6 +15,7 @@
     ~/.vim:
       force: true
     ~/.vimrc:
+    ~/.rdbgrc.rb:
     ~/.pryrc:
     ~/.zshrc:
       force: true

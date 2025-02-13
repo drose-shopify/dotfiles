@@ -1,7 +1,7 @@
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
-let g:UltiSnipsSnippetDirectories = [$HOME.'/.config/nvim/UltiSnips']
+" let g:UltiSnipsSnippetDirectories = [$HOME.'/.config/nvim/UltiSnips']
 
-let g:UltiSnipsEnableSnipMate = '0'
+" let g:UltiSnipsEnableSnipMate = '0'

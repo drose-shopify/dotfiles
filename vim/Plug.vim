@@ -20,12 +20,12 @@ call plug#begin($VIMHOME . 'plugged')
     Plug 'rust-lang/rust.vim'
     Plug 'peitalin/vim-jsx-typescript'
     Plug 'HerringtonDarkholme/yats.vim' "Yet another typscript syntax
-    Plug 'dag/vim-fish'
     Plug 'jparise/vim-graphql'
 
     "Productivity
-    Plug 'SirVer/ultisnips'
+    "Plug 'SirVer/ultisnips'
     Plug 'xolox/vim-misc'
+    Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
 
     "Commands / Quality of Life
     Plug 'tpope/vim-eunuch'
@@ -72,11 +72,6 @@ call plug#begin($VIMHOME . 'plugged')
 
         "Version Control
         Plug 'tpope/vim-fugitive'
-    endif
-
-    " Work Related
-    if empty($SPIN)
-        Plug 'mrjones2014/dash.nvim', { 'do': 'make install' }
     endif
     Plug 'Shopify/vim-sorbet'
 call plug#end()

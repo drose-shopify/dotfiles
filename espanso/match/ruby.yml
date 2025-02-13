@@ -1,0 +1,12 @@
+
+matches:
+  - trigger: "__frozen"
+    replace: "# typed: true\n# frozen_string_literal: true"
+  - trigger: "#TODO"
+    replace: "# TODO(on: date('{{mydate}}'), to: 'dave.rose@shopify.com')\n$|$"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%Y-%m-%d"
+          offset: 864000

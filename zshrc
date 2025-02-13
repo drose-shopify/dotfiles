@@ -64,5 +64,10 @@ if [ -e /Users/davidrose/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/just
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 source "$HOME/.cargo/env"
+export KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}/Users/daverose/.kube/config:/Users/daverose/.kube/config.shopify.cloudplatform
+export EDITOR='nvim'
+for file in /Users/daverose/src/github.com/Shopify/cloudplatform/workflow-utils/*.bash; do source ${file}; done
 
 export PATH="$HOME/.rbenv/shims:$HOME/.pyenv/shims:/opt/homebrew/opt/qt@5/bin:$PATH"
+
+kubectl-short-aliases
