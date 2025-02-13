@@ -24,28 +24,15 @@
     ~/.tmuxline:
     ~/.rake: rake_global
     ~/.ctags.d/default.ctags: "ctags"
-    ~/.config/nvim/init.vim: "init.vim"
+    ~/.config/nvim:
+      create: true
+      path: lazyvim/*
+      glob: true
     ~/.config/nvim/coc-settings.json: "coc-settings.json"
     ~/.config/solargraph/config.yml: "solargraph.yml"
-    ~/.config/nvim/UltiSnips:
-      create: true
-      glob: true
-      path: snippets/ultisnips/*
-    ~/.config/nvim/snippets:
-      create: true
-      glob: true
-      path: snippets/snipmate/*
-    ~/.config/fish:
-      glob: true
-      path: config/fish/*
-      force: true
     ~/.rgignore:
-- shell:
-    - [zsh -i -c -- '@zinit-scheduler burst']
-    - [source $HOME/.zshrc, Reloading zsh]
-    - [pip3 install --user neovim]
-    - [git clone https://github.com/junegunn/vim-plug.git "$HOME/vim-plug"]
-    - [mkdir -p $HOME/.local/share/nvim/site/autoload]
-    - [cp ~/vim-plug/plug.vim $HOME/.local/share/nvim/site/autoload]
-    - [nvim --headless -c "PlugInstall" +qall, Loading nvim plugins]
-    - [nvim --headless -c 'CocInstall -sync coc-solargraph coc-json coc-rls coc-tsserver coc-yaml coc-highlight coc-lists coc-eslint|q' +qall, Loading Coc.vim Plugins]
+    "~/Library/Application Support/espanso":
+      create: true
+      glob: true
+      path: espanso/*
+      force: true

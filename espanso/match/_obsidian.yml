@@ -1,0 +1,7 @@
+---
+
+matches:
+  - trigger: :hlvar
+    replace: "$\\textcolor{orange}{$|$}$"
+  - trigger: \hl
+    replace: "\\textcolor{orange}{$|$}"

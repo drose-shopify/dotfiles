@@ -76,8 +76,6 @@ call plug#begin($VIMHOME . 'plugged')
 
     " Work Related
     if empty($SPIN)
-        Plug 'Shopify/shadowenv.vim'
-        Plug 'Shopify/vim-devilish'
         Plug 'mrjones2014/dash.nvim', { 'do': 'make install' }
     endif
     Plug 'Shopify/vim-sorbet'
